@@ -132,7 +132,10 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   .js .sheet:not(.on){transform:none;opacity:1}.js .sheet::after{display:none}
   .js .rv .grid > *{transform:rotate(var(--r))}
   .js .rv.on .grid > *,.js .loc.on .maps a,.js .loc.on .maps a svg,
-  .js .rv.on .cta > *,.js .rv.on .cta > * svg{animation:none}
+  .js .rv.on .cta > *,.js .rv.on .cta > * svg,.svc .ic,.svc .ic svg *,
+  .vision .ic,.vc .ic svg *,.swipe *{animation:none!important}
+  .js .rv .vc{opacity:1;transform:none;transition:none}
+  .greet mark{transition:none}.js .greet mark:not(.lit){background-size:100% 100%}
   .js .stage{display:none}
   .hero-txt > *,.hero-side,.scroll-cue{animation:none!important;opacity:1!important;transform:none!important}
   .js .loc .leaf{transform:none!important;transition:none}
@@ -303,6 +306,39 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   margin-bottom:22px;text-wrap:pretty}
 .greet p.body{font-family:var(--sans);text-align:left;font-size:15.5px;line-height:1.95;
   color:#443d34;letter-spacing:-.015em;margin-bottom:24px}
+.greet .vision{display:grid;grid-template-columns:repeat(3,1fr);margin:6px -10px 36px;
+  padding:16px 0 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.greet .vc{position:relative;padding:2px 4px;text-align:center}
+.greet .vc + .vc{border-left:1px solid var(--line)}
+.greet .vc .ic{width:46px;height:46px}
+.greet .vc .ic svg{width:31px;height:31px}
+.greet .vc b{display:block;margin:10px 0 5px;font-family:var(--serif);font-size:14.5px;font-weight:700;
+  color:#33241a;letter-spacing:-.03em}
+.greet .vc > span:last-child{display:block;font-size:11.8px;line-height:1.6;color:#5c4f41;letter-spacing:-.03em}
+.vc .shine{transform-origin:50% 50%;animation:halo 2.6s ease-in-out infinite}
+.vc .heart{transform-origin:50% 60%;animation:beat 1.6s ease-in-out infinite}
+.vc .tassel{transform-origin:50% 0;animation:swing 2.4s ease-in-out infinite}
+@keyframes swing{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+/* 카드가 한 장씩 올라오고, 그 뒤엔 차례로 고개를 든다 */
+.js .rv .vc{opacity:0;transform:translateY(14px) scale(.96);
+  transition:opacity .7s var(--ease),transform .9s var(--ease)}
+.js .rv.on .vc{opacity:1;transform:none}
+.js .rv.on .vc:nth-child(1){transition-delay:.55s}.js .rv.on .vc:nth-child(2){transition-delay:.72s}
+.js .rv.on .vc:nth-child(3){transition-delay:.89s}
+.js .rv.on .vision .ic{animation:badge 4.2s ease-in-out infinite}
+.js .rv.on .vision .vc:nth-child(1) .ic{animation-delay:2.2s}.js .rv.on .vision .vc:nth-child(2) .ic{animation-delay:2.6s}
+.js .rv.on .vision .vc:nth-child(3) .ic{animation-delay:3s}
+.vision .ic,.vision .ic svg *{animation-play-state:paused}
+.vision.live .ic,.vision.live .ic svg *{animation-play-state:running}
+/* 첫 문장은 인용처럼 크게 */
+.greet p.pull{position:relative;padding-top:20px;font-size:18px;font-weight:600;color:#33241a}
+.greet p.pull::before{content:'\201C';position:absolute;left:50%;top:-16px;transform:translateX(-50%);
+  font-family:var(--serif);font-size:56px;line-height:1;color:#d4a253;opacity:.55}
+/* 핵심 구절에 금빛 형광펜이 그어진다 (스크립트 없으면 처음부터 칠해져 있다) */
+.greet mark{color:inherit;padding:0 1px;font-weight:700;
+  background:linear-gradient(transparent 56%,rgba(236,196,110,.55) 56%,rgba(236,196,110,.55) 92%,transparent 92%) no-repeat 0 0/100% 100%;
+  transition:background-size 1.1s var(--ease)}
+.js .greet mark:not(.lit){background-size:0% 100%}
 .greet .verse{margin-top:32px;padding-top:28px;border-top:1px solid var(--line);
   font-family:var(--serif);font-size:15px;font-weight:500;color:#4e463c;line-height:1.85}
 .greet .verse b{display:block;font-family:var(--sans);font-size:12.5px;letter-spacing:.1em;
@@ -314,17 +350,63 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .svc th{font-family:var(--serif);font-weight:600;color:var(--ink);width:52%}
 .svc td{text-align:right;color:#3f3930;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:0}
 .svc tr:last-child th,.svc tr:last-child td{border-bottom:0}
+/* 예배마다 작은 그림 — 동그란 금테 배지 안에서 저마다의 몸짓을 한다 */
+.svc th{width:auto}
+.svc td{white-space:nowrap;padding-left:8px}
+.svc .sv{display:inline-flex;align-items:center;gap:11px}
+.svc .ic,.vc .ic{display:inline-grid;place-items:center;flex:none;width:36px;height:36px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#fffaf0,#f1e4c8);border:1px solid #d8bf8e;
+  box-shadow:inset 0 1px 2px rgba(80,55,25,.12)}
+.svc .ic svg,.vc .ic svg{width:26px;height:26px;overflow:visible}
+.svc .ic svg *,.vc .ic svg *{transform-box:fill-box}
+.i-sun .rays{animation:twinkle 2.6s ease-in-out infinite}
+.i-sun .sun{transform-origin:50% 50%;animation:swell 3s ease-in-out infinite}
+.i-praise .nt{animation:floatnote 2.8s ease-in-out infinite}
+.i-praise .n2{animation-delay:1.4s}
+.i-kids .k1{animation:bob 1.8s ease-in-out infinite}
+.i-kids .k2{animation:bob 1.8s ease-in-out .9s infinite}
+.i-youth .heart{transform-origin:50% 60%;animation:beat 1.6s ease-in-out infinite}
+.i-candle .flame{transform-origin:50% 100%;animation:flicker 1.2s ease-in-out infinite}
+.i-candle .glow{transform-origin:50% 50%;animation:halo 2.4s ease-in-out infinite}
+.i-pray .light{animation:twinkle 2.2s ease-in-out infinite}
+.i-dawn .sunup{animation:rise 5s ease-in-out infinite}
+.i-dawn .rays{animation:twinkle 2.5s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes swell{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes floatnote{0%{transform:translateY(3px);opacity:0}30%{opacity:1}100%{transform:translateY(-4px);opacity:0}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6px)}}
+@keyframes beat{0%,60%,100%{transform:scale(1)}15%{transform:scale(1.35)}30%{transform:scale(1)}45%{transform:scale(1.2)}}
+@keyframes flicker{0%,100%{transform:scale(1,1) rotate(0)}25%{transform:scale(.9,1.1) rotate(-5deg)}
+  50%{transform:scale(1.05,.93) rotate(3deg)}75%{transform:scale(.95,1.06) rotate(-2deg)}}
+@keyframes halo{0%,100%{opacity:.22;transform:scale(.88)}50%{opacity:.55;transform:scale(1.12)}}
+@keyframes rise{0%,100%{transform:translateY(3.6px)}50%{transform:translateY(-.6px)}}
+/* 배지는 위에서부터 차례로 금빛 고리를 한 번씩 낸다 */
+@keyframes badge{0%,30%,100%{box-shadow:inset 0 1px 2px rgba(80,55,25,.12),0 0 0 0 rgba(212,162,83,0)}
+  12%{box-shadow:inset 0 1px 2px rgba(80,55,25,.12),0 0 0 5px rgba(212,162,83,.3)}}
+.js .rv.on .svc .ic{animation:badge 5.6s ease-in-out infinite}
+.js .rv.on .svc tr:nth-child(1) .ic{animation-delay:1.6s}
+.js .rv.on .svc tr:nth-child(2) .ic{animation-delay:2.1s}
+.js .rv.on .svc tr:nth-child(3) .ic{animation-delay:2.6s}
+.js .rv.on .svc tr:nth-child(4) .ic{animation-delay:3.1s}
+.js .rv.on .svc tr:nth-child(5) .ic{animation-delay:3.6s}
+.js .rv.on .svc tr:nth-child(6) .ic{animation-delay:4.1s}
+.js .rv.on .svc tr:nth-child(7) .ic{animation-delay:4.6s}
+/* 화면에 보일 때만 움직인다 */
+.svc .ic,.svc .ic svg *{animation-play-state:paused}
+.svc.live .ic,.svc.live .ic svg *{animation-play-state:running}
 .note{margin-top:24px;font-size:14.5px;color:var(--ink-soft);text-align:center;line-height:1.9}
 
 /* ── 갤러리 ── */
 .gal{padding-top:60px;padding-bottom:64px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 10px;padding:6px 2px}
-.grid > *{--r:0deg;background:#fffdf8;padding:4px;border-radius:1px;transform:rotate(var(--r));
+.grid > *{--r:0deg;padding:5px;border-radius:2px;transform:rotate(var(--r));
+  background:linear-gradient(135deg,#f7dfcf 0%,#c48a6e 20%,#f9e6d8 42%,#a9674d 64%,#e9bea6 82%,#b9785c 100%);
   box-shadow:0 1px 2px rgba(60,40,20,.14),0 10px 18px -10px rgba(60,40,20,.5)}
 .grid > *:nth-child(1){--r:-.7deg}.grid > *:nth-child(2){--r:-2.2deg}.grid > *:nth-child(3){--r:1.7deg}
 .grid > *:nth-child(4){--r:-1.3deg}.grid > *:nth-child(5){--r:2.3deg}.grid > *:nth-child(6){--r:-1.8deg}
 .grid > *:nth-child(7){--r:1.2deg}
-.grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;cursor:pointer;filter:saturate(.94)}
+.grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;cursor:pointer;filter:saturate(.94);
+  box-shadow:0 0 0 1px rgba(90,42,26,.4)}
 .grid .wide{grid-column:span 3}
 .grid .wide img{aspect-ratio:16/10}
 /* 사진이 하나씩 차례로 숨 쉬듯 살짝 커졌다 제자리로 돌아온다 (화면에 있을 때만) */
@@ -346,6 +428,16 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .js .rv.on .grid > *:nth-child(6){animation-delay:6.7s}
 .js .rv.on .grid > *:nth-child(7){animation-delay:7.6s}
 .hint{text-align:center;font-size:13.5px;color:var(--ink-soft);margin-bottom:18px}
+/* 사진 아래 '눌러서 넘겨 보세요' 손짓 */
+.swipe{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:24px;color:#b4785b}
+.sw-hand{width:30px;height:32px;transform-origin:50% 85%;animation:swtap 1.8s ease-in-out infinite}
+.sw-arrows{width:34px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.sw-arrows .al{animation:nudl 1.8s ease-in-out infinite}
+.sw-arrows .ar{animation:nudr 1.8s ease-in-out infinite}
+@keyframes swtap{0%,100%{transform:translateY(0) scale(1)}40%{transform:translateY(-3px) scale(.92)}}
+@keyframes nudl{0%,100%{transform:translateX(0)}50%{transform:translateX(-3px)}}
+@keyframes nudr{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+.swipe *{animation-play-state:paused}.swipe.live *{animation-play-state:running}
 
 /* ── 인사말 사진·서명 ── */
 .greet .face{width:104px;height:104px;border-radius:50%;object-fit:cover;object-position:center 20%;
@@ -567,10 +659,15 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
   <h2>미래 리더를 키우는<br>기쁨을 주는 용인초대교회</h2>
   <img class="face" src="assets/img/t/pastor.jpg" alt="담임목사 이현무" loading="lazy" decoding="async" fetchpriority="low">
   <p>반갑습니다.<br>예수님의 이름으로 축복합니다.</p>
-  <p>저희 교회는 오직 주님께 영광,<br>주님으로 말미암아<br>기뻐하고자 하는 교회입니다.</p>
-  <p class="body">이웃이나 인근 교회와의 협력과 교제로 따뜻하게 섬기며, 한 사람 한 사람을 존귀한 하나님의 자녀로 세워가는 일에 최선을 다하고 있습니다.</p>
-  <p class="body">급변하는 세상 속에서도 변치 않는 복음의 가치를 붙들고, 아픈 곳을 보듬으며, 미래의 세대에게 성경 속 믿음의 지도자들처럼 고난이나 역경을 이겨내는 미래의 리더를 만들려고 노력하며 교육하고 기도합니다.</p>
-  <p>초대교회의 이름처럼<br>모든 학생들과 청년을 초대합니다.</p>
+  <div class="vision">
+    <div class="vc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="shine" cx="11.6" cy="10.4" r="5" fill="#ffe08a"/><path d="M5 3.5h11.5a1.5 1.5 0 0 1 1.5 1.5v15.5H6.5A1.5 1.5 0 0 1 5 19z" fill="#3f5a76" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><path d="M6.6 20.5H18v-2H6.6a1 1 0 0 0 0 2z" fill="#fffaf0" stroke="#4a3524" stroke-width=".9"/><path d="M11.6 6.4v8M9.2 9.1h4.8" stroke="#f0c45e" stroke-width="1.7" stroke-linecap="round"/></svg></span><b>주님께 영광</b><span>주님으로 말미암아<br>기뻐하는 교회</span></div>
+    <div class="vc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="heart" d="M12 11.8 9.3 9.2a1.8 1.8 0 0 1 2.7-2.3 1.8 1.8 0 0 1 2.7 2.3z" fill="#d95b5b" stroke="#a83b3b" stroke-width=".6" stroke-linejoin="round"/><path d="M2.5 13.5c1.2-.4 2.2.1 2.8 1l2 3c.6.9 1.6 1.4 2.7 1.4H12v3H9.6c-2.1 0-4-1-5.2-2.7L2.5 16.4z" fill="#f0c49f" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><path d="M2.5 13.5c1.2-.4 2.2.1 2.8 1l2 3c.6.9 1.6 1.4 2.7 1.4H12v3H9.6c-2.1 0-4-1-5.2-2.7L2.5 16.4z" transform="translate(24 0) scale(-1 1)" fill="#f0c49f" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/></svg></span><b>이웃과 함께</b><span>협력과 교제로<br>따뜻하게 섬기는 교회</span></div>
+    <div class="vc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 10.7v4.2c0 1.6 2.6 2.9 5.8 2.9s5.8-1.3 5.8-2.9v-4.2L12 13.2z" fill="#3c3640" stroke="#4a3524" stroke-width=".9" stroke-linejoin="round"/><path d="M12 4 1.8 8.6 12 13.2l10.2-4.6z" fill="#2f2a33" stroke="#4a3524" stroke-width=".9" stroke-linejoin="round"/><g class="tassel"><path d="M19.4 9.6v5.6" stroke="#e1ad4f" stroke-width="1.1"/><path d="M18.6 15.2h1.6l.5 3.1h-2.6z" fill="#e1ad4f"/></g></svg></span><b>미래의 리더</b><span>믿음의 지도자로<br>세워 가는 교회</span></div>
+  </div>
+  <p class="pull">저희 교회는 <mark>오직 주님께 영광,</mark><br>주님으로 말미암아<br>기뻐하고자 하는 교회입니다.</p>
+  <p class="body">이웃이나 인근 교회와의 협력과 교제로 따뜻하게 섬기며, 한 사람 한 사람을 <mark>존귀한 하나님의 자녀</mark>로 세워가는 일에 최선을 다하고 있습니다.</p>
+  <p class="body">급변하는 세상 속에서도 <mark>변치 않는 복음의 가치</mark>를 붙들고, 아픈 곳을 보듬으며, 미래의 세대에게 성경 속 믿음의 지도자들처럼 고난이나 역경을 이겨내는 <mark>미래의 리더</mark>를 만들려고 노력하며 교육하고 기도합니다.</p>
+  <p>초대교회의 이름처럼<br><mark>모든 학생들과 청년을 초대합니다.</mark></p>
   <p>주의 이름으로 환영하며 축복합니다 ♡</p>
   <div class="sign">용인초대교회 담임목사 <b>이현무</b></div>
   <div class="verse">
@@ -583,13 +680,13 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
 <section class="rv sheet card" data-fold="page">
   <h2>예배 안내</h2>
   <table class="svc">
-    <tr><th>주일 낮 예배</th><td>주일 오전 11:00</td></tr>
-    <tr><th>주일 찬양 예배</th><td>주일 오후 1:30</td></tr>
-    <tr><th>주일학교 예배</th><td>주일 오전 10:00</td></tr>
-    <tr><th>중고등부 예배</th><td>주일 오전 11:00</td></tr>
-    <tr><th>수요 예배</th><td>수요일 오후 8:00</td></tr>
-    <tr><th>금요 기도회</th><td>금요일 오후 9:00</td></tr>
-    <tr><th>새벽 기도회</th><td>매일 오전 6:00</td></tr>
+    <tr><th><span class="sv"><span class="ic"><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><g class="rays" stroke="#e1ad4f" stroke-width="1.1" stroke-linecap="round"><path d="M12 1.5v1.7M6.5 3.6l1 1.3M17.5 3.6l-1 1.3M4.1 8.1h1.6M18.3 8.1h1.6"/></g><circle class="sun" cx="12" cy="8.3" r="3.3" fill="#f5c95f" stroke="#d29a3a" stroke-width=".8"/><path d="M2.8 12.6c3.1-1.1 6.2-1 9.2.9 3-1.9 6.1-2 9.2-.9v7.8c-3.1-1.1-6.2-1-9.2.9-3-1.9-6.1-2-9.2-.9z" fill="#fffaf0" stroke="#4a3524" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 13.5v7.8" stroke="#4a3524" stroke-width="1"/><path d="M7.3 14.4v4.2M5.9 15.8h2.8" stroke="#c48a2c" stroke-width="1.2" stroke-linecap="round"/><path d="M14.3 15.3h4.4M14.3 17.3h4.4" stroke="#b9a68a" stroke-width=".8" stroke-linecap="round"/></svg></span>주일 낮 예배</span></th><td>주일 오전 11:00</td></tr>
+    <tr><th><span class="sv"><span class="ic"><svg class="i-praise" viewBox="0 0 24 24" aria-hidden="true"><g class="nt n1"><path d="M8.6 1.8v4.6l2 .1" stroke="#4a3524" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M8.6 1.8l2.2.8" stroke="#4a3524" stroke-width="1" stroke-linecap="round"/><ellipse cx="7.6" cy="6.5" rx="1.3" ry="1" transform="rotate(-20 7.6 6.5)" fill="#4a3524"/></g><g class="nt n2"><path d="M16.2 2.6v4.6" stroke="#4a3524" stroke-width="1" stroke-linecap="round"/><path d="M16.2 2.6l2.2.8" stroke="#4a3524" stroke-width="1" stroke-linecap="round"/><ellipse cx="15.2" cy="7.3" rx="1.3" ry="1" transform="rotate(-20 15.2 7.3)" fill="#4a3524"/></g><path d="M5.5 22v-3l-2-4.6a1 1 0 0 1 1.8-.8l1.4 2.4V11a1 1 0 0 1 2 0v4.4h.4V9.8a1 1 0 0 1 2 0v5.6h.3v-4.2a1 1 0 0 1 2 0v5.3c0 2.3-1 3.7-2.6 4.4V22z" fill="#f0c49f" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><path d="M5.5 22v-3l-2-4.6a1 1 0 0 1 1.8-.8l1.4 2.4V11a1 1 0 0 1 2 0v4.4h.4V9.8a1 1 0 0 1 2 0v5.6h.3v-4.2a1 1 0 0 1 2 0v5.3c0 2.3-1 3.7-2.6 4.4V22z" transform="translate(24 0) scale(-1 1)" fill="#f0c49f" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/></svg></span>주일 찬양 예배</span></th><td>주일 오후 1:30</td></tr>
+    <tr><th><span class="sv"><span class="ic"><svg class="i-kids" viewBox="0 0 24 24" aria-hidden="true"><g class="k1"><path d="M2.8 22c.3-3.2 2.2-5 5-5s4.7 1.8 5 5z" fill="#e98f8f" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><circle cx="7.8" cy="12.2" r="3.6" fill="#f0c49f" stroke="#4a3524" stroke-width="1"/><path d="M4.3 11.4c.3-2.6 2.2-3.9 3.9-3.8 1.9.1 3.4 1.4 3.6 3.6-1.4-.9-3.2-1.2-5.2-.7z" fill="#5a3b22"/><circle cx="6.6" cy="12.4" r=".45" fill="#4a3524"/><circle cx="9" cy="12.4" r=".45" fill="#4a3524"/><path d="M6.6 13.9c.7.6 1.8.6 2.4 0" stroke="#4a3524" stroke-width=".8" fill="none" stroke-linecap="round"/></g><g class="k2"><path d="M11.2 22c.3-3.2 2.2-5 5-5s4.7 1.8 5 5z" fill="#86aed3" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><circle cx="13" cy="9.4" r="1.2" fill="#2f2219"/><circle cx="19.4" cy="9.4" r="1.2" fill="#2f2219"/><circle cx="16.2" cy="12.2" r="3.6" fill="#f0c49f" stroke="#4a3524" stroke-width="1"/><path d="M12.6 11.8c0-2.4 1.6-4.1 3.6-4.1s3.6 1.7 3.6 4.1c-.8-1.1-2.1-1.6-3.6-1.6s-2.8.5-3.6 1.6z" fill="#2f2219"/><circle cx="15" cy="12.6" r=".45" fill="#4a3524"/><circle cx="17.4" cy="12.6" r=".45" fill="#4a3524"/><path d="M15 14c.7.6 1.8.6 2.4 0" stroke="#4a3524" stroke-width=".8" fill="none" stroke-linecap="round"/></g></svg></span>주일학교 예배</span></th><td>주일 오전 10:00</td></tr>
+    <tr><th><span class="sv"><span class="ic"><svg class="i-youth" viewBox="0 0 24 24" aria-hidden="true"><path class="heart" d="M12 8.6 9.5 6.2a1.6 1.6 0 0 1 2.5-2 1.6 1.6 0 0 1 2.5 2z" fill="#d95b5b" stroke="#a83b3b" stroke-width=".6" stroke-linejoin="round"/><path d="M2.4 22c.2-3.7 2.3-6.1 5.1-6.1s4.9 2.4 5.1 6.1z" fill="#5f7f9e" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><circle cx="7.5" cy="12.4" r="2.7" fill="#f0c49f" stroke="#4a3524" stroke-width="1"/><path d="M4.8 12.1c0-2 1.2-3.2 2.7-3.2 1.6 0 2.8 1.1 2.8 3.1-.9-.8-2.2-1.2-3.6-1-.8.2-1.4.6-1.9 1.1z" fill="#3a2a1d"/><path d="M11.4 22c.2-3.7 2.3-6.1 5.1-6.1s4.9 2.4 5.1 6.1z" fill="#d9b25a" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><path d="M13.4 17.4c-.6-1.8-.8-3.8-.5-5.4.4-2.1 1.9-3.2 3.6-3.2s3.2 1.1 3.6 3.2c.3 1.6.1 3.6-.5 5.4z" fill="#3a2a1d"/><circle cx="16.5" cy="12.6" r="2.6" fill="#f0c49f" stroke="#4a3524" stroke-width="1"/></svg></span>중고등부 예배</span></th><td>주일 오전 11:00</td></tr>
+    <tr><th><span class="sv"><span class="ic"><svg class="i-candle" viewBox="0 0 24 24" aria-hidden="true"><circle class="glow" cx="9" cy="8.4" r="4.8" fill="#ffd77a"/><g class="flame"><path d="M9 4.2c1.4 1.7 2 2.9 2 4 0 1.2-.9 2-2 2s-2-.8-2-2c0-1.1.6-2.3 2-4z" fill="#f4a33a" stroke="#c9741f" stroke-width=".6"/><path d="M9 7.4c.6.8.8 1.3.8 1.8a.8.8 0 0 1-1.6 0c0-.5.2-1 .8-1.8z" fill="#ffe9a8"/></g><rect x="7" y="10.6" width="4" height="8.6" rx=".6" fill="#fffaf0" stroke="#4a3524" stroke-width="1"/><path d="M4.4 20.4h9.2" stroke="#b8862f" stroke-width="1.8" stroke-linecap="round"/><path d="M18 4.4v15.4M15.1 8.3h5.8" stroke="#7a5230" stroke-width="1.7" stroke-linecap="round"/></svg></span>수요 예배</span></th><td>수요일 오후 8:00</td></tr>
+    <tr><th><span class="sv"><span class="ic"><svg class="i-pray" viewBox="0 0 24 24" aria-hidden="true"><g class="light" stroke="#e1ad4f" stroke-width="1.1" stroke-linecap="round"><path d="M12 1.2v2.4M6.7 3l1.3 1.8M17.3 3l-1.3 1.8M3.9 7.3l1.9.9M20.1 7.3l-1.9.9"/></g><path d="M11.8 5.4c-.9.6-1.7 2.4-2.1 4.4l-.6 3.7-2.8 4.3 2.7 2.4 2.8-3.3z" fill="#f0c49f" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><path d="M12.2 5.4c.9.6 1.7 2.4 2.1 4.4l.6 3.7 2.8 4.3-2.7 2.4-2.8-3.3z" fill="#f0c49f" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><path d="M5.4 19l3 2.8M18.6 19l-3 2.8" stroke="#3f5a76" stroke-width="2.4" stroke-linecap="round"/></svg></span>금요 기도회</span></th><td>금요일 오후 9:00</td></tr>
+    <tr><th><span class="sv"><span class="ic"><svg class="i-dawn" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="dawnClip"><rect width="24" height="15.6"/></clipPath></defs><g class="rays" stroke="#e1ad4f" stroke-width="1.1" stroke-linecap="round"><path d="M12 3.6v2M5.5 6.6l1.3 1.3M18.5 6.6l-1.3 1.3M3 12.5h1.9M19.1 12.5H21"/></g><g clip-path="url(#dawnClip)"><circle class="sunup" cx="12" cy="15.6" r="5" fill="#f5c95f" stroke="#d29a3a" stroke-width=".8"/></g><path d="M2 15.6h20" stroke="#4a3524" stroke-width="1.2" stroke-linecap="round"/><path d="M5 18.4h14M8 21h8" stroke="#b9a68a" stroke-width="1" stroke-linecap="round"/></svg></span>새벽 기도회</span></th><td>매일 오전 6:00</td></tr>
   </table>
   <p class="note">처음 오신 분은 1층 입구에서 안내해 드립니다.</p>
 </section>
@@ -606,6 +703,10 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
     <img src="assets/img/t/youth-cafe.jpg" data-full="assets/img/youth-cafe.jpg" alt="청소년부 모임" loading="lazy" decoding="async" fetchpriority="low">
     <img src="assets/img/t/youth-outdoor.jpg" data-full="assets/img/youth-outdoor.jpg" alt="청년부 야외모임" loading="lazy" decoding="async" fetchpriority="low">
     <img src="assets/img/t/women.jpg" data-full="assets/img/women.jpg" alt="여신도회" loading="lazy" decoding="async" fetchpriority="low">
+  </div>
+  <div class="swipe" aria-hidden="true">
+    <svg class="sw-hand" viewBox="0 0 32 34"><path d="M12.5 3.6c0-1.4 1.1-2.6 2.5-2.6s2.5 1.2 2.5 2.6V14c.4-.9 1.3-1.5 2.4-1.5 1.4 0 2.6 1.1 2.6 2.5v.7c.4-.6 1.1-1 1.9-1 1.3 0 2.4 1.1 2.4 2.4v.9c.4-.4.9-.6 1.5-.6 1.3 0 2.2 1 2.2 2.3v5.2c0 4.4-3.6 8-8 8h-3.3c-2.6 0-5-1.2-6.5-3.3l-5.1-6.9c-.8-1.1-.6-2.6.5-3.4 1.1-.8 2.6-.6 3.4.5l1.5 2z" fill="#fffaf0" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M17.5 14.4v4M22.5 15.9v3.2M26.8 17.8v2.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+    <svg class="sw-arrows" viewBox="0 0 26 12"><path class="al" d="M8 1.5 3.5 6 8 10.5"/><path class="ar" d="M18 1.5 22.5 6 18 10.5"/></svg>
   </div>
 </section>
 
@@ -736,6 +837,11 @@ function startReveal() {
     es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
   }, { threshold: 0, rootMargin: '0px 0px -12% 0px' });
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
+  // 인사말 속 핵심 구절은 화면에 들어올 때 금빛 형광펜이 그어진다
+  const markIO = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('lit'); markIO.unobserve(e.target); }
+  }), { rootMargin: '0px 0px -18% 0px' });
+  document.querySelectorAll('.greet mark').forEach(m => markIO.observe(m));
 }
 if (root.classList.contains('opened')) startReveal();
 else new MutationObserver((m, o) => {
@@ -999,7 +1105,7 @@ addEventListener('visibilitychange', () => document.hidden ? stopFall() : startF
 for (let i = 0; i < 5; i++) setTimeout(drop, 900 + i * 700);
 
 // 사진과 지도 버튼은 화면에 보일 때만 숨 쉰다
-document.querySelectorAll('#grid, .maps, .cta').forEach(el =>
+document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe').forEach(el =>
   new IntersectionObserver(([e]) => el.classList.toggle('live', e.isIntersecting), { threshold: .15 })
     .observe(el));
 
