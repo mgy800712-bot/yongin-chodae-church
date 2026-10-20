@@ -17,6 +17,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/audio/bgm.mp4" as="audio" type="audio/mp4" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;600;700;900&display=swap" rel="stylesheet">
@@ -248,7 +249,7 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
 <!-- ═══ HERO ═══ -->
 <header class="hero">
 <div class="hero-photo">
-  <img src="assets/img/church.jpg" alt="용인초대교회 전경과 전교인">
+  <img src="assets/img/church.jpg" alt="용인초대교회 전경과 전교인" fetchpriority="high" decoding="async">
   <div class="fall" id="fall"></div>
   <div class="hero-wash"></div>
   <span class="hero-side l">주일 낮 예배 · 오전 11시</span>
@@ -269,7 +270,7 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
 <section class="greet rv">
   <div class="en">Welcome</div>
   <h2>미래 리더를 키우는<br>기쁨을 주는 초대교회</h2>
-  <img class="face" src="assets/img/pastor.jpg" alt="담임목사 이현무">
+  <img class="face" src="assets/img/pastor.jpg" alt="담임목사 이현무" loading="lazy" decoding="async" fetchpriority="low">
   <p>반갑습니다.<br>예수님의 이름으로 축복합니다.</p>
   <p>저희 교회는 오직 주님께 영광,<br>주님으로 말미암아 기뻐하고자 하는 교회입니다.</p>
   <p class="body">이웃이나 인근 교회와의 협력과 교제로 따뜻하게 섬기며, 한 사람 한 사람을 존귀한 하나님의 자녀로 세워가는 일에 최선을 다하고 있습니다.</p>
@@ -308,13 +309,13 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
   <h2>우리 교회의 하루</h2>
   <p class="hint">사진을 누르면 크게 볼 수 있고,<br>좌우로 넘기면 모든 사진을 보실 수 있습니다</p>
   <div class="grid" id="grid">
-    <div class="wide"><img src="assets/img/outdoor-worship.jpg" alt="전교인 야외예배"></div>
-    <img src="assets/img/praise.jpg" alt="찬양팀">
-    <img src="assets/img/kids-dance.jpg" alt="어린이 율동">
-    <img src="assets/img/children.jpg" alt="주일학교">
-    <img src="assets/img/youth-cafe.jpg" alt="청소년부 모임">
-    <img src="assets/img/youth-outdoor.jpg" alt="청년부 야외모임">
-    <img src="assets/img/women.jpg" alt="여신도회">
+    <div class="wide"><img src="assets/img/outdoor-worship.jpg" alt="전교인 야외예배" loading="lazy" decoding="async" fetchpriority="low"></div>
+    <img src="assets/img/praise.jpg" alt="찬양팀" loading="lazy" decoding="async" fetchpriority="low">
+    <img src="assets/img/kids-dance.jpg" alt="어린이 율동" loading="lazy" decoding="async" fetchpriority="low">
+    <img src="assets/img/children.jpg" alt="주일학교" loading="lazy" decoding="async" fetchpriority="low">
+    <img src="assets/img/youth-cafe.jpg" alt="청소년부 모임" loading="lazy" decoding="async" fetchpriority="low">
+    <img src="assets/img/youth-outdoor.jpg" alt="청년부 야외모임" loading="lazy" decoding="async" fetchpriority="low">
+    <img src="assets/img/women.jpg" alt="여신도회" loading="lazy" decoding="async" fetchpriority="low">
   </div>
 </section>
 
@@ -446,7 +447,7 @@ function kick() {
 go();                               // 데스크톱·자주 방문한 사이트는 이것만으로 재생된다
 on();
 addEventListener('load', go);
-au.addEventListener('canplay', go);
+['loadedmetadata','loadeddata','canplay','canplaythrough'].forEach(e => au.addEventListener(e, go));
 au.addEventListener('playing', () => { paint(); off(); });
 au.addEventListener('pause', paint);
 
