@@ -584,10 +584,12 @@ function kick() {
   if (sounding()) off();
 }
 
+// 페이지가 열릴 때는 참고 사이트와 똑같이 <audio autoplay> 와 play() 만 쓴다.
+// Web Audio 는 자동재생이 막혔을 때 '터치 이후'에만 보조로 쓴다 —
+// 로드 시점에 끼어들면 요소 재생을 방해할 수 있기 때문.
 go();
-viaWA();
 on();
-addEventListener('load', () => { go(); viaWA(); });
+addEventListener('load', go);
 ['loadedmetadata','loadeddata','canplay','canplaythrough'].forEach(e => au.addEventListener(e, go));
 au.addEventListener('playing', () => { if (wa) { au.pause(); return; } paint(); off(); });
 au.addEventListener('pause', paint);
