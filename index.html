@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <script>
-// 스크립트가 살아 있을 때만 연출을 건다. 무엇이 실패해도 9초 뒤엔 반드시 내용이 보인다.
+// 스크립트가 살아 있을 때만 연출을 건다. 무엇이 실패해도 16초 뒤엔 반드시 내용이 보인다.
 (function(r){r.classList.add('js');
 if(matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('opened');
-setTimeout(function(){r.classList.add('opened')},9000)})(document.documentElement);
+setTimeout(function(){r.classList.add('opened')},16000)})(document.documentElement);
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>용인초대교회에 초대합니다</title>
@@ -213,17 +213,34 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   box-shadow:0 4px 8px rgba(0,0,0,.45),inset 0 -3px 5px rgba(0,0,0,.35),inset 0 2px 3px rgba(255,255,255,.22);
   transition:transform .5s cubic-bezier(.5,0,.2,1),opacity .4s}
 .seal svg{width:18px;height:24px}
-.env.open .seal{transform:translateY(-14px) scale(.55);opacity:0}
-.env-hint{display:inline-flex;align-items:center;gap:13px;padding:14px 24px;border-radius:999px;
-  border:1px solid rgba(242,217,168,.4);background:rgba(242,217,168,.1);
-  color:#f8eed9;font-size:18px;font-weight:700;letter-spacing:.01em;
-  opacity:0;animation:hintin .9s var(--ease) .8s forwards,breathe 2.4s ease-in-out 1.7s infinite}
-@keyframes hintin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes breathe{50%{background:rgba(242,217,168,.2);border-color:rgba(242,217,168,.75)}}
+.seal::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(255,140,110,.85);
+  opacity:0;animation:sealring 1.4s ease-out .9s infinite}
+@keyframes sealring{0%{transform:scale(.85);opacity:.95}100%{transform:scale(1.9);opacity:0}}
+@keyframes sealblink{0%,100%{transform:scale(1);filter:brightness(1)}
+  45%{transform:scale(1.1);filter:brightness(1.45) saturate(1.15)}}
+.seal{animation:sealblink 1.4s ease-in-out .9s infinite}
+.env.open .seal{animation:none;transform:translateY(-14px) scale(.55);opacity:0}
+.env.open .seal::before{animation:none;opacity:0}
+
+/* 손가락 안내 — 봉인을 톡톡 두드린다 */
+.hand{position:absolute;z-index:6;left:calc(50% + 8px);top:calc(46% - 8px);width:46px;height:46px;
+  transform-origin:30% 10%;pointer-events:none;
+  filter:drop-shadow(0 3px 4px rgba(0,0,0,.45));
+  opacity:0;animation:handin .6s var(--ease) 1.2s forwards,handtap 1.4s ease-in-out 1.8s infinite}
+.hand svg{width:100%;height:100%;display:block;transform:rotate(-32deg)}
+@keyframes handin{from{opacity:0}to{opacity:1}}
+@keyframes handtap{0%,100%{transform:translate(0,0) scale(1)}
+  40%{transform:translate(-7px,-9px) scale(.94)}55%{transform:translate(-7px,-9px) scale(.94)}}
+.env.open .hand{animation:none;opacity:0;transition:opacity .2s}
+.env-hint{display:inline-flex;align-items:center;gap:13px;padding:16px 28px;border-radius:999px;
+  background:#f7ebd3;color:#2b1e12;font-size:19px;font-weight:700;letter-spacing:.01em;
+  opacity:0;animation:hintin .9s var(--ease) .6s forwards,breathe 1.6s ease-in-out 1.5s infinite}
+@keyframes hintin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes breathe{0%,100%{transform:scale(1);background:#f7ebd3}50%{transform:scale(1.045);background:#fff6e4}}
 /* 누르라는 자리를 알려 주는 맥박 */
-.tap{position:relative;width:12px;height:12px;border-radius:50%;background:#f2d9a8;flex:none}
-.tap::after{content:'';position:absolute;inset:-7px;border-radius:50%;border:2px solid #f2d9a8;
-  opacity:0;animation:ping 1.8s ease-out 1.2s infinite}
+.tap{position:relative;width:12px;height:12px;border-radius:50%;background:#a3311f;flex:none}
+.tap::after{content:'';position:absolute;inset:-7px;border-radius:50%;border:2px solid #a3311f;
+  opacity:0;animation:ping 1.6s ease-out 1s infinite}
 @keyframes ping{0%{transform:scale(.45);opacity:.9}100%{transform:scale(1.7);opacity:0}}
 .env.open + .env-hint{animation:none;opacity:0;transition:opacity .3s}
 .ghost{position:fixed;z-index:85;padding:5px;background:#fffdf8;border-radius:2px;pointer-events:none;overflow:hidden}
@@ -446,6 +463,7 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
       <p class="env-from">대한예수교장로회 용인초대교회</p>
     </div>
     <div class="env-flap" id="envFlap"></div>
+    <span class="hand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#2a1d12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path fill="#fff" d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15V4a2 2 0 0 1 4 0v5.5a2 2 0 0 1 3 .5 2 2 0 0 1 4 1z"/><path d="M18 11v-1a2 2 0 0 0-4 0M14 10V9a2 2 0 0 0-4 0v1"/></svg></span>
     <span class="seal" aria-hidden="true"><svg viewBox="0 0 24 32" style="color:#f2d9a8"><path d="M10.6 0h2.8v9h7.6v2.8h-7.6V32h-2.8V11.8H3V9h7.6z" fill="currentColor"/></svg></span>
   </div>
   <p class="env-hint"><span class="tap" aria-hidden="true"></span>봉투를 눌러 열어 보세요</p>
@@ -654,7 +672,7 @@ else new MutationObserver((m, o) => {
 }).observe(root, { attributes: true, attributeFilter: ['class'] });
 
 // ── 봉투 — 첫 화면의 단 하나의 연출 ──
-// 누르면(또는 4초 뒤 저절로) 도장이 떨어지고, 덮개가 열리고, 사진 카드가 빠져나와
+// 누르면(또는 10초 뒤 저절로) 도장이 떨어지고, 덮개가 열리고, 사진 카드가 빠져나와
 // 첫 화면 자리로 날아가 앉는다. 봉투를 누르는 그 한 번이 어느 브라우저에서든 음악을 켠다.
 (() => {
   const stage = document.getElementById('stage');
@@ -701,7 +719,7 @@ else new MutationObserver((m, o) => {
   stage.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnv(); }
   });
-  auto = setTimeout(openEnv, 4000);
+  auto = setTimeout(openEnv, 10000);
 })();
 
 // 첫 화면 사진은 스크롤하면 테이블 위로 눕듯이 살짝 뒤로 기운다
