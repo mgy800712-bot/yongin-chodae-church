@@ -43,8 +43,54 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .rule{width:1px;height:46px;background:linear-gradient(var(--line),transparent);margin:0 auto}
 
 /* reveal */
-.rv{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease}
-.rv.on{opacity:1;transform:none}
+/* 스크롤에 맞춰 한 줄씩 떠오른다 */
+.rv > *{opacity:0;transform:translateY(20px);
+  transition:opacity .95s cubic-bezier(.22,.7,.3,1),transform .95s cubic-bezier(.22,.7,.3,1)}
+.rv.on > *{opacity:1;transform:none}
+.rv.on > *:nth-child(1){transition-delay:0.00s}
+.rv.on > *:nth-child(2){transition-delay:0.06s}
+.rv.on > *:nth-child(3){transition-delay:0.12s}
+.rv.on > *:nth-child(4){transition-delay:0.18s}
+.rv.on > *:nth-child(5){transition-delay:0.24s}
+.rv.on > *:nth-child(6){transition-delay:0.30s}
+.rv.on > *:nth-child(7){transition-delay:0.36s}
+.rv.on > *:nth-child(8){transition-delay:0.42s}
+.rv.on > *:nth-child(9){transition-delay:0.48s}
+.rv.on > *:nth-child(10){transition-delay:0.54s}
+.rv.on > *:nth-child(11){transition-delay:0.60s}
+.rv.on > *:nth-child(12){transition-delay:0.66s}
+.rv.on > *:nth-child(13){transition-delay:0.72s}
+.rv.on > *:nth-child(14){transition-delay:0.78s}
+
+/* 예배 시간표는 줄 단위로 */
+.rv .svc tr{opacity:0;transform:translateY(16px);
+  transition:opacity .8s cubic-bezier(.22,.7,.3,1),transform .8s cubic-bezier(.22,.7,.3,1)}
+.rv.on .svc tr{opacity:1;transform:none}
+.rv.on .svc tr:nth-child(1){transition-delay:0.14s}
+.rv.on .svc tr:nth-child(2){transition-delay:0.23s}
+.rv.on .svc tr:nth-child(3){transition-delay:0.32s}
+.rv.on .svc tr:nth-child(4){transition-delay:0.41s}
+.rv.on .svc tr:nth-child(5){transition-delay:0.50s}
+.rv.on .svc tr:nth-child(6){transition-delay:0.59s}
+
+/* 갤러리는 사진 단위로 */
+.rv .grid > *{opacity:0;transform:translateY(18px) scale(.985);
+  transition:opacity .85s cubic-bezier(.22,.7,.3,1),transform .85s cubic-bezier(.22,.7,.3,1)}
+.rv.on .grid > *{opacity:1;transform:none}
+.rv.on .grid > *:nth-child(1){transition-delay:0.20s}
+.rv.on .grid > *:nth-child(2){transition-delay:0.27s}
+.rv.on .grid > *:nth-child(3){transition-delay:0.34s}
+.rv.on .grid > *:nth-child(4){transition-delay:0.41s}
+.rv.on .grid > *:nth-child(5){transition-delay:0.48s}
+.rv.on .grid > *:nth-child(6){transition-delay:0.55s}
+.rv.on .grid > *:nth-child(7){transition-delay:0.62s}
+.rv.on .grid > *:nth-child(8){transition-delay:0.69s}
+
+@media(prefers-reduced-motion:reduce){
+  .rv > *,.rv .svc tr,.rv .grid > *{opacity:1;transform:none;transition:none}
+  .hero-txt > *,.hero-side,.hero-line,.veil{animation:none}
+  .veil{opacity:0;display:none}.hero-txt > *,.hero-side{opacity:1;transform:none}
+}
 
 /* ── hero ── */
 .hero{position:relative;padding:0;overflow:hidden;background:var(--paper)}
@@ -443,7 +489,7 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
 // 스크롤 등장
 const io = new IntersectionObserver(es => {
   es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
-}, { threshold: .12 });
+}, { threshold: 0, rootMargin: '0px 0px -12% 0px' });
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
 // 배경음악 — 첫 접촉에 무조건 소리가 나게 한다.
