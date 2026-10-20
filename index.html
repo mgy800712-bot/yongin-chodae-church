@@ -493,48 +493,89 @@ const io = new IntersectionObserver(es => {
 }, { threshold: 0, rootMargin: '0px 0px -12% 0px' });
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
-// 배경음악 — 첫 접촉에 무조건 소리가 나게 한다.
-// 이전 방식(음소거로 먼저 틀어두고 나중에 음소거 해제)은 브라우저에 따라
-// 음소거 해제 순간 재생이 중단돼 버린다. 그래서 아예 음소거를 쓰지 않고,
-// 첫 입력 핸들러 안에서 곧바로 play() 를 부른다 — 이게 가장 확실한 경로다.
+// 배경음악 — 소리를 내는 경로를 둘 둔다.
+//  경로 1. <audio> 요소 재생
+//  경로 2. Web Audio (오디오 요소 자동재생이 막힌 환경에서도 소리가 나는 경우가 있다)
+// 둘 다 즉시 시도하고, 먼저 소리가 난 쪽만 남긴다.
+const SRC = 'assets/audio/bgm-v2.mp4';
 const au = document.getElementById('au'), bgm = document.getElementById('bgm');
 au.volume = .5;
 au.muted = false;
 
-let userOff = false;
+let userOff = false, wa = null, waBuf = null, waBusy = false;
+const sounding = () => !!wa || (!au.paused && !au.muted);
 const paint = () => {
-  const on = !au.paused && !au.muted;
+  const on = sounding();
   bgm.classList.toggle('off', !on);
   bgm.classList.toggle('waiting', !on && !userOff);
 };
 
-// 핸들러 맨 앞에서 동기적으로 play() 를 부른다. 앞에 await/then 을 두면
-// 사용자 입력 권한이 풀려 버리므로 어떤 검사도 앞에 두지 않는다.
+// 경로 1 — 어떤 검사도 앞에 두지 않는다. 사용자 입력 권한이 풀리면 안 되기 때문.
 function go() {
-  if (userOff) return;
+  if (userOff || wa) return;
   const r = au.play();
   if (r && r.catch) r.catch(() => {});
 }
 
-const EV = ['pointerdown','touchstart','touchend','mousedown','click','keydown','wheel','scroll'];
-const on  = () => EV.forEach(e => addEventListener(e, kick, {capture:true}));
-const off = () => EV.forEach(e => removeEventListener(e, kick, {capture:true}));
-function kick() {
-  go();
-  if (!au.paused) off();
+// 경로 2 — AudioContext 가 깨어 있으면 요소 재생이 막혀도 소리를 낼 수 있다.
+function stopWA() {
+  if (!wa) return;
+  try { wa.src.stop(); wa.ctx.close(); } catch (_) {}
+  wa = null;
+}
+async function viaWA() {
+  if (userOff || wa || waBusy) return;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return;
+  waBusy = true;
+  let ctx;
+  try {
+    ctx = new AC();
+    if (ctx.state !== 'running') { try { await ctx.resume(); } catch (_) {} }
+    if (ctx.state !== 'running') throw 0;
+    if (!waBuf) {
+      const bytes = await (await fetch(SRC)).arrayBuffer();
+      waBuf = await new Promise((ok, no) => ctx.decodeAudioData(bytes, ok, no));
+    }
+    if (userOff || wa || !au.paused) throw 0;          // 요소가 먼저 울렸으면 물러난다
+    const gain = ctx.createGain();
+    gain.gain.value = .5;
+    gain.connect(ctx.destination);
+    const src = ctx.createBufferSource();
+    src.buffer = waBuf;
+    src.loop = true;
+    src.connect(gain);
+    src.start();
+    wa = { ctx, src, gain };
+    au.pause();
+    paint();
+  } catch (_) {
+    if (ctx && !wa) { try { ctx.close(); } catch (_) {} }
+  }
+  waBusy = false;
 }
 
-go();                               // 데스크톱·자주 방문한 사이트는 이것만으로 재생된다
+const EV = ['pointerdown','touchstart','touchend','mousedown','click','keydown','wheel','scroll'];
+const on  = () => EV.forEach(e => addEventListener(e, kick, { capture: true }));
+const off = () => EV.forEach(e => removeEventListener(e, kick, { capture: true }));
+function kick() {
+  go();                     // 먼저 동기로 요소 재생
+  viaWA();                  // 같은 입력 안에서 Web Audio 도 깨운다
+  if (sounding()) off();
+}
+
+go();
+viaWA();
 on();
-addEventListener('load', go);
+addEventListener('load', () => { go(); viaWA(); });
 ['loadedmetadata','loadeddata','canplay','canplaythrough'].forEach(e => au.addEventListener(e, go));
-au.addEventListener('playing', () => { paint(); off(); });
+au.addEventListener('playing', () => { if (wa) { au.pause(); return; } paint(); off(); });
 au.addEventListener('pause', paint);
 
 bgm.onclick = e => {
   e.stopPropagation();
-  if (!au.paused) { userOff = true; au.pause(); off(); }
-  else { userOff = false; au.muted = false; go(); on(); }
+  if (sounding()) { userOff = true; stopWA(); au.pause(); off(); }
+  else { userOff = false; au.muted = false; go(); viaWA(); on(); }
   paint();
 };
 paint();
