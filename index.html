@@ -600,25 +600,22 @@ footer .motto{font-family:var(--serif);font-size:20px;font-weight:700;color:#f7e
 footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2.05;letter-spacing:0;color:#cfc6b5}
 
 /* ── lightbox ── */
-.lb{position:fixed;inset:0;background:rgba(20,17,13,.96);display:none;place-items:center;z-index:99;
-  touch-action:pan-y}
-.lb.on{display:grid}
-.lb img{max-width:94vw;max-height:80vh;object-fit:contain;user-select:none;-webkit-user-drag:none;
-  animation:lbin .32s cubic-bezier(.2,.7,.3,1)}
-@keyframes lbin{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
-.lb-x{position:absolute;top:14px;right:16px;width:42px;height:42px;border:0;background:transparent;
-  color:#fff;font-size:30px;line-height:1;cursor:pointer}
-.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:46px;border:0;
-  background:rgba(0,0,0,.3);color:rgba(255,255,255,.82);font-size:22px;line-height:1;cursor:pointer;
-  border-radius:3px;transition:opacity .35s;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-.lb-nav.prev{left:2px}.lb-nav.next{right:2px}
-/* 사진을 누르면 화살표가 비켜난다 */
-.lb.bare .lb-nav,.lb.bare .lb-bar em{opacity:0;pointer-events:none}
-.lb-bar{position:absolute;left:0;right:0;bottom:26px;text-align:center;color:#fff}
-.lb-bar b{display:block;font-size:14px;font-weight:500;letter-spacing:.08em;opacity:.85;
-  font-variant-numeric:tabular-nums}
-.lb-bar em{display:block;margin-top:8px;font-size:13px;font-style:normal;color:#d8cdbd;opacity:.9;
-  transition:opacity .8s}
+/* 사진 크게 보기 — 흰 바탕, 얇은 선, 사진이 주인공 */
+.lb{position:fixed;inset:0;z-index:99;display:none;place-items:center;background:#fdfbf7;touch-action:pan-y}
+.lb.on{display:grid;animation:lbfade .3s ease}
+@keyframes lbfade{from{opacity:0}to{opacity:1}}
+.lb img{max-width:100vw;max-height:74vh;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.lb-x{position:absolute;top:calc(12px + env(safe-area-inset-top));right:10px;width:48px;height:48px;
+  border:0;background:transparent;display:grid;place-items:center;cursor:pointer}
+.lb-x svg{width:28px;height:28px;fill:none;stroke:#8c847b;stroke-width:1.3;stroke-linecap:round}
+.lb-bar{position:absolute;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;justify-content:space-between;padding:0 10px}
+.lb-nav{width:48px;height:48px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer}
+.lb-nav svg{width:26px;height:26px;fill:none;stroke:#857d74;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.lb-nav:active svg{stroke:#5c554e}
+.lb-bar b{font-size:16px;font-weight:400;color:#625b53;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+#lbTip{position:absolute;left:0;right:0;bottom:calc(76px + env(safe-area-inset-bottom));text-align:center;
+  font-size:13px;font-style:normal;color:#70675d;transition:opacity .8s}
 </style>
 </head>
 <body>
@@ -878,11 +875,14 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 </div>
 
 <div class="lb" id="lb" role="dialog" aria-label="사진 크게 보기">
-  <button class="lb-x" id="lbx" aria-label="닫기">&times;</button>
-  <button class="lb-nav prev" id="lbPrev" aria-label="이전 사진">&#8249;</button>
+  <button class="lb-x" id="lbx" aria-label="닫기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button>
   <img id="lbi" src="assets/img/t/outdoor-worship.jpg" alt="" loading="lazy">
-  <button class="lb-nav next" id="lbNext" aria-label="다음 사진">&#8250;</button>
-  <div class="lb-bar"><b id="lbNum">1 / 8</b><em id="lbTip">좌우로 넘겨 보세요</em></div>
+  <em id="lbTip">좌우로 넘겨 보세요</em>
+  <div class="lb-bar">
+    <button class="lb-nav prev" id="lbPrev" aria-label="이전 사진"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 3.5 7 12l8.5 8.5"/></svg></button>
+    <b id="lbNum">1 / 8</b>
+    <button class="lb-nav next" id="lbNext" aria-label="다음 사진"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 3.5 17 12l-8.5 8.5"/></svg></button>
+  </div>
 </div>
 
 <script>
@@ -1196,11 +1196,13 @@ const lb = document.getElementById('lb'), lbi = document.getElementById('lbi'),
       shots = [...document.querySelectorAll('#grid img')];
 let at = 0, tipTimer;
 
-const show = i => {
+const show = (i, dir = 0) => {
   at = (i + shots.length) % shots.length;
   lbi.src = shots[at].dataset.full || shots[at].src;
   lbi.alt = shots[at].alt;
   lbNum.textContent = `${at + 1} / ${shots.length}`;
+  lbi.animate([{ opacity: 0, transform: `translateX(${dir * 36}px) scale(.985)` },
+               { opacity: 1, transform: 'none' }], { duration: 340, easing: 'cubic-bezier(.16,1,.3,1)' });
 };
 // 화살표·안내는 잠깐 보였다가 스스로 비켜난다
 const chrome = () => {
@@ -1227,8 +1229,8 @@ document.getElementById('grid').addEventListener('click', e => {
   const i = shots.indexOf(e.target);
   if (i > -1) open(i);
 });
-document.getElementById('lbPrev').onclick = e => { e.stopPropagation(); show(at - 1); chrome(); };
-document.getElementById('lbNext').onclick = e => { e.stopPropagation(); show(at + 1); chrome(); };
+document.getElementById('lbPrev').onclick = e => { e.stopPropagation(); show(at - 1, -1); chrome(); };
+document.getElementById('lbNext').onclick = e => { e.stopPropagation(); show(at + 1, 1); chrome(); };
 document.getElementById('lbx').onclick = e => { e.stopPropagation(); close(); };
 lb.addEventListener('click', e => { if (e.target === lb) close(); });
 
@@ -1237,14 +1239,14 @@ let sx = 0, sy = 0;
 lb.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, {passive:true});
 lb.addEventListener('touchend', e => {
   const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
-  if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { show(at + (dx < 0 ? 1 : -1)); chrome(); }
+  if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { const d = dx < 0 ? 1 : -1; show(at + d, d); chrome(); }
   else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) close();
 }, {passive:true});
 
 addEventListener('keydown', e => {
   if (!lb.classList.contains('on')) return;
-  if (e.key === 'ArrowRight') show(at + 1);
-  else if (e.key === 'ArrowLeft') show(at - 1);
+  if (e.key === 'ArrowRight') show(at + 1, 1);
+  else if (e.key === 'ArrowLeft') show(at - 1, -1);
   else if (e.key === 'Escape') close();
 });
 
