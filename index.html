@@ -35,6 +35,8 @@ setTimeout(function(){r.classList.add('opened')},16000)})(document.documentEleme
   --table:#e4d8c2;
   --ease:cubic-bezier(.16,1,.3,1);
   --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .24 0 0 0 0 .15 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --linen:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .9' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .34 0 0 0 0 .22 0 0 0 .11 0'/%3E%3C/filter%3E%3Cfilter id='v'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9 .012' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .34 0 0 0 0 .22 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23h)'/%3E%3Crect width='100%25' height='100%25' filter='url(%23v)'/%3E%3C/svg%3E");
+  --flecks:url(assets/img/flecks.svg);
   --sakura:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2020%2020'%3E%3Cpath%20d='M10%2019C4%2016%201%2011%203%206c1.5-3.5%205-3%207%200%202-3%205.5-3.5%207%200%202%205-1%2010-7%2013z'%20fill='%23000'/%3E%3C/svg%3E");
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -193,28 +195,38 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .env{position:relative;width:min(84vw,340px);aspect-ratio:1.4;perspective:1100px;
   animation:hover 3.4s ease-in-out infinite}
 @keyframes hover{0%,100%{transform:translateY(0) rotate(-.4deg)}50%{transform:translateY(-7px) rotate(.4deg)}}
-.env-back,.env-front,.env-flap{position:absolute;border-radius:5px}
-.env-back{inset:0;z-index:1;background:var(--grain),#d9c6a2;
-  box-shadow:0 32px 60px -14px rgba(0,0,0,.72),0 6px 14px rgba(0,0,0,.35)}
+/* 봉투 뒤에서 비치는 금빛 */
+.env::before{content:'';position:absolute;inset:-22% -16%;z-index:0;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,200,120,.46),rgba(255,172,86,.18) 55%,rgba(255,160,70,0));
+  filter:blur(10px);animation:glow 3.4s ease-in-out infinite}
+@keyframes glow{50%{opacity:.72;transform:scale(.96)}}
+.env.open::before{animation:none;opacity:0;transition:opacity .6s}
+.env-back,.env-front,.flap-face{position:absolute;border-radius:5px}
+/* 리넨 종이 + 금박 얼룩 */
+.env-back{inset:0;z-index:1;background:var(--flecks) 0 0/100% 100% no-repeat,var(--linen),#e4d5b9;
+  box-shadow:0 34px 60px -16px rgba(0,0,0,.72),0 6px 14px rgba(0,0,0,.35)}
 .env-card{position:absolute;z-index:2;left:10%;right:10%;top:5%;aspect-ratio:5/4;padding:5px;border-radius:2px;
   background:#fffdf8;box-shadow:0 2px 6px rgba(0,0,0,.28)}
 .env-card img,.ghost img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block}
-.env-front{inset:0;z-index:3;background:var(--grain),#ebdec3;
+.env-front{inset:0;z-index:3;background:var(--flecks) 0 0/100% 100% no-repeat,var(--linen),#f3e9d4;
   clip-path:polygon(0 0,50% 40%,100% 0,100% 100%,0 100%);
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 18px 7%;text-align:center}
-.env-to{font-family:var(--serif);font-size:clamp(17px,5.2vw,21px);font-weight:700;color:#3c2f22;letter-spacing:.03em}
-.env-from{margin-top:5px;font-size:11.5px;color:#76654f;letter-spacing:.05em}
-.env-flap{left:0;right:0;top:0;height:46%;z-index:4;transform-origin:50% 0;
-  background:var(--grain),#e2d1b0;clip-path:polygon(0 0,100% 0,50% 100%);
+.env-front > p{position:relative;z-index:1}
+/* 네 모서리에서 봉인으로 모이는 접힘선 */
+.seams{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.env-to{font-family:var(--serif);font-size:clamp(18px,5.4vw,22px);font-weight:700;color:#33241a;letter-spacing:.02em}
+.env-from{margin-top:6px;font-size:12px;color:#6c5944;letter-spacing:.04em}
+/* 덮개 — 그림자를 드리우려 바깥 틀에 그림자를, 안쪽 면이 3D로 넘어간다 */
+.env-flap{position:absolute;left:0;right:0;top:0;height:46%;z-index:4;perspective:1100px;
+  filter:drop-shadow(0 2px 2px rgba(80,55,25,.32))}
+.flap-face{inset:0;transform-origin:50% 0;
+  background:var(--flecks) 0 0/100% 217.4% no-repeat,var(--linen),#f6edda;clip-path:polygon(0 0,100% 0,50% 100%);
   transition:transform .85s cubic-bezier(.55,0,.25,1)}
-.env.open .env-flap{transform:rotateX(180deg)}
-.seal{position:absolute;z-index:5;left:50%;top:46%;width:50px;height:50px;margin:-27px 0 0 -25px;border-radius:50%;
-  display:grid;place-items:center;
-  background:radial-gradient(circle at 34% 28%,#c25546 0%,#902d22 52%,#5c1912 100%);
-  box-shadow:0 4px 8px rgba(0,0,0,.45),inset 0 -3px 5px rgba(0,0,0,.35),inset 0 2px 3px rgba(255,255,255,.22);
+.env.open .flap-face{transform:rotateX(180deg)}
+.seal{position:absolute;z-index:5;left:50%;top:46%;width:70px;height:70px;margin:-37px 0 0 -35px;
   transition:transform .5s cubic-bezier(.5,0,.2,1),opacity .4s}
-.seal svg{width:18px;height:24px}
-.seal::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(255,140,110,.85);
+.seal svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 4px rgba(40,8,10,.5))}
+.seal::before{content:'';position:absolute;inset:-2px;border-radius:50%;border:2px solid rgba(255,176,128,.9);
   opacity:0;animation:sealring 1.4s ease-out .9s infinite}
 @keyframes sealring{0%{transform:scale(.85);opacity:.95}100%{transform:scale(1.9);opacity:0}}
 @keyframes sealblink{0%,100%{transform:scale(1);filter:brightness(1)}
@@ -224,23 +236,27 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .env.open .seal::before{animation:none;opacity:0}
 
 /* 손가락 안내 — 봉인을 톡톡 두드린다 */
-.hand{position:absolute;z-index:6;left:calc(50% + 8px);top:calc(46% - 8px);width:46px;height:46px;
+.hand{position:absolute;z-index:6;left:calc(50% + 10px);top:calc(46% - 2px);width:44px;height:47px;
   transform-origin:30% 10%;pointer-events:none;
   filter:drop-shadow(0 3px 4px rgba(0,0,0,.45));
   opacity:0;animation:handin .6s var(--ease) 1.2s forwards,handtap 1.4s ease-in-out 1.8s infinite}
-.hand svg{width:100%;height:100%;display:block;transform:rotate(-32deg)}
+.hand svg{width:100%;height:100%;display:block;transform:rotate(-24deg)}
 @keyframes handin{from{opacity:0}to{opacity:1}}
 @keyframes handtap{0%,100%{transform:translate(0,0) scale(1)}
   40%{transform:translate(-7px,-9px) scale(.94)}55%{transform:translate(-7px,-9px) scale(.94)}}
 .env.open .hand{animation:none;opacity:0;transition:opacity .2s}
-.env-hint{display:inline-flex;align-items:center;gap:13px;padding:16px 28px;border-radius:999px;
-  background:#f7ebd3;color:#2b1e12;font-size:19px;font-weight:700;letter-spacing:.01em;
+.env-hint{display:inline-flex;align-items:center;gap:14px;padding:13px 30px 13px 14px;border-radius:999px;
+  background:linear-gradient(#fbf4e4,#efe2c6);color:#33241a;
+  font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:.01em;
+  border:1.5px solid #c49a52;box-shadow:inset 0 0 0 3px #fbf4e4,inset 0 0 0 4px rgba(196,154,82,.75);
   opacity:0;animation:hintin .9s var(--ease) .6s forwards,breathe 1.6s ease-in-out 1.5s infinite}
 @keyframes hintin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes breathe{0%,100%{transform:scale(1);background:#f7ebd3}50%{transform:scale(1.045);background:#fff6e4}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
 /* 누르라는 자리를 알려 주는 맥박 */
-.tap{position:relative;width:12px;height:12px;border-radius:50%;background:#a3311f;flex:none}
-.tap::after{content:'';position:absolute;inset:-7px;border-radius:50%;border:2px solid #a3311f;
+.tap{position:relative;width:34px;height:34px;border-radius:50%;flex:none;
+  background:radial-gradient(circle at 40% 35%,#fffaf0,#eadcc0);border:2px solid #c49a52;
+  box-shadow:inset 0 1px 3px rgba(80,55,25,.22)}
+.tap::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid #c49a52;
   opacity:0;animation:ping 1.6s ease-out 1s infinite}
 @keyframes ping{0%{transform:scale(.45);opacity:.9}100%{transform:scale(1.7);opacity:0}}
 .env.open + .env-hint{animation:none;opacity:0;transition:opacity .3s}
@@ -480,12 +496,45 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
     <div class="env-back"></div>
     <div class="env-card" id="envCard"><img src="assets/img/church.jpg" alt=""></div>
     <div class="env-front">
+      <svg class="seams" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="envL" x1="0" x2="1"><stop offset="0" stop-color="#5a3d1c" stop-opacity=".09"/><stop offset="1" stop-color="#5a3d1c" stop-opacity="0"/></linearGradient>
+          <linearGradient id="envR" x1="1" x2="0"><stop offset="0" stop-color="#5a3d1c" stop-opacity=".09"/><stop offset="1" stop-color="#5a3d1c" stop-opacity="0"/></linearGradient>
+          <linearGradient id="envB" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        </defs>
+        <polygon points="0,0 50,46 0,100" fill="url(#envL)"/>
+        <polygon points="100,0 50,46 100,100" fill="url(#envR)"/>
+        <polygon points="0,100 50,46 100,100" fill="url(#envB)"/>
+        <path d="M0 100L50 46L100 100" fill="none" stroke="#7a5a30" stroke-opacity=".3" stroke-width="1" vector-effect="non-scaling-stroke"/>
+        <path d="M.6 100L50 47.2L99.4 100" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1" vector-effect="non-scaling-stroke"/>
+      </svg>
       <p class="env-to">당신을 초대합니다</p>
       <p class="env-from">대한예수교장로회 용인초대교회</p>
     </div>
-    <div class="env-flap" id="envFlap"></div>
-    <span class="hand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#2a1d12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path fill="#fff" d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15V4a2 2 0 0 1 4 0v5.5a2 2 0 0 1 3 .5 2 2 0 0 1 4 1z"/><path d="M18 11v-1a2 2 0 0 0-4 0M14 10V9a2 2 0 0 0-4 0v1"/></svg></span>
-    <span class="seal" aria-hidden="true"><svg viewBox="0 0 24 32" style="color:#f2d9a8"><path d="M10.6 0h2.8v9h7.6v2.8h-7.6V32h-2.8V11.8H3V9h7.6z" fill="currentColor"/></svg></span>
+    <div class="env-flap" id="envFlap"><div class="flap-face"></div></div>
+    <span class="hand" aria-hidden="true"><svg viewBox="0 0 32 34"><path d="M12.5 3.6c0-1.4 1.1-2.6 2.5-2.6s2.5 1.2 2.5 2.6V14c.4-.9 1.3-1.5 2.4-1.5 1.4 0 2.6 1.1 2.6 2.5v.7c.4-.6 1.1-1 1.9-1 1.3 0 2.4 1.1 2.4 2.4v.9c.4-.4.9-.6 1.5-.6 1.3 0 2.2 1 2.2 2.3v5.2c0 4.4-3.6 8-8 8h-3.3c-2.6 0-5-1.2-6.5-3.3l-5.1-6.9c-.8-1.1-.6-2.6.5-3.4 1.1-.8 2.6-.6 3.4.5l1.5 2z" fill="#fff" stroke="#1c120c" stroke-width="1.5" stroke-linejoin="round"/><path d="M17.5 14.4v4M22.5 15.9v3.2M26.8 17.8v2.7" stroke="#1c120c" stroke-width="1.3" stroke-linecap="round"/></svg></span>
+    <span class="seal" aria-hidden="true"><svg viewBox="0 0 64 64">
+      <defs>
+        <radialGradient id="waxG" cx="38%" cy="30%" r="78%"><stop offset="0" stop-color="#b8404d"/><stop offset=".42" stop-color="#7d1a27"/><stop offset="1" stop-color="#470a14"/></radialGradient>
+        <linearGradient id="goldG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8e2a4"/><stop offset=".5" stop-color="#d4a253"/><stop offset="1" stop-color="#94621f"/></linearGradient>
+      </defs>
+      <path d="M58.54 32.00C58.07 32.88 57.49 33.66 57.24 34.49C56.99 35.32 57.07 36.13 57.06 36.98C57.05 37.84 57.31 38.79 57.19 39.64C57.06 40.49 56.79 41.35 56.31 42.07C55.82 42.78 54.97 43.34 54.30 43.92C53.63 44.50 52.82 44.93 52.27 45.54C51.71 46.15 51.35 46.82 50.99 47.58C50.63 48.35 50.47 49.28 50.13 50.13C49.78 50.97 49.42 51.86 48.94 52.64C48.46 53.43 47.87 54.13 47.26 54.84C46.66 55.55 46.01 56.25 45.31 56.89C44.61 57.54 43.89 58.27 43.06 58.71C42.24 59.15 41.30 59.49 40.35 59.52C39.40 59.55 38.32 59.20 37.35 58.88C36.38 58.56 35.41 57.90 34.52 57.61C33.63 57.32 32.84 57.12 32.00 57.15C31.16 57.18 30.33 57.61 29.46 57.80C28.59 57.98 27.63 58.35 26.77 58.29C25.91 58.23 25.04 57.89 24.28 57.44C23.53 56.99 22.91 56.16 22.23 55.60C21.55 55.04 20.96 54.44 20.20 54.08C19.45 53.71 18.58 53.61 17.70 53.41C16.81 53.20 15.76 53.16 14.89 52.85C14.02 52.54 13.16 52.10 12.45 51.55C11.75 50.99 11.20 50.23 10.67 49.51C10.14 48.78 9.68 47.98 9.27 47.19C8.85 46.39 8.42 45.60 8.17 44.74C7.93 43.88 7.79 42.95 7.79 42.03C7.79 41.11 8.07 40.12 8.16 39.23C8.25 38.35 8.47 37.51 8.33 36.71C8.19 35.91 7.80 35.21 7.33 34.43C6.87 33.65 6.01 32.86 5.54 32.00C5.07 31.14 4.57 30.18 4.49 29.29C4.42 28.40 4.75 27.48 5.08 26.64C5.40 25.81 6.09 25.07 6.47 24.26C6.85 23.45 7.16 22.67 7.34 21.79C7.52 20.90 7.42 19.88 7.56 18.94C7.70 17.99 7.79 16.93 8.20 16.10C8.61 15.27 9.28 14.54 10.02 13.96C10.76 13.39 11.77 13.03 12.65 12.65C13.53 12.27 14.46 11.99 15.32 11.67C16.18 11.36 16.98 11.03 17.82 10.77C18.65 10.52 19.50 10.32 20.32 10.15C21.15 9.98 22.01 9.97 22.78 9.74C23.55 9.52 24.26 9.28 24.96 8.80C25.67 8.33 26.28 7.55 27.01 6.90C27.73 6.24 28.50 5.32 29.33 4.87C30.16 4.41 31.11 4.12 32.00 4.15C32.89 4.18 33.80 4.69 34.65 5.05C35.51 5.41 36.28 6.03 37.11 6.31C37.95 6.58 38.77 6.66 39.67 6.72C40.57 6.77 41.59 6.53 42.51 6.63C43.43 6.73 44.41 6.88 45.18 7.33C45.96 7.78 46.59 8.58 47.14 9.34C47.70 10.09 48.05 11.09 48.51 11.88C48.98 12.67 49.41 13.40 49.93 14.07C50.45 14.74 51.07 15.27 51.64 15.88C52.21 16.50 52.79 17.10 53.34 17.74C53.88 18.39 54.35 19.08 54.92 19.75C55.49 20.42 56.10 21.06 56.76 21.75C57.41 22.43 58.28 23.08 58.87 23.85C59.47 24.62 60.11 25.47 60.31 26.37C60.51 27.27 60.37 28.30 60.08 29.23C59.78 30.17 59.01 31.12 58.54 32.00Z" fill="url(#waxG)"/>
+      <circle cx="32" cy="32" r="19.6" fill="#6a1220" fill-opacity=".55"/>
+      <circle cx="32" cy="32" r="19.6" fill="none" stroke="#33060d" stroke-opacity=".6" stroke-width="1.4"/>
+      <circle cx="32.5" cy="32.7" r="20.8" fill="none" stroke="#e07a84" stroke-opacity=".32" stroke-width=".9"/>
+      <g fill="url(#goldG)" stroke="#6b3f12" stroke-width=".35">
+        <path d="M23.2 30.5Q22.8 38.5 29.6 44.6" fill="none" stroke="#c9944a" stroke-width=".8"/>
+        <path d="M40.8 30.5Q41.2 38.5 34.4 44.6" fill="none" stroke="#c9944a" stroke-width=".8"/>
+        <ellipse cx="22.6" cy="33.2" rx="1.15" ry="2.6" transform="rotate(-28 22.6 33.2)"/>
+        <ellipse cx="23.4" cy="37.4" rx="1.15" ry="2.6" transform="rotate(-42 23.4 37.4)"/>
+        <ellipse cx="25.4" cy="41" rx="1.15" ry="2.6" transform="rotate(-58 25.4 41)"/>
+        <ellipse cx="41.4" cy="33.2" rx="1.15" ry="2.6" transform="rotate(28 41.4 33.2)"/>
+        <ellipse cx="40.6" cy="37.4" rx="1.15" ry="2.6" transform="rotate(42 40.6 37.4)"/>
+        <ellipse cx="38.6" cy="41" rx="1.15" ry="2.6" transform="rotate(58 38.6 41)"/>
+      </g>
+      <path d="M30.5 16.6h3v7.2h6.6v3h-6.6v14.4h-3V26.8h-6.6v-3h6.6z" fill="#3c0a10" opacity=".45" transform="translate(.6 .7)"/>
+      <path d="M30.5 16.6h3v7.2h6.6v3h-6.6v14.4h-3V26.8h-6.6v-3h6.6z" fill="url(#goldG)" stroke="#6b3f12" stroke-width=".45"/>
+    </svg></span>
   </div>
   <p class="env-hint"><span class="tap" aria-hidden="true"></span>봉투를 눌러 열어 보세요</p>
 </div>
