@@ -23,7 +23,7 @@ setTimeout(function(){r.classList.add('opened')},16000)})(document.documentEleme
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" href="assets/audio/bgm-v2.mp4" as="audio" type="audio/mp4" fetchpriority="high">
+<link rel="preload" href="assets/audio/bgm-full.mp4" as="audio" type="audio/mp4" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;600;700;900&display=swap" rel="stylesheet">
@@ -452,7 +452,7 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
   </svg>
 </button>
 <button class="cue" id="cue" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 3.5 16 2v10.2a2.6 2.6 0 1 1-1.6-2.4V5.1L9.6 6v8.2A2.6 2.6 0 1 1 8 11.8z" fill="currentColor"/></svg>눌러서 배경음악 듣기</button>
-<audio id="au" src="assets/audio/bgm-v2.mp4" loop autoplay playsinline preload="auto"></audio>
+<audio id="au" src="assets/audio/bgm-full.mp4" loop autoplay playsinline preload="auto"></audio>
 
 <div class="stage" id="stage" role="button" tabindex="0" aria-label="초대장 열기">
   <div class="env" id="env">
@@ -738,7 +738,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
 //  경로 1. <audio> 요소 재생
 //  경로 2. Web Audio (오디오 요소 자동재생이 막힌 환경에서도 소리가 나는 경우가 있다)
 // 둘 다 즉시 시도하고, 먼저 소리가 난 쪽만 남긴다.
-const SRC = 'assets/audio/bgm-v2.mp4';
+const SRC = 'assets/audio/bgm-full.mp4';
 const au = document.getElementById('au'), bgm = document.getElementById('bgm'),
       cue = document.getElementById('cue');
 au.volume = 1;
