@@ -156,6 +156,15 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   -webkit-mask:var(--sakura) center/contain no-repeat;mask:var(--sakura) center/contain no-repeat;
   pointer-events:none;z-index:100;will-change:transform,opacity}
 
+/* ── 배경음악 안내 ── */
+.cue{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:60;
+  padding:9px 17px;border:0;border-radius:999px;background:rgba(26,22,17,.82);
+  color:#f6efe4;font-family:var(--sans);font-size:12.5px;font-weight:500;letter-spacing:-.01em;
+  backdrop-filter:blur(6px);cursor:pointer;white-space:nowrap;
+  opacity:0;transition:opacity .7s ease}
+.cue.show{opacity:1}
+@media(max-width:360px){.cue{font-size:11.5px;padding:8px 13px}}
+
 /* ── bgm ── */
 .bgm{position:fixed;top:14px;left:50%;transform:translateX(calc(-50% + 170px));z-index:50;
   width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
@@ -290,6 +299,7 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
     <rect class="bar" x="17" y="7" width="3" height="10" rx="1.5"/>
   </svg>
 </button>
+<button class="cue" id="cue" hidden>화면을 터치하면 배경음악이 나옵니다</button>
 <audio id="au" src="assets/audio/bgm-v2.mp4" loop autoplay playsinline preload="auto"></audio>
 
 <div class="veil" id="veil"></div>
@@ -498,16 +508,25 @@ document.querySelectorAll('.rv').forEach(el => io.observe(el));
 //  경로 2. Web Audio (오디오 요소 자동재생이 막힌 환경에서도 소리가 나는 경우가 있다)
 // 둘 다 즉시 시도하고, 먼저 소리가 난 쪽만 남긴다.
 const SRC = 'assets/audio/bgm-v2.mp4';
-const au = document.getElementById('au'), bgm = document.getElementById('bgm');
+const au = document.getElementById('au'), bgm = document.getElementById('bgm'),
+      cue = document.getElementById('cue');
 au.volume = 1;
 au.muted = false;
 
 let userOff = false, wa = null, waBuf = null, waBusy = false;
 const sounding = () => !!wa || (!au.paused && !au.muted);
+let cueGone = false;
+const hideCue = () => {
+  if (cueGone) return;
+  cueGone = true;
+  cue.classList.remove('show');
+  setTimeout(() => cue.hidden = true, 800);
+};
 const paint = () => {
   const on = sounding();
   bgm.classList.toggle('off', !on);
   bgm.classList.toggle('waiting', !on && !userOff);
+  if (on) hideCue();
 };
 
 // 경로 1 — 어떤 검사도 앞에 두지 않는다. 사용자 입력 권한이 풀리면 안 되기 때문.
@@ -571,6 +590,11 @@ addEventListener('load', () => { go(); viaWA(); });
 ['loadedmetadata','loadeddata','canplay','canplaythrough'].forEach(e => au.addEventListener(e, go));
 au.addEventListener('playing', () => { if (wa) { au.pause(); return; } paint(); off(); });
 au.addEventListener('pause', paint);
+
+// 소리가 아직 안 나면 잠깐 안내를 띄운다. 이 안내를 눌러도 음악이 시작된다.
+setTimeout(() => { if (!sounding() && !userOff && !cueGone) { cue.hidden = false; requestAnimationFrame(() => cue.classList.add('show')); } }, 1000);
+setTimeout(hideCue, 9000);
+cue.addEventListener('click', e => { e.stopPropagation(); go(); viaWA(); hideCue(); });
 
 bgm.onclick = e => {
   e.stopPropagation();
