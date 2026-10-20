@@ -129,6 +129,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   .js .rv > *,.js .rv .svc tr,.js .rv .grid > *,.js .sheet{opacity:1;transition:none}
   .js .sheet:not(.on){transform:none;opacity:1}.js .sheet::after{display:none}
   .js .rv .grid > *{transform:rotate(var(--r))}
+  .js .rv.on .grid > *,.js .loc.on .maps a,.js .loc.on .maps a svg{animation:none}
   .js .stage{display:none}
   .hero-txt > *,.hero-side,.scroll-cue{animation:none!important;opacity:1!important;transform:none!important}
   .js .loc .leaf{transform:none!important;transition:none}
@@ -216,7 +217,6 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .env-hint{display:inline-flex;align-items:center;gap:13px;padding:14px 24px;border-radius:999px;
   border:1px solid rgba(242,217,168,.4);background:rgba(242,217,168,.1);
   color:#f8eed9;font-size:18px;font-weight:700;letter-spacing:.01em;
-  box-shadow:0 8px 24px rgba(0,0,0,.35);
   opacity:0;animation:hintin .9s var(--ease) .8s forwards,breathe 2.4s ease-in-out 1.7s infinite}
 @keyframes hintin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes breathe{50%{background:rgba(242,217,168,.2);border-color:rgba(242,217,168,.75)}}
@@ -290,6 +290,24 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;cursor:pointer;filter:saturate(.94)}
 .grid .wide{grid-column:span 3}
 .grid .wide img{aspect-ratio:16/10}
+/* 사진이 하나씩 차례로 숨 쉬듯 살짝 커졌다 제자리로 돌아온다 (화면에 있을 때만) */
+.grid > *{position:relative;--s:1.08}
+.grid .wide{--s:1.035}
+@keyframes alive{
+  0%,26%,100%{transform:rotate(var(--r)) scale(1);z-index:0;
+    box-shadow:0 1px 2px rgba(60,40,20,.14),0 10px 18px -10px rgba(60,40,20,.5)}
+  10%{transform:rotate(calc(var(--r) * .3)) scale(var(--s));z-index:2;
+    box-shadow:0 2px 4px rgba(60,40,20,.12),0 24px 32px -12px rgba(60,40,20,.58)}
+}
+.js .rv.on .grid > *{animation:alive 6.3s cubic-bezier(.45,0,.25,1) infinite;animation-play-state:paused}
+.js .rv.on .grid.live > *{animation-play-state:running}
+.js .rv.on .grid > *:nth-child(1){animation-delay:2.2s}
+.js .rv.on .grid > *:nth-child(2){animation-delay:3.1s}
+.js .rv.on .grid > *:nth-child(3){animation-delay:4.0s}
+.js .rv.on .grid > *:nth-child(4){animation-delay:4.9s}
+.js .rv.on .grid > *:nth-child(5){animation-delay:5.8s}
+.js .rv.on .grid > *:nth-child(6){animation-delay:6.7s}
+.js .rv.on .grid > *:nth-child(7){animation-delay:7.6s}
 .hint{text-align:center;font-size:13.5px;color:var(--ink-soft);margin-bottom:18px}
 
 /* ── 인사말 사진·서명 ── */
@@ -343,6 +361,24 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;
   font-size:12px;font-weight:500;letter-spacing:-.02em;border-radius:4px;white-space:nowrap}
 .maps a svg{width:25px;height:25px;display:block}
+/* 지도 앱 버튼이 차례로 고개를 들며 누르고 싶게 만든다 (화면에 있을 때만) */
+.maps a{position:relative}
+@keyframes nudge{
+  0%,30%,100%{transform:none;z-index:0;box-shadow:0 0 0 rgba(60,40,20,0)}
+  12%{transform:translateY(-4px) scale(1.08);z-index:2;box-shadow:0 12px 18px -8px rgba(60,40,20,.42)}
+}
+@keyframes iconpop{0%,30%,100%{transform:none}12%{transform:scale(1.16) rotate(-5deg)}}
+.js .loc.on .maps a,.js .loc.on .maps a svg{animation:nudge 3.6s cubic-bezier(.45,0,.25,1) infinite;
+  animation-play-state:paused}
+.js .loc.on .maps a svg{animation-name:iconpop}
+.js .loc.on .maps.live a,.js .loc.on .maps.live a svg{animation-play-state:running}
+.js .loc.on .maps a:nth-child(1),.js .loc.on .maps a:nth-child(1) svg{animation-delay:2.40s}
+.js .loc.on .maps a:nth-child(2),.js .loc.on .maps a:nth-child(2) svg{animation-delay:2.85s}
+.js .loc.on .maps a:nth-child(3),.js .loc.on .maps a:nth-child(3) svg{animation-delay:3.30s}
+.js .loc.on .maps a:nth-child(4),.js .loc.on .maps a:nth-child(4) svg{animation-delay:3.75s}
+/* 누르는 순간 손끝에 눌리는 감각 */
+.maps a:active{transform:scale(.93)!important;transition:transform .08s}
+.grid > *:active{transform:rotate(var(--r)) scale(.96)!important}
 .way{margin-top:30px;text-align:left;border-top:1px solid var(--line);padding-top:24px}
 .way dt{font-family:var(--sans);font-size:14px;font-weight:700;color:#9a7430;letter-spacing:.06em;margin-bottom:8px}
 .way dd{font-size:15px;color:#443d34;line-height:1.85;margin-bottom:20px}
@@ -870,6 +906,11 @@ new IntersectionObserver(([e]) => e.isIntersecting ? startFall() : stopFall(), {
   .observe(fall);
 addEventListener('visibilitychange', () => document.hidden ? stopFall() : startFall());
 for (let i = 0; i < 5; i++) setTimeout(drop, 900 + i * 700);
+
+// 사진과 지도 버튼은 화면에 보일 때만 숨 쉰다
+document.querySelectorAll('#grid, .maps').forEach(el =>
+  new IntersectionObserver(([e]) => el.classList.toggle('live', e.isIntersecting), { threshold: .15 })
+    .observe(el));
 
 // 갤러리 — 한 장 누르면 전체를 좌우로 넘겨 본다
 const lb = document.getElementById('lb'), lbi = document.getElementById('lbi'),
