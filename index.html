@@ -182,9 +182,11 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .mapbox.dead{display:grid;place-items:center}
 .mapbox.dead::after{content:'아래 버튼으로 지도를 열어 주세요';color:var(--ink-soft);font-size:14px}
 
-.maps{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 8px}
-.maps a{padding:13px 0;border:1px solid var(--line);background:#fff;
-  color:var(--ink);text-decoration:none;font-size:14.5px;font-weight:500;border-radius:2px}
+.maps{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:14px 0 8px}
+.maps a{display:flex;flex-direction:column;align-items:center;gap:6px;padding:11px 2px 10px;
+  border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;
+  font-size:12px;font-weight:500;letter-spacing:-.02em;border-radius:4px;white-space:nowrap}
+.maps a svg{width:25px;height:25px;display:block}
 .way{margin-top:30px;text-align:left;border-top:1px solid var(--line);padding-top:24px}
 .way dt{font-family:var(--sans);font-size:14px;font-weight:700;color:#9a7430;letter-spacing:.06em;margin-bottom:8px}
 .way dd{font-size:15px;color:#443d34;line-height:1.85;margin-bottom:20px}
@@ -343,10 +345,41 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
   </div>
 
   <div class="maps">
-    <a href="https://place.map.kakao.com/1117913604" target="_blank" rel="noopener">카카오맵</a>
-    <a href="https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%9A%A9%EC%9D%B8%EC%8B%9C%20%EC%B2%98%EC%9D%B8%EA%B5%AC%20%EC%9D%B4%EB%8F%99%EC%9D%8D%20%EA%B2%BD%EA%B8%B0%EB%8F%99%EB%A1%9C%20679" target="_blank" rel="noopener">네이버지도</a>
-    <a href="tmap://search?name=%EC%9A%A9%EC%9D%B8%EC%B4%88%EB%8C%80%EA%B5%90%ED%9A%8C">T MAP</a>
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=37.140313,127.196390" target="_blank" rel="noopener">구글맵</a>
+    <a href="https://place.map.kakao.com/1117913604" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect width="24" height="24" rx="6" fill="#FEE500"/>
+        <path d="M12 5.2c-3.4 0-6.2 2.1-6.2 4.8 0 1.7 1.2 3.2 2.9 4-.1.4-.5 1.9-.6 2.2 0 .2.1.4.3.2.2-.1 2.4-1.6 2.8-1.9.3 0 .5.1.8.1 3.4 0 6.2-2.1 6.2-4.8S15.4 5.2 12 5.2z" fill="#3A1D1D"/>
+      </svg>
+      <span>카카오맵</span>
+    </a>
+    <a href="https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%9A%A9%EC%9D%B8%EC%8B%9C%20%EC%B2%98%EC%9D%B8%EA%B5%AC%20%EC%9D%B4%EB%8F%99%EC%9D%8D%20%EA%B2%BD%EA%B8%B0%EB%8F%99%EB%A1%9C%20679" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect width="24" height="24" rx="6" fill="#03C75A"/>
+        <path d="M13.6 12.2 10.2 7.2H7.4v9.6h3V11.8l3.4 5h2.8V7.2h-3z" fill="#fff"/>
+      </svg>
+      <span>네이버</span>
+    </a>
+    <a href="tmap://search?name=%EC%9A%A9%EC%9D%B8%EC%B4%88%EB%8C%80%EA%B5%90%ED%9A%8C">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#2f6bff"/><stop offset="55%" stop-color="#9b5cff"/>
+          <stop offset="100%" stop-color="#ff5aa8"/></linearGradient></defs>
+        <rect width="24" height="24" rx="6" fill="#fff" stroke="#e3dccf"/>
+        <path d="M6.2 7.1h11.6v2.9h-4.2v7.2h-3.2V10H6.2z" fill="url(#tg)"/>
+      </svg>
+      <span>T MAP</span>
+    </a>
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=37.140313,127.196390" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect width="24" height="24" rx="6" fill="#fff" stroke="#e3dccf"/>
+        <path d="M12 4.2c-2.9 0-5.2 2.3-5.2 5.1 0 3.8 5.2 10.5 5.2 10.5s5.2-6.7 5.2-10.5c0-2.8-2.3-5.1-5.2-5.1z" fill="#34A853"/>
+        <path d="M7.5 6.1 15 13.6c.9-1.6 2.2-3 2.2-4.3 0-1.3-.5-2.5-1.3-3.4z" fill="#FBBC04"/>
+        <path d="M16 5.3A5.2 5.2 0 0 0 7.4 6.6l3.2 3.1z" fill="#EA4335"/>
+        <path d="M6.8 9.3c0 1.6 1 3.5 2 5.2L13 10z" fill="#4285F4"/>
+        <circle cx="12" cy="9.3" r="1.9" fill="#fff"/>
+      </svg>
+      <span>구글맵</span>
+    </a>
   </div>
 
   <dl class="way">
