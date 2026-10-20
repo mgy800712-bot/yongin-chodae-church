@@ -499,7 +499,7 @@ document.querySelectorAll('.rv').forEach(el => io.observe(el));
 // 둘 다 즉시 시도하고, 먼저 소리가 난 쪽만 남긴다.
 const SRC = 'assets/audio/bgm-v2.mp4';
 const au = document.getElementById('au'), bgm = document.getElementById('bgm');
-au.volume = .5;
+au.volume = 1;
 au.muted = false;
 
 let userOff = false, wa = null, waBuf = null, waBusy = false;
@@ -539,7 +539,7 @@ async function viaWA() {
     }
     if (userOff || wa || !au.paused) throw 0;          // 요소가 먼저 울렸으면 물러난다
     const gain = ctx.createGain();
-    gain.gain.value = .5;
+    gain.gain.value = 1;
     gain.connect(ctx.destination);
     const src = ctx.createBufferSource();
     src.buffer = waBuf;
