@@ -170,6 +170,9 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   letter-spacing:.14em;color:#fff;opacity:.95;text-shadow:0 1px 7px rgba(0,0,0,.65);
   pointer-events:none}
 .hero-side.l{left:9px}.hero-side.r{right:9px}
+/* 세로쓰기 속 숫자를 눕히지 않고 세운다 — 두 자리는 한 칸에 가로로, 세 자리는 한 자씩 세로로 */
+.hero-side .tcy{text-combine-upright:all;-webkit-text-combine:horizontal;letter-spacing:0}
+.hero-side .up{text-orientation:upright;letter-spacing:.02em}
 .js .hero-side{opacity:0}
 .opened .hero-side.l{animation:sidein 1.1s var(--ease) .35s forwards}
 .opened .hero-side.r{animation:sidein 1.1s var(--ease) .55s forwards}
@@ -547,8 +550,8 @@ footer .motto{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff
   <img src="assets/img/church.jpg" alt="용인초대교회 전경과 전교인" fetchpriority="high" decoding="async">
   <div class="fall" id="fall"></div>
   <div class="hero-wash"></div>
-  <span class="hero-side l">주일 낮 예배 · 오전 11시</span>
-  <span class="hero-side r">용인 이동읍 경기동로 679</span>
+  <span class="hero-side l">주일 낮 예배 · 오전 <span class="tcy">11</span>시</span>
+  <span class="hero-side r">용인 이동읍 경기동로 <span class="up">679</span></span>
 </div>
 
 <div class="hero-txt">
