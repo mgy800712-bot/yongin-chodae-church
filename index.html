@@ -147,6 +147,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   .js .rv.on .grid > *,.js .loc.on .maps .coin,.js .loc.on .maps .coin svg,
   .js .rv.on .cta > *,.js .rv.on .cta > * svg,.svc .ic,.svc .ic svg *,
   .vision .ic,.vc .ic svg *,.swipe *,.vcard,.vtap,.stars i,.bell,.emblem-gold{animation:none!important}
+  .emblem-wrap::before{animation:none!important;opacity:0}
   .vcard > .vface{transition:none}.js .sig:not(.lit){clip-path:none}.js .sig:not(.lit) path{stroke-dashoffset:0}
   .js .rv .vc{opacity:1;transform:none;transition:none}
   .greet mark{transition:none}.js .greet mark:not(.lit){background-size:100% 100%}
@@ -690,14 +691,23 @@ footer{position:relative;padding:54px 24px 64px;text-align:center;color:#d8d1c2;
     radial-gradient(120% 90% at 50% 0%,#2b3a55 0%,#1c273b 60%,#141c2b 100%)}
 footer::before{content:'';position:absolute;left:18px;right:18px;top:16px;bottom:16px;pointer-events:none;
   border:1px solid rgba(214,174,98,.35);border-radius:10px}
-.emblem-gold{display:block;width:118px;height:83px;margin:0 auto 22px;transform-origin:50% 70%;
-  filter:drop-shadow(0 3px 3px rgba(0,0,0,.55));
-  animation:emblem 6s ease-in-out infinite;animation-play-state:paused}
-.emblem-gold.live{animation-play-state:running}
+/* 마지막 장 금빛 십자가 — 빛무리가 번지며 금이 환해졌다 가라앉는다 */
+.emblem-wrap{position:relative;width:118px;margin:0 auto 22px}
+.emblem-wrap::before{content:'';position:absolute;left:50%;top:50%;width:240px;height:240px;
+  margin:-120px 0 0 -120px;border-radius:50%;pointer-events:none;opacity:0;transform:scale(.45);
+  background:radial-gradient(circle,rgba(255,216,146,.6) 0%,rgba(255,202,116,.26) 36%,rgba(255,198,108,0) 70%)}
+.emblem-wrap.live::before{animation:halo 4.6s ease-out infinite}
+@keyframes halo{0%{opacity:0;transform:scale(.45)}22%{opacity:1;transform:scale(.8)}
+  60%{opacity:.4;transform:scale(1.14)}100%{opacity:0;transform:scale(1.32)}}
+.emblem-gold{display:block;position:relative;width:118px;height:83px;transform-origin:50% 70%;
+  filter:drop-shadow(0 3px 3px rgba(0,0,0,.55))}
+.emblem-wrap.live .emblem-gold{animation:emblem 4.6s ease-in-out infinite}
 @keyframes emblem{
-  0%,100%{transform:translateY(0) scale(1);filter:drop-shadow(0 3px 3px rgba(0,0,0,.55))}
-  50%{transform:translateY(-3px) scale(1.025);
-      filter:drop-shadow(0 4px 4px rgba(0,0,0,.5)) drop-shadow(0 0 12px rgba(242,201,122,.5))}}
+  0%,100%{transform:translateY(0) scale(1);filter:drop-shadow(0 3px 3px rgba(0,0,0,.55)) brightness(1)}
+  22%{transform:translateY(-4px) scale(1.04);
+      filter:drop-shadow(0 5px 5px rgba(0,0,0,.5)) drop-shadow(0 0 18px rgba(255,214,140,.95)) brightness(1.32)}
+  55%{transform:translateY(-8px) scale(1.075);
+      filter:drop-shadow(0 9px 9px rgba(0,0,0,.45)) drop-shadow(0 0 24px rgba(255,208,128,.7)) brightness(1.16)}}
 footer .motto{font-family:var(--serif);font-size:20px;font-weight:700;color:#f7efdd;letter-spacing:.01em;margin-bottom:18px}
 footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2.05;letter-spacing:0;color:#cfc6b5}
 
@@ -999,6 +1009,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 </section>
 
 <footer>
+  <div class="emblem-wrap">
   <svg class="emblem-gold" viewBox="0 0 120 84" aria-hidden="true"><defs>
 <linearGradient id="fgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe7a8"/><stop offset=".35" stop-color="#d9a84c"/><stop offset=".62" stop-color="#9c6a24"/><stop offset=".82" stop-color="#e2b866"/><stop offset="1" stop-color="#7c4f16"/></linearGradient>
 <linearGradient id="fgH" x1="0" x2="1"><stop offset="0" stop-color="#fff6d6" stop-opacity=".9"/><stop offset="1" stop-color="#fff6d6" stop-opacity="0"/></linearGradient></defs>
@@ -1011,6 +1022,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 <path d="M54 3h12v18h16v11H66v34l7 6v6H47v-6l7-6V32H38V21h16z" fill="url(#fgG)" stroke="#5e3c10" stroke-width="1.2" stroke-linejoin="round"/>
 <path d="M56.6 5.6v15.8M56.6 33.6v31M40.6 23.6h12.8" stroke="url(#fgH)" stroke-width="1.6" stroke-linecap="round"/>
 <path d="M47 72h26" stroke="#5e3c10" stroke-opacity=".5" stroke-width="1"/></svg>
+  </div>
   <div class="motto">주를 기뻐하게, 주로 기뻐하라</div>
   <p>
     대한예수교장로회 용인초대교회<br>
@@ -1466,7 +1478,7 @@ function ringBell() {
 }
 
 // 사진과 지도 버튼은 화면에 보일 때만 숨 쉰다
-document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard, .emblem-gold').forEach(el =>
+document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard, .emblem-wrap').forEach(el =>
   new IntersectionObserver(([e]) => el.classList.toggle('live', e.isIntersecting), { threshold: .15 })
     .observe(el));
 
