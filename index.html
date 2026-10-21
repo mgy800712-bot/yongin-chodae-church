@@ -427,7 +427,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   animation:spark var(--tw,1.15s) ease-in-out infinite;animation-play-state:inherit}
 /* 네 갈래 별 모양으로 터지는 알갱이 */
 .dust i.st::before{border-radius:0;background:#fff6d8;
-  box-shadow:0 0 6px 2px rgba(250,214,130,.85);
+  filter:drop-shadow(0 0 3px rgba(250,214,130,.95)) drop-shadow(0 0 6px rgba(244,196,100,.6));
   clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%)}
 @keyframes spark{0%,100%{opacity:.3;transform:scale(.7) rotate(0)}
   50%{opacity:1;transform:scale(1.35) rotate(22deg)}}
@@ -462,7 +462,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .cd b{position:relative;z-index:2;font-family:var(--serif);font-size:27px;font-weight:700;line-height:1.1;
   color:#5a3f1c;font-variant-numeric:tabular-nums;display:inline-block;
   text-shadow:0 1px 0 rgba(255,253,243,.9);letter-spacing:-.02em}
-.cd i{position:relative;z-index:2;font-style:normal;font-size:10.5px;color:#6b5a42;margin-top:2px}
+.cd i{position:relative;z-index:2;font-style:normal;font-size:11px;color:#6b5a42;margin-top:2px}
 .cd-when{font-size:13px;color:#6c5a45}
 .countdown.live-now .cd-row{display:none}
 /* 예배마다 작은 그림 — 동그란 금테 배지 안에서 저마다의 몸짓을 한다 */
