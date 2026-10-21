@@ -148,7 +148,9 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   .js .rv.on .cta > *,.js .rv.on .cta > * svg,.svc .ic,.svc .ic svg *,
   .vision .ic,.vc .ic svg *,.swipe *,.vcard,.vtap,.stars i,.bell,.emblem-gold{animation:none!important}
   .emblem-wrap::before{animation:none!important;opacity:0}
-  .dust{display:none}
+  .dust,.mapbox .ping{display:none}
+  .emblem,.arrows i,.mapbox .pin{animation:none!important}
+  .arrows i{opacity:.9}
   .vcard > .vface{transition:none}.js .sig:not(.lit){clip-path:none}.js .sig:not(.lit) path{stroke-dashoffset:0}
   .js .rv .vc{opacity:1;transform:none;transition:none}
   .greet mark{transition:none}.js .greet mark:not(.lit){background-size:100% 100%}
@@ -376,18 +378,28 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .greet p.pull::before{content:'\201C';position:absolute;left:50%;top:-16px;transform:translateX(-50%);
   font-family:var(--serif);font-size:56px;line-height:1;color:#d4a253;opacity:.55}
 /* 핵심 구절에 금빛 형광펜이 그어진다 (스크립트 없으면 처음부터 칠해져 있다) */
-.greet mark{color:inherit;padding:0 1px;font-weight:700;
+.greet mark{position:relative;color:inherit;padding:0 1px;font-weight:700;
   background:linear-gradient(transparent 56%,rgba(236,196,110,.55) 56%,rgba(236,196,110,.55) 92%,transparent 92%) no-repeat 0 0/100% 100%;
   transition:background-size 1.1s var(--ease)}
 .js .greet mark:not(.lit){background-size:0% 100%}
-/* 사람이 형광펜을 긋듯 — 속도가 고르지 않고 중간에 살짝 멈칫한다 */
-.js .greet mark.lit{animation:hiline 1.5s linear forwards}
+/* 사람이 펜을 들고 긋듯 — 천천히, 두 번 멈칫하고, 펜촉이 함께 지나간다 */
+.js .greet mark.lit{animation:hiline 2.6s linear forwards}
 @keyframes hiline{
-  0%{background-size:0% 100%}   10%{background-size:13% 100%}
- 24%{background-size:29% 100%}  31%{background-size:33% 100%}
- 52%{background-size:58% 100%}  66%{background-size:74% 100%}
- 73%{background-size:77% 100%}  90%{background-size:95% 100%}
-100%{background-size:100% 100%}}
+  0%{background-size:0% 100%}    8%{background-size:9% 100%}
+ 18%{background-size:24% 100%}  25%{background-size:27% 100%}
+ 40%{background-size:46% 100%}  52%{background-size:60% 100%}
+ 58%{background-size:62% 100%}  74%{background-size:81% 100%}
+ 88%{background-size:95% 100%} 100%{background-size:100% 100%}}
+.js .greet mark.lit::after{content:'';position:absolute;top:.62em;left:0;width:7px;height:7px;
+  margin-left:-3px;border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(circle,#fffceb 0%,#e0ae51 55%,rgba(224,174,81,0) 78%);
+  animation:nib 2.6s linear forwards}
+@keyframes nib{
+  0%{left:0;opacity:0}    6%{opacity:.95}
+  8%{left:9%}   18%{left:24%}  25%{left:27%}
+ 40%{left:46%}  52%{left:60%}  58%{left:62%}
+ 74%{left:81%}  88%{left:95%}
+ 96%{left:100%;opacity:.9} 100%{left:100%;opacity:0}}
 .greet .verse{margin-top:32px;padding-top:28px;border-top:1px solid var(--line);
   font-family:var(--serif);font-size:15px;font-weight:500;color:#4e463c;line-height:1.85}
 .greet .verse b{display:block;font-family:var(--sans);font-size:12.5px;letter-spacing:.1em;
@@ -586,8 +598,25 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .loc{text-align:center}
 .place{margin-bottom:22px}
 .loc h2.emb{position:relative}
+/* 길을 걷는 십자가 — 화면에 들어오면 금빛으로 환해지며 톡 뛴다 */
 .emblem{position:absolute;left:-2px;top:50%;width:40px;height:40px;transform:translateY(-58%);
   filter:drop-shadow(0 1px 1px rgba(90,60,20,.25))}
+.loc.live .emblem{animation:embpulse 3.2s ease-in-out infinite}
+@keyframes embpulse{
+  0%,100%{transform:translateY(-58%) scale(1);filter:drop-shadow(0 1px 1px rgba(90,60,20,.25))}
+  38%{transform:translateY(-64%) scale(1.22);
+      filter:drop-shadow(0 3px 3px rgba(90,60,20,.3)) drop-shadow(0 0 11px rgba(243,198,112,.95))}
+  62%{transform:translateY(-58%) scale(1.03);
+      filter:drop-shadow(0 1px 1px rgba(90,60,20,.25)) drop-shadow(0 0 4px rgba(243,198,112,.4))}}
+/* 이쪽으로 오세요 — 화살표가 차례로 나타났다 사라진다 */
+.arrows{display:inline-flex;align-items:center;gap:4px;margin-left:11px;vertical-align:4px}
+.arrows i{width:8px;height:8px;border-right:2.2px solid #c49a52;border-top:2.2px solid #c49a52;
+  transform:rotate(45deg) translate(-3px,3px);opacity:0}
+.loc.live .arrows i{animation:chev 1.9s ease-in-out infinite}
+.loc.live .arrows i:nth-child(2){animation-delay:.19s}
+.loc.live .arrows i:nth-child(3){animation-delay:.38s}
+@keyframes chev{0%,72%,100%{opacity:0;transform:rotate(45deg) translate(-3px,3px)}
+  26%,46%{opacity:1;transform:rotate(45deg) translate(0,0)}}
 .pname{font-family:var(--serif);font-size:15px;color:var(--ink-soft);letter-spacing:-.01em}
 .pname b{font-size:21px;font-weight:700;color:var(--ink);letter-spacing:0}
 .paddr{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:12px 16px;
@@ -621,8 +650,21 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .mapimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .mapcredit{position:absolute;right:6px;bottom:5px;font-size:11px;color:#5c5648;
   background:rgba(255,255,255,.72);padding:2px 5px;border-radius:2px;letter-spacing:0}
+/* 지도 위 십자가 — 통통 뛰고, 그 자리에서 동그라미가 퍼진다 */
 .mapbox .pin{position:absolute;left:50%;top:50%;width:30px;margin:-44px 0 0 -15px;
-  filter:drop-shadow(0 4px 4px rgba(30,18,6,.5))}
+  transform-origin:50% 100%;filter:drop-shadow(0 4px 4px rgba(30,18,6,.5))}
+.mapbox.live .pin{animation:pinhop 2.4s ease-in-out infinite}
+@keyframes pinhop{0%,58%,100%{transform:translateY(0) scale(1)}
+  16%{transform:translateY(-15px) scale(1.07)}
+  32%{transform:translateY(0) scale(.96)}
+  42%{transform:translateY(-6px) scale(1.02)}
+  52%{transform:translateY(0) scale(1)}}
+.mapbox .ping{position:absolute;left:50%;top:50%;z-index:3;width:48px;height:48px;margin:-24px 0 0 -24px;
+  border-radius:50%;border:2px solid rgba(214,166,80,.95);opacity:0;pointer-events:none}
+.mapbox.live .ping{animation:ping 2.4s ease-out infinite}
+@keyframes ping{0%{transform:scale(.25);opacity:0}14%{opacity:.95}
+  72%{transform:scale(2);opacity:0}100%{transform:scale(2);opacity:0}}
+.mapbox.dead .ping{display:none}
 .mapbox .pin svg{width:100%;display:block}
 .openmap{position:absolute;left:10px;top:10px;padding:8px 15px;border-radius:999px;
   background:linear-gradient(#45321f,#241810);color:#ecd19b;font-family:var(--serif);font-size:13px;font-weight:600;
@@ -660,9 +702,15 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 /* 누르는 순간 손끝에 눌리는 감각 */
 .maps a:active{transform:scale(.93)!important;transition:transform .08s}
 .grid > *:active{transform:rotate(var(--r)) scale(.96)!important}
-.way{margin-top:30px;text-align:left;border-top:1px solid var(--line);padding-top:24px}
-.way dt{font-family:var(--sans);font-size:14px;font-weight:700;color:#9a7430;letter-spacing:.06em;margin-bottom:8px}
-.way dd{font-size:15px;color:#443d34;line-height:1.85;margin-bottom:20px}
+/* 찾아오는 길 — 한 줄에 한 가지씩, 가운데로 가지런히 */
+.way{margin-top:30px;text-align:center;border-top:1px solid var(--line);padding-top:24px}
+.way dt{display:inline-block;font-family:var(--sans);font-size:13px;font-weight:700;color:#9a7430;
+  letter-spacing:.08em;margin-bottom:10px;padding:0 12px 5px;border-bottom:1px solid rgba(196,154,82,.45)}
+.way dd{margin:0 0 22px;color:#443d34}
+.way dd span{display:block;font-size:15px;line-height:1.75;word-break:keep-all}
+.way dd span + span{margin-top:5px}
+.way dd .sub{font-size:13.5px;color:#6c5f4e}
+.way dd b{font-weight:700;color:#33241a}
 
 /* ── 문의 ── */
 /* 금속 클립이 종이를 집고 있다 */
@@ -948,7 +996,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 <!-- ═══ 오시는 길 ═══ -->
 <section class="loc rv sheet" data-fold="pager">
   <svg class="clip" viewBox="0 0 40 70" aria-hidden="true"><defs><linearGradient id="clipG1" x1="0" x2="1"><stop offset="0" stop-color="#8d8172"/><stop offset=".35" stop-color="#f1eadf"/><stop offset=".62" stop-color="#b9ac98"/><stop offset="1" stop-color="#776b5d"/></linearGradient><radialGradient id="pearlG1" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#ece5da"/><stop offset="1" stop-color="#a39889"/></radialGradient></defs><rect x="9" y="0" width="22" height="58" rx="8" fill="url(#clipG1)" stroke="#6f6456" stroke-width=".8"/><rect x="12.6" y="3" width="14.8" height="40" rx="5" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width=".8"/><circle cx="20" cy="47" r="7.4" fill="url(#pearlG1)" stroke="#8a7f71" stroke-width=".8"/></svg>
-  <h2 class="emb"><svg class="emblem" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="embG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dfa2"/><stop offset=".5" stop-color="#c9973f"/><stop offset="1" stop-color="#8c5f1f"/></linearGradient></defs><path d="M15.6 4h3.6v8.4h7.6V16h-7.6v17.4h-3.6V16H8v-3.6h7.6z" fill="url(#embG)" stroke="#7a5420" stroke-width=".6"/><path d="M10 34c7-1 15-6 21-15" fill="none" stroke="url(#embG)" stroke-width="1.3" stroke-linecap="round"/><g fill="url(#embG)" stroke="#7a5420" stroke-width=".4"><ellipse cx="27" cy="23.6" rx="1.4" ry="3.2" transform="rotate(48 27 23.6)"/><ellipse cx="22.6" cy="28.4" rx="1.4" ry="3.2" transform="rotate(62 22.6 28.4)"/><ellipse cx="17.4" cy="31.6" rx="1.4" ry="3.2" transform="rotate(76 17.4 31.6)"/><ellipse cx="30.4" cy="21.6" rx="1.3" ry="2.9" transform="rotate(-20 30.4 21.6)"/><ellipse cx="26.2" cy="27.2" rx="1.3" ry="2.9" transform="rotate(-8 26.2 27.2)"/><ellipse cx="21.2" cy="31.2" rx="1.3" ry="2.9" transform="rotate(8 21.2 31.2)"/></g></svg>오시는 길</h2>
+  <h2 class="emb"><svg class="emblem" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="embG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dfa2"/><stop offset=".5" stop-color="#c9973f"/><stop offset="1" stop-color="#8c5f1f"/></linearGradient></defs><path d="M15.6 4h3.6v8.4h7.6V16h-7.6v17.4h-3.6V16H8v-3.6h7.6z" fill="url(#embG)" stroke="#7a5420" stroke-width=".6"/><path d="M10 34c7-1 15-6 21-15" fill="none" stroke="url(#embG)" stroke-width="1.3" stroke-linecap="round"/><g fill="url(#embG)" stroke="#7a5420" stroke-width=".4"><ellipse cx="27" cy="23.6" rx="1.4" ry="3.2" transform="rotate(48 27 23.6)"/><ellipse cx="22.6" cy="28.4" rx="1.4" ry="3.2" transform="rotate(62 22.6 28.4)"/><ellipse cx="17.4" cy="31.6" rx="1.4" ry="3.2" transform="rotate(76 17.4 31.6)"/><ellipse cx="30.4" cy="21.6" rx="1.3" ry="2.9" transform="rotate(-20 30.4 21.6)"/><ellipse cx="26.2" cy="27.2" rx="1.3" ry="2.9" transform="rotate(-8 26.2 27.2)"/><ellipse cx="21.2" cy="31.2" rx="1.3" ry="2.9" transform="rotate(8 21.2 31.2)"/></g></svg>오시는 길<span class="arrows" aria-hidden="true"><i></i><i></i><i></i></span></h2>
   <div class="place">
     <div class="pname">대한예수교장로회 <b>용인초대교회</b></div>
     <button class="paddr" id="copyAddr">
@@ -958,6 +1006,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
   </div>
 
   <div class="mapbox" id="mapbox">
+    <span class="ping" aria-hidden="true"></span>
     <img class="mapimg" src="assets/img/map.jpg" alt="용인초대교회 주변 지도" loading="lazy">
     <div class="leaf" aria-hidden="true"><img src="assets/img/map.jpg" alt="" loading="lazy"></div>
     <span class="mapcredit">© OpenStreetMap 기여자</span>
@@ -1007,9 +1056,18 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 
   <dl class="way">
     <dt>자가용</dt>
-    <dd>내비게이션 검색어 <b>‘경기동로 679’</b><br>이름으로 찾으실 땐 <b>‘용인초대교회’</b>로 검색하신 뒤<br><b>이동읍 경기동로 679</b> 주소를 확인해 주세요.<br>(‘초대교회’만 검색하면 다른 교회도 함께 나옵니다)<br>건물 앞 주차 가능</dd>
+    <dd>
+      <span>내비게이션 검색어 <b>‘경기동로 679’</b></span>
+      <span>이름으로 찾을 땐 <b>‘용인초대교회’</b></span>
+      <span class="sub">(‘초대교회’만 검색하면 다른 교회도 나옵니다)</span>
+      <span>주소가 <b>이동읍 경기동로 679</b>인지 확인해 주세요</span>
+      <span>건물 앞 주차 가능</span>
+    </dd>
     <dt>대중교통</dt>
-    <dd>송전 정류장 하차 후 도보 이동<br>자세한 길은 아래로 편하게 문의해 주세요</dd>
+    <dd>
+      <span>송전 정류장 하차 후 도보 이동</span>
+      <span>자세한 길은 아래로 편하게 문의해 주세요</span>
+    </dd>
   </dl>
 </section>
 
@@ -1538,7 +1596,7 @@ function ringBell() {
 }
 
 // 사진과 지도 버튼은 화면에 보일 때만 숨 쉰다
-document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard, .emblem-wrap, .dust').forEach(el =>
+document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard, .emblem-wrap, .dust, .loc, .mapbox').forEach(el =>
   new IntersectionObserver(([e]) => el.classList.toggle('live', e.isIntersecting), { threshold: .15 })
     .observe(el));
 
