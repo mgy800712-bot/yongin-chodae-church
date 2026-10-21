@@ -149,7 +149,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   .vision .ic,.vc .ic svg *,.swipe *,.vcard,.vtap,.stars i,.bell,.emblem-gold{animation:none!important}
   .emblem-wrap::before{animation:none!important;opacity:0}
   .dust,.mapbox .ping{display:none}
-  .emblem,.arrows i,.mapbox .pin{animation:none!important}
+  .emblem,.arrows i,.mapbox .pin,.greet .hello,.greet .hello::before,.greet .hello i{animation:none!important}
   .arrows i{opacity:.9}
   .vcard > .vface{transition:none}.js .sig:not(.lit){clip-path:none}.js .sig:not(.lit) path{stroke-dashoffset:0}
   .js .rv .vc{opacity:1;transform:none;transition:none}
@@ -373,6 +373,24 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   62%{transform:scale(.97);box-shadow:inset 0 1px 2px rgba(80,55,25,.12),0 0 0 12px rgba(212,162,83,0)}}
 .vision .ic,.vision .ic svg *{animation-play-state:paused}
 .vision.live .ic,.vision.live .ic svg *{animation-play-state:running}
+/* 환영 인사 — 따뜻한 금빛이 뒤에서 번지고 글자가 환해진다 */
+.greet .hello{position:relative;font-family:var(--serif);font-size:18px;font-weight:600;
+  color:#33241a;line-height:2.1;letter-spacing:-.01em}
+.greet .hello::before{content:'';position:absolute;left:50%;top:50%;z-index:-1;
+  width:300px;height:170px;margin:-85px 0 0 -150px;border-radius:50%;pointer-events:none;opacity:.3;
+  background:radial-gradient(ellipse,rgba(255,206,110,.85) 0%,rgba(255,196,86,.42) 38%,rgba(255,192,78,0) 72%)}
+.greet.live .hello::before{animation:welcome 3.8s ease-in-out infinite}
+@keyframes welcome{0%,100%{opacity:.28;transform:scale(.85)}50%{opacity:1;transform:scale(1.12)}}
+.greet.live .hello{animation:welcometxt 3.8s ease-in-out infinite}
+@keyframes welcometxt{0%,100%{filter:none}
+  50%{filter:drop-shadow(0 0 9px rgba(255,198,104,.95)) drop-shadow(0 0 20px rgba(255,188,80,.5))}}
+/* 양옆에서 반짝이는 환영의 별 */
+.greet .hello i{position:absolute;top:50%;width:12px;height:12px;margin-top:-6px;background:#f7d88c;opacity:0;
+  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);
+  filter:drop-shadow(0 0 5px rgba(250,208,118,.95))}
+.greet .hello i.l{left:2px}.greet .hello i.r{right:2px}
+.greet.live .hello i{animation:spark 1.9s ease-in-out infinite}
+.greet.live .hello i.r{animation-delay:.65s}
 /* 첫 문장은 인용처럼 크게 */
 .greet p.pull{position:relative;padding-top:20px;font-size:18px;font-weight:600;color:#33241a}
 .greet p.pull::before{content:'\201C';position:absolute;left:50%;top:-16px;transform:translateX(-50%);
@@ -926,7 +944,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 <section class="greet rv sheet" data-fold="down">
   <h2>미래 리더를 키우는<br>기쁨을 주는 용인초대교회</h2>
   <img class="face" src="assets/img/t/pastor.jpg" alt="담임목사 이현무" loading="lazy" decoding="async" fetchpriority="low">
-  <p>반갑습니다.<br>예수님의 이름으로 축복합니다.</p>
+  <p class="hello"><i class="l" aria-hidden="true"></i>반갑습니다.<br>예수님의 이름으로 축복합니다.<i class="r" aria-hidden="true"></i></p>
   <div class="vision">
     <div class="vc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="shine" cx="11.6" cy="10.4" r="5" fill="#ffe08a"/><path d="M5 3.5h11.5a1.5 1.5 0 0 1 1.5 1.5v15.5H6.5A1.5 1.5 0 0 1 5 19z" fill="#3f5a76" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><path d="M6.6 20.5H18v-2H6.6a1 1 0 0 0 0 2z" fill="#fffaf0" stroke="#4a3524" stroke-width=".9"/><path d="M11.6 6.4v8M9.2 9.1h4.8" stroke="#f0c45e" stroke-width="1.7" stroke-linecap="round"/></svg></span><b>주님께 영광</b><span>주님으로 말미암아<br>기뻐하는 교회</span></div>
     <div class="vc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="heart" d="M12 11.8 9.3 9.2a1.8 1.8 0 0 1 2.7-2.3 1.8 1.8 0 0 1 2.7 2.3z" fill="#d95b5b" stroke="#a83b3b" stroke-width=".6" stroke-linejoin="round"/><path d="M2.5 13.5c1.2-.4 2.2.1 2.8 1l2 3c.6.9 1.6 1.4 2.7 1.4H12v3H9.6c-2.1 0-4-1-5.2-2.7L2.5 16.4z" fill="#f0c49f" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><path d="M2.5 13.5c1.2-.4 2.2.1 2.8 1l2 3c.6.9 1.6 1.4 2.7 1.4H12v3H9.6c-2.1 0-4-1-5.2-2.7L2.5 16.4z" transform="translate(24 0) scale(-1 1)" fill="#f0c49f" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/></svg></span><b>이웃과 함께</b><span>협력과 교제로<br>따뜻하게 섬기는 교회</span></div>
@@ -1615,7 +1633,7 @@ function ringBell() {
 }
 
 // 사진과 지도 버튼은 화면에 보일 때만 숨 쉰다
-document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard, .emblem-wrap, .dust, .loc, .mapbox').forEach(el =>
+document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard, .emblem-wrap, .dust, .loc, .mapbox, .greet').forEach(el =>
   new IntersectionObserver(([e]) => el.classList.toggle('live', e.isIntersecting), { threshold: .15 })
     .observe(el));
 
