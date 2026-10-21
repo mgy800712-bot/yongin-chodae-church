@@ -73,25 +73,19 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   box-shadow:0 0 0 1px rgba(150,112,62,.22),inset 0 1px 2px rgba(255,255,255,.85),
     inset 0 -1px 2px rgba(120,88,48,.16),inset 0 0 0 1px rgba(255,252,244,.6)}
 /* 접혀 있던 자국의 그늘 — 펴지면 사라진다 */
-.sheet::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;
-  transition:opacity 1.2s var(--ease)}
-.sheet[data-fold=down]::after{background:linear-gradient(180deg,rgba(60,40,20,0) 10%,rgba(60,40,20,.4))}
-.sheet[data-fold=page]::after{background:linear-gradient(90deg,rgba(60,40,20,0) 10%,rgba(60,40,20,.42))}
-.sheet[data-fold=pager]::after{background:linear-gradient(270deg,rgba(60,40,20,0) 10%,rgba(60,40,20,.42))}
-.sheet[data-fold=up]::after{background:linear-gradient(0deg,rgba(60,40,20,0) 10%,rgba(60,40,20,.36))}
+/* 두루마리가 풀려 내려오는 끝 — 아직 말려 있는 쪽의 그림자 */
+.sheet::after{content:'';position:absolute;left:0;right:0;height:30px;pointer-events:none;opacity:0;z-index:4;
+  top:0;background:linear-gradient(rgba(96,70,36,0),rgba(96,70,36,.3));
+  box-shadow:inset 0 -1.5px 0 rgba(255,252,242,.85)}
 /* 종이는 스크롤한 만큼만 펴진다 (--p: 0 접힘 → 1 펼침, 스크립트가 매 프레임 갱신) */
-.js .sheet{--p:0;opacity:calc(.35 + .65 * var(--p));
+/* 두루마리처럼 위에서부터 주르륵 풀린다 (--p: 0 말림 → 1 펼침) */
+.js .sheet{--p:0;transform-origin:50% 0;
+  clip-path:inset(-46px -24px calc((1 - var(--p)) * 100%) -24px);
+  transform:scaleY(calc(.965 + .035 * var(--p)));
+  opacity:calc(.55 + .45 * var(--p));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 1px 2px rgba(70,48,22,.12),
     0 24px 42px -20px rgba(70,48,22,calc(.45 * var(--p)))}
-.js .sheet::after{opacity:calc(.65 * (1 - var(--p)))}
-/* 편지: 뒤로 눕혀 있던 종이가 위쪽 접은 선을 축으로 일어선다 */
-.js .sheet[data-fold=down]{transform-origin:50% 0;transform:perspective(1600px) rotateX(calc(-62deg * (1 - var(--p))))}
-/* 카드: 한쪽 모서리를 축으로 책장처럼 넘어온다 */
-.js .sheet[data-fold=page]{transform-origin:0 50%;transform:perspective(1600px) rotateY(calc(56deg * (1 - var(--p))))}
-.js .sheet[data-fold=pager]{transform-origin:100% 50%;transform:perspective(1600px) rotateY(calc(-56deg * (1 - var(--p))))}
-/* 명함: 아래를 축으로 세워진다 */
-.js .sheet[data-fold=up]{transform-origin:50% 100%;
-  transform:perspective(1400px) rotateX(calc(56deg * (1 - var(--p)))) translateY(calc(36px * (1 - var(--p))))}
+.js .sheet::after{opacity:calc(1 - var(--p));top:calc(var(--p) * 100%);margin-top:-30px}
 
 /* reveal — 종이가 펴지는 동안 글이 한 줄씩 드러난다 (스크립트 없으면 처음부터 보인다) */
 .js .rv > *{opacity:0;transform:translateY(16px);
@@ -142,7 +136,8 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 
 @media(prefers-reduced-motion:reduce){
   .js .rv > *,.js .rv .svc li,.js .rv .grid > *,.js .sheet{opacity:1;transition:none}
-  .js .sheet{--p:1!important;transform:none!important;opacity:1}.js .sheet::after{display:none}
+  .js .sheet{--p:1!important;transform:none!important;opacity:1;clip-path:none!important}
+  .js .sheet::after{display:none}
   .js .rv .grid > *{transform:rotate(var(--r))}
   .js .rv.on .grid > *,.js .loc.on .maps .coin,.js .loc.on .maps .coin svg,
   .js .rv.on .cta > *,.js .rv.on .cta > * svg,.svc .ic,.svc .ic svg *,
@@ -515,7 +510,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .note{margin-top:24px;font-size:14.5px;color:var(--ink-soft);text-align:center;line-height:1.9}
 
 /* 카드를 누를 때 터지는 빛과 금가루 */
-.flash{position:fixed;z-index:95;width:130px;height:130px;margin:-65px 0 0 -65px;border-radius:50%;
+.flash{position:fixed;z-index:95;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;
   pointer-events:none;opacity:0;
   background:radial-gradient(circle,rgba(255,252,238,.95) 0%,rgba(255,224,150,.8) 28%,
     rgba(255,205,100,.3) 52%,rgba(255,200,88,0) 74%)}
@@ -1574,9 +1569,9 @@ function goldBurst(x, y) {
                  { transform: 'scale(1)', opacity: .95, offset: .16 },
                  { transform: 'scale(2.6)', opacity: 0 }],
                 { duration: 820, easing: 'cubic-bezier(.2,.8,.3,1)' }).onfinish = () => flash.remove();
-  for (let i = 0; i < 34; i++) {
+  for (let i = 0; i < 40; i++) {
     const p = document.createElement('i');
-    p.className = Math.random() < .45 ? 'gd st' : 'gd';
+    p.className = Math.random() < .55 ? 'gd st' : 'gd';
     const sz = 3.5 + Math.random() * 6;
     p.style.cssText = `left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;margin:${-sz / 2}px 0 0 ${-sz / 2}px`;
     document.body.appendChild(p);
