@@ -421,15 +421,15 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 /* 예배 하나하나가 종이 위에 놓인 금테 판 */
 .svc{list-style:none;margin:0 -14px;padding:0;display:flex;flex-direction:column;gap:13px}
 .svc li{display:flex;align-items:center;gap:11px;padding:0 4px;border:16px solid transparent;
-  border-image:url(assets/img/plate.webp) 30 fill stretch;
-  filter:drop-shadow(0 2px 2px rgba(90,60,20,.22))}
+  border-radius:15px;border-image:url(assets/img/plate.webp) 30 fill stretch;
+  box-shadow:0 2px 2px rgba(90,60,20,.14),0 8px 11px -9px rgba(90,60,20,.45)}
 .svc b{flex:1;min-width:0;font-family:var(--serif);font-size:16px;font-weight:700;color:#33241a;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .svc em{font-style:normal;flex:none;font-size:15px;font-weight:500;color:#6a5b47;
   font-variant-numeric:tabular-nums;letter-spacing:0;white-space:nowrap}
 /* 예배의 은혜 — 금가루가 종이 위로 천천히 떠오른다 */
 .dust{position:absolute;inset:0;overflow:hidden;pointer-events:none;border-radius:16px}
-.dust i{position:absolute;top:-12px;border-radius:50%;opacity:0;will-change:transform,opacity;
+.dust i{position:absolute;top:-12px;border-radius:50%;opacity:0;
   animation-name:motes;animation-timing-function:linear;animation-iteration-count:infinite;
   animation-play-state:paused}
 /* 알갱이 자체는 따로 반짝인다 */
@@ -457,9 +457,9 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 /* 숫자마다 금테를 두른 낱장 패 */
 /* 숫자패 — 시안에서 떠낸 금테를 그대로 두른다 */
 .cd{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-width:50px;padding:0 2px;border:13px solid transparent;
+  min-width:50px;padding:0 2px;border:13px solid transparent;border-radius:8px;
   border-image:url(assets/img/cdframe.webp) 26 fill stretch;
-  filter:drop-shadow(0 2px 2px rgba(90,60,20,.3))}
+  box-shadow:0 2px 3px rgba(90,60,20,.28),0 7px 9px -8px rgba(90,60,20,.5)}
 .cd b{position:relative;z-index:2;font-family:var(--serif);font-size:27px;font-weight:700;line-height:1;
   color:#5a3f1c;font-variant-numeric:tabular-nums;display:inline-block;
   text-shadow:0 1px 0 rgba(255,253,243,.9);letter-spacing:-.02em}
