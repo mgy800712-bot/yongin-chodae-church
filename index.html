@@ -407,21 +407,30 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 
 /* ── 예배 ── */
 /* 예배 하나하나가 종이 위에 놓인 금테 판 */
-.svc{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
-.svc li{display:flex;align-items:center;gap:10px;padding:12px 13px;border-radius:14px;
-  background:linear-gradient(#fffdf7,#f7efdd);
-  box-shadow:inset 0 0 0 1px rgba(201,161,88,.6),inset 0 1px 0 #fffef9,
-    0 2px 2px rgba(90,60,20,.14),0 8px 12px -9px rgba(90,60,20,.5)}
+.svc{list-style:none;margin:0 -14px;padding:0;display:flex;flex-direction:column;gap:13px}
+.svc li{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:17px;
+  background:linear-gradient(#fffdf7,#f6eeda);
+  box-shadow:inset 0 0 0 1.2px rgba(201,161,88,.75),inset 0 1px 0 #fffef9,
+    0 2px 2px rgba(90,60,20,.16),0 9px 13px -9px rgba(90,60,20,.55)}
 .svc b{flex:1;min-width:0;font-family:var(--serif);font-size:16px;font-weight:700;color:#33241a;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.svc em{font-style:normal;flex:none;font-size:14px;font-weight:500;color:#6a5b47;
+.svc em{font-style:normal;flex:none;font-size:15px;font-weight:500;color:#6a5b47;
   font-variant-numeric:tabular-nums;letter-spacing:0;white-space:nowrap}
 /* 예배의 은혜 — 금가루가 종이 위로 천천히 떠오른다 */
 .dust{position:absolute;inset:0;overflow:hidden;pointer-events:none;border-radius:16px}
 .dust i{position:absolute;top:-12px;border-radius:50%;opacity:0;will-change:transform,opacity;
-  background:radial-gradient(circle,#fffdf2 0%,#f8dfa2 28%,rgba(238,198,112,.5) 52%,rgba(226,180,92,.16) 72%,rgba(226,180,92,0) 85%);
   animation-name:motes;animation-timing-function:linear;animation-iteration-count:infinite;
   animation-play-state:paused}
+/* 알갱이 자체는 따로 반짝인다 */
+.dust i::before{content:'';position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle,#fffef7 0%,#ffe9ae 30%,rgba(243,205,122,.65) 55%,rgba(230,186,96,0) 80%);
+  animation:spark var(--tw,1.15s) ease-in-out infinite;animation-play-state:inherit}
+/* 네 갈래 별 모양으로 터지는 알갱이 */
+.dust i.st::before{border-radius:0;background:#fff6d8;
+  box-shadow:0 0 6px 2px rgba(250,214,130,.85);
+  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%)}
+@keyframes spark{0%,100%{opacity:.3;transform:scale(.7) rotate(0)}
+  50%{opacity:1;transform:scale(1.35) rotate(22deg)}}
 .dust.live i{animation-play-state:running}
 @keyframes motes{
   0%{transform:translate(0,0) scale(.45);opacity:0}
@@ -433,11 +442,11 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .countdown{margin:-6px 0 26px;padding:18px 0 16px;text-align:center;
   border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .cd-label{font-family:var(--serif);font-size:14.5px;font-weight:600;color:#7a5a2c;letter-spacing:.04em}
-.cd-row{display:flex;justify-content:center;gap:9px;margin:13px 0 11px}
+.cd-row{display:flex;justify-content:center;gap:6px;margin:13px 0 11px}
 /* 숫자마다 금테를 두른 낱장 패 */
 /* 금테 액자에 끼운 숫자패 */
 .cd{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-width:56px;padding:8px 6px 6px;border:5px solid transparent;border-radius:11px;
+  min-width:50px;padding:7px 4px 5px;border:5px solid transparent;border-radius:11px;
   background:linear-gradient(#fffdf7,#f4e9d0) padding-box,
     linear-gradient(145deg,#f7e3ad 0%,#cda45b 30%,#a87d2d 52%,#e8cb8c 74%,#b08c3f 100%) border-box;
   box-shadow:0 2px 3px rgba(90,60,20,.3),0 9px 13px -9px rgba(90,60,20,.65),
@@ -450,14 +459,14 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
     linear-gradient(#c9a158,#c9a158),linear-gradient(#c9a158,#c9a158);
   background-size:9px 1px,1px 9px,9px 1px,1px 9px,9px 1px,1px 9px,9px 1px,1px 9px;
   background-position:0 0,0 0,100% 0,100% 0,0 100%,0 100%,100% 100%,100% 100%}
-.cd b{position:relative;z-index:2;font-family:var(--serif);font-size:29px;font-weight:700;line-height:1.1;
+.cd b{position:relative;z-index:2;font-family:var(--serif);font-size:27px;font-weight:700;line-height:1.1;
   color:#5a3f1c;font-variant-numeric:tabular-nums;display:inline-block;
-  text-shadow:0 1px 0 rgba(255,253,243,.9)}
-.cd i{position:relative;z-index:2;font-style:normal;font-size:11px;color:#6b5a42;margin-top:3px}
+  text-shadow:0 1px 0 rgba(255,253,243,.9);letter-spacing:-.02em}
+.cd i{position:relative;z-index:2;font-style:normal;font-size:10.5px;color:#6b5a42;margin-top:2px}
 .cd-when{font-size:13px;color:#6c5a45}
 .countdown.live-now .cd-row{display:none}
 /* 예배마다 작은 그림 — 동그란 금테 배지 안에서 저마다의 몸짓을 한다 */
-.svc .ic{display:grid;place-items:center;flex:none;width:36px;height:36px}
+.svc .ic{display:grid;place-items:center;flex:none;width:34px;height:34px}
 .vc .ic{display:inline-grid;place-items:center;flex:none;width:36px;height:36px;border-radius:50%;
   background:radial-gradient(circle at 40% 35%,#fffaf0,#f1e4c8);border:1px solid #d8bf8e;
   box-shadow:inset 0 1px 2px rgba(80,55,25,.12)}
@@ -1509,16 +1518,19 @@ for (let i = 0; i < 5; i++) setTimeout(drop, 900 + i * 700);
   const box = document.getElementById('dust');
   if (!box || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const h = Math.max(box.clientHeight, 420);
-  for (let i = 0; i < 34; i++) {
+  for (let i = 0; i < 42; i++) {
     const near = Math.random() < .25;                      // 가까이 떠다니는 큰 알갱이
+    const star = Math.random() < .4;                       // 네 갈래로 반짝이는 알갱이
     const d = document.createElement('i');
-    const sz = near ? 5.5 + Math.random() * 3 : 2.8 + Math.random() * 2;
+    const sz = near ? 7 + Math.random() * 4 : 3.4 + Math.random() * 2.4;
+    if (star) d.className = 'st';
     d.style.cssText =
       `left:${(2 + Math.random() * 96).toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;` +
       `--rise:${h + 60}px;--sway:${(Math.random() * 34 - 17).toFixed(0)}px;` +
       `animation-duration:${(near ? 8 + Math.random() * 5 : 12 + Math.random() * 9).toFixed(1)}s;` +
       `animation-delay:${(-Math.random() * 18).toFixed(1)}s` +
-      (near ? ';filter:blur(.6px)' : '');
+      `;--tw:${(.75 + Math.random() * .7).toFixed(2)}s` +
+      (near && !star ? ';filter:blur(.5px)' : '');
     box.appendChild(d);
   }
 })();
