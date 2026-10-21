@@ -442,24 +442,31 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 
 /* ── 오늘의 말씀 ── 뒤집으면 성경 구절이 나오는 카드 */
 .word{text-align:center;padding-top:44px;padding-bottom:46px}
-.vcard{position:relative;display:block;width:min(100%,290px);height:330px;margin:4px auto 0;padding:0;border:0;
+.vcard{position:relative;display:block;width:min(100%,290px);height:354px;margin:4px auto 0;padding:0;border:0;
   background:none;cursor:pointer;perspective:1200px;-webkit-tap-highlight-color:transparent}
 .vcard > .vface{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:30px 26px;border-radius:16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  background:var(--flecks) 0 0/100% 100% no-repeat,var(--linen),#f6ecd8;
-  box-shadow:inset 0 0 0 1px #c49a52,inset 0 0 0 4px #f6ecd8,inset 0 0 0 5px rgba(196,154,82,.45),
-    0 2px 4px rgba(70,48,22,.14),0 22px 34px -20px rgba(70,48,22,.55);
+  padding:40px 34px;border-radius:16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;
+  background:var(--flecks) 0 0/100% 100% no-repeat,var(--linen),
+    linear-gradient(150deg,#fffdf7 0%,#f8f0dd 46%,#f2e6cc 100%);
+  box-shadow:0 1px 2px rgba(70,48,22,.18),0 24px 36px -22px rgba(70,48,22,.62);
   transition:transform .9s cubic-bezier(.3,1.2,.4,1)}
+/* 금박 액자 — 네 귀퉁이 당초무늬는 한 벌을 네 방향으로 뒤집어 쓴다 */
+.vfrm{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;
+  filter:drop-shadow(0 1px 0 rgba(255,252,240,.8))}
+.vface > :not(.vfrm){position:relative;z-index:1}
 .vface.back{transform:rotateY(180deg)}
 .vcard.flipped .front{transform:rotateY(-180deg)}
 .vcard.flipped .back{transform:rotateY(0)}
-.vcross{width:30px;height:40px;fill:#b8873a;margin-bottom:18px;filter:drop-shadow(0 1px 0 rgba(255,250,236,.9))}
-.vtitle{font-family:var(--serif);font-size:19px;font-weight:700;line-height:1.6;color:#33241a}
-.vtap{margin-top:22px;padding:8px 18px;border-radius:999px;border:1px solid #c49a52;font-size:13px;color:#6c4f22;
+.vcross{width:56px;height:75px;margin-bottom:16px;filter:drop-shadow(0 2px 2px rgba(90,60,20,.3))}
+.vtitle{font-family:var(--serif);font-size:19px;font-weight:700;line-height:1.65;color:#33241a}
+/* 눌러서 받기 — 금을 눌러 만든 단추 */
+.vtap{margin-top:24px;padding:9px 21px;border-radius:999px;font-size:13.5px;font-weight:700;color:#3a2707;
+  background:linear-gradient(#fbeec4,#dcb766 42%,#b78c3c);text-shadow:0 1px 0 rgba(255,252,238,.6);
+  box-shadow:inset 0 1px 0 rgba(255,253,242,.9),inset 0 -1px 0 rgba(90,60,20,.3),0 2px 3px rgba(90,60,20,.26);
   animation:breathe 1.8s ease-in-out infinite}
-.vtext{font-family:var(--serif);font-size:17.5px;font-weight:600;line-height:1.85;color:#33241a;word-break:keep-all}
-.vref{margin-top:16px;font-size:13.5px;font-weight:700;color:#9a7430;letter-spacing:.04em}
-.vagain{margin-top:20px;font-size:12px;color:#7a6a55}
+.vtext{font-family:var(--serif);font-size:16.5px;font-weight:600;line-height:1.8;color:#33241a;word-break:keep-all}
+.vref{margin-top:14px;font-size:13px;font-weight:700;color:#9a7430;letter-spacing:.04em}
+.vagain{margin-top:16px;font-size:11.5px;color:#7a6a55}
 /* 가만히 있으면 카드가 숨 쉬듯 살짝 떠 있다 */
 .vcard{animation:vfloat 4s ease-in-out infinite;animation-play-state:paused}
 .vcard.live{animation-play-state:running}
@@ -650,6 +657,17 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 
 /* ── footer ── */
 /* 마지막 장 — 남색 가죽 표지에 금빛 장식 십자가 */
+/* 헌금 계좌 — 조용한 줄로, 누르면 번호가 복사된다 */
+.give{margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+.give-h{font-family:var(--serif);font-size:14.5px;font-weight:600;color:#7a5a2c;letter-spacing:.04em;text-align:center}
+.acct{display:flex;align-items:center;gap:12px;width:100%;padding:13px 2px;font:inherit;color:#33241a;
+  border:0;border-bottom:1px solid rgba(196,154,82,.32);background:none;text-align:left;cursor:pointer;
+  -webkit-tap-highlight-color:transparent}
+.acct:active{background:rgba(196,154,82,.09)}
+.acct-k{flex:0 0 auto;font-size:12.5px;color:#6c5a45}
+.acct-n{flex:1;font-family:var(--serif);font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.acct .bi{flex:0 0 auto;width:17px;height:17px;fill:none;stroke:#9a7430;stroke-width:1.8;stroke-linejoin:round}
+.give-note{margin-top:12px;font-size:12px;color:#7a6a55;text-align:center}
 footer{position:relative;padding:54px 24px 64px;text-align:center;color:#d8d1c2;
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='l'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.055' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -.9 .62'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23l)' opacity='.35'/%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
@@ -790,11 +808,13 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
   <p class="hint">카드를 눌러 말씀을 받아 보세요</p>
   <button class="vcard" id="vcard" aria-label="말씀 카드 뒤집기">
     <span class="vface front">
-      <svg class="vcross" viewBox="0 0 24 32" aria-hidden="true"><path d="M10.6 0h2.8v9h7.6v2.8h-7.6V32h-2.8V11.8H3V9h7.6z"/></svg>
+      <svg class="vfrm" viewBox="0 0 290 354" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="vgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8e7b4"/><stop offset=".3" stop-color="#c9a052"/><stop offset=".55" stop-color="#8c6224"/><stop offset=".78" stop-color="#dcb66a"/><stop offset="1" stop-color="#7d5519"/></linearGradient><g id="vornA" fill="none" stroke="url(#vgA)" stroke-width="1.3" stroke-linecap="round"><path d="M11 62C11 34 34 11 62 11"/><path d="M18 62C18 38 38 18 62 18" stroke-opacity=".7"/><path d="M62 11c10 0 17 4 19 11-7 1-12-2-14-7"/><path d="M11 62c0 10 4 17 11 19 1-7-2-12-7-14"/><path d="M38 22c8 2 13 8 13 16-7-1-12-7-12-14"/><path d="M22 38c2 8 8 13 16 13-1-7-7-12-14-12"/><path d="M52 24c5 3 8 8 8 14-5-2-8-7-8-13"/><path d="M24 52c3 5 8 8 14 8-2-5-7-8-13-8"/><path d="M30 12c-7 4-13 10-17 17"/><circle cx="31" cy="31" r="1.9" fill="url(#vgA)" stroke="none"/><circle cx="46" cy="16" r="1.2" fill="url(#vgA)" stroke="none"/><circle cx="16" cy="46" r="1.2" fill="url(#vgA)" stroke="none"/></g></defs><rect x="8.5" y="8.5" width="273" height="337" rx="9" fill="none" stroke="url(#vgA)" stroke-width="1.1"/><rect x="19" y="19" width="252" height="316" rx="30" fill="none" stroke="url(#vgA)" stroke-width="2"/><use href="#vornA"/><use href="#vornA" transform="translate(290,0) scale(-1,1)"/><use href="#vornA" transform="translate(0,354) scale(1,-1)"/><use href="#vornA" transform="translate(290,354) scale(-1,-1)"/></svg>
+      <svg class="vcross" viewBox="0 0 46 62" aria-hidden="true"><path d="M19 3c1.6 1 3 1.5 4 1.5s2.4-.5 4-1.5V20.5H43c-1 1.6-1.5 3-1.5 4s.5 2.4 1.5 4H27V59.5c-1.6-1-3-1.5-4-1.5s-2.4.5-4 1.5V28.5H3c1-1.6 1.5-3 1.5-4s-.5-2.4-1.5-4H19z" fill="url(#vgA)" stroke="#6d4a14" stroke-width=".7" stroke-linejoin="round"/><circle cx="23" cy="24.5" r="3.7" fill="url(#vgA)" stroke="#6d4a14" stroke-width=".6"/><circle cx="22.1" cy="23.5" r="1.3" fill="#fffdf4" opacity=".9"/></svg>
       <span class="vtitle">하나님이 오늘<br>당신에게 주시는 말씀</span>
       <span class="vtap">눌러서 받기</span>
     </span>
     <span class="vface back">
+      <svg class="vfrm" viewBox="0 0 290 354" preserveAspectRatio="none" aria-hidden="true"><rect x="8.5" y="8.5" width="273" height="337" rx="9" fill="none" stroke="url(#vgA)" stroke-width="1.1"/><rect x="19" y="19" width="252" height="316" rx="30" fill="none" stroke="url(#vgA)" stroke-width="2"/><use href="#vornA"/><use href="#vornA" transform="translate(290,0) scale(-1,1)"/><use href="#vornA" transform="translate(0,354) scale(1,-1)"/><use href="#vornA" transform="translate(290,354) scale(-1,-1)"/></svg>
       <span class="vtext" id="vText"></span>
       <span class="vref" id="vRef"></span>
       <span class="vagain">한 번 더 누르면 다른 말씀</span>
@@ -940,6 +960,19 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
       <span>용인초대교회 밴드<b>교회 소식 · 사진 나눔</b></span>
     </a>
     <button class="copy" id="share"><svg class="bi" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.4M8.3 13.2l7.4 4.4"/></svg><span>이 초대장 공유하기</span></button>
+  </div>
+
+  <div class="give">
+    <p class="give-h">헌금 계좌</p>
+    <button class="acct" data-acct="351-1048-6874-83">
+      <span class="acct-k">주일헌금</span>
+      <span class="acct-n">농협 351-1048-6874-83</span><svg class="bi" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3.5" width="12" height="14" rx="2"/><path d="M15.5 20.5H6a2 2 0 0 1-2-2V7"/></svg>
+    </button>
+    <button class="acct" data-acct="235040-55-002808">
+      <span class="acct-k">건축헌금</span>
+      <span class="acct-n">농협 235040-55-002808</span><svg class="bi" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3.5" width="12" height="14" rx="2"/><path d="M15.5 20.5H6a2 2 0 0 1-2-2V7"/></svg>
+    </button>
+    <p class="give-note">번호를 누르면 복사됩니다</p>
   </div>
 </section>
 
@@ -1501,6 +1534,16 @@ document.getElementById('copyTel').onclick = async e => {
     setTimeout(() => t.textContent = '전화번호 복사', 1600);
   } catch (_) { alert('010-8003-4832'); }
 };
+
+// 헌금 계좌 복사
+document.querySelectorAll('.acct').forEach(b => b.onclick = async () => {
+  const num = b.dataset.acct, n = b.querySelector('.acct-n'), keep = n.textContent;
+  try {
+    await navigator.clipboard.writeText(num);
+    n.textContent = '복사되었습니다';
+    setTimeout(() => n.textContent = keep, 1600);
+  } catch (_) { alert(num); }
+});
 
 // 공유
 document.getElementById('share').onclick = async () => {
