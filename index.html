@@ -158,7 +158,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 /* ── hero ── */
 .hero{position:relative;padding:0;overflow:hidden;background:var(--grain),var(--paper);
   border-radius:0 0 16px 16px;box-shadow:0 30px 40px -30px rgba(60,40,20,.55)}
-.hero-photo{position:relative;aspect-ratio:5/4;max-height:64vh;overflow:hidden;transform-origin:50% 100%}
+.hero-photo{position:relative;aspect-ratio:3/2;max-height:64vh;overflow:hidden;transform-origin:50% 100%}
 .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block;
   transform:scale(1.06);animation:slowzoom 14s ease-out forwards}
 .js:not(.opened) .hero-photo img{animation-play-state:paused}
@@ -192,7 +192,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 /* 사진 양옆 세로 글씨 */
 .hero-side{position:absolute;top:0;bottom:0;z-index:3;display:flex;align-items:center;
   writing-mode:vertical-rl;font-family:var(--sans);font-size:12px;font-weight:500;
-  letter-spacing:.14em;color:#fff;opacity:.95;text-shadow:0 1px 7px rgba(0,0,0,.65);
+  letter-spacing:.14em;color:#fff;opacity:.95;text-shadow:0 0 3px rgba(0,0,0,.8),0 1px 8px rgba(0,0,0,.6);
   pointer-events:none}
 .hero-side.l{left:9px}.hero-side.r{right:9px}
 /* 세로쓰기 속 숫자를 눕히지 않고 세운다 — 두 자리는 한 칸에 가로로, 세 자리는 한 자씩 세로로 */
@@ -243,7 +243,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 /* 리넨 종이 + 금박 얼룩 */
 .env-back{inset:0;z-index:1;background:var(--flecks) 0 0/100% 100% no-repeat,var(--linen),#e4d5b9;
   box-shadow:0 34px 60px -16px rgba(0,0,0,.72),0 6px 14px rgba(0,0,0,.35)}
-.env-card{position:absolute;z-index:2;left:10%;right:10%;top:5%;aspect-ratio:5/4;padding:5px;border-radius:2px;
+.env-card{position:absolute;z-index:2;left:10%;right:10%;top:5%;aspect-ratio:3/2;padding:5px;border-radius:2px;
   background:#fffdf8;box-shadow:0 2px 6px rgba(0,0,0,.28)}
 .env-card img,.ghost img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block}
 .env-front{inset:0;z-index:3;background:var(--flecks) 0 0/100% 100% no-repeat,var(--linen),#f3e9d4;
@@ -745,7 +745,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 <!-- ═══ HERO ═══ -->
 <header class="hero">
 <div class="hero-photo">
-  <img src="assets/img/church.jpg" alt="용인초대교회 전경과 전교인" fetchpriority="high" decoding="async">
+  <img src="assets/img/church.jpg" alt="본당에 함께 모인 용인초대교회 전교인" fetchpriority="high" decoding="async">
   <div class="tod" aria-hidden="true"></div>
   <div class="stars" id="stars" aria-hidden="true"></div>
   <div class="fall" id="fall"></div>
