@@ -146,7 +146,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   .js .rv .grid > *{transform:rotate(var(--r))}
   .js .rv.on .grid > *,.js .loc.on .maps .coin,.js .loc.on .maps .coin svg,
   .js .rv.on .cta > *,.js .rv.on .cta > * svg,.svc .ic,.svc .ic svg *,
-  .vision .ic,.vc .ic svg *,.swipe *,.vcard,.vtap,.stars i,.bell{animation:none!important}
+  .vision .ic,.vc .ic svg *,.swipe *,.vcard,.vtap,.stars i,.bell,.emblem-gold{animation:none!important}
   .vcard > .vface{transition:none}.js .sig:not(.lit){clip-path:none}.js .sig:not(.lit) path{stroke-dashoffset:0}
   .js .rv .vc{opacity:1;transform:none;transition:none}
   .greet mark{transition:none}.js .greet mark:not(.lit){background-size:100% 100%}
@@ -690,8 +690,14 @@ footer{position:relative;padding:54px 24px 64px;text-align:center;color:#d8d1c2;
     radial-gradient(120% 90% at 50% 0%,#2b3a55 0%,#1c273b 60%,#141c2b 100%)}
 footer::before{content:'';position:absolute;left:18px;right:18px;top:16px;bottom:16px;pointer-events:none;
   border:1px solid rgba(214,174,98,.35);border-radius:10px}
-.emblem-gold{display:block;width:118px;height:83px;margin:0 auto 22px;
-  filter:drop-shadow(0 3px 3px rgba(0,0,0,.55))}
+.emblem-gold{display:block;width:118px;height:83px;margin:0 auto 22px;transform-origin:50% 70%;
+  filter:drop-shadow(0 3px 3px rgba(0,0,0,.55));
+  animation:emblem 6s ease-in-out infinite;animation-play-state:paused}
+.emblem-gold.live{animation-play-state:running}
+@keyframes emblem{
+  0%,100%{transform:translateY(0) scale(1);filter:drop-shadow(0 3px 3px rgba(0,0,0,.55))}
+  50%{transform:translateY(-3px) scale(1.025);
+      filter:drop-shadow(0 4px 4px rgba(0,0,0,.5)) drop-shadow(0 0 12px rgba(242,201,122,.5))}}
 footer .motto{font-family:var(--serif);font-size:20px;font-weight:700;color:#f7efdd;letter-spacing:.01em;margin-bottom:18px}
 footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2.05;letter-spacing:0;color:#cfc6b5}
 
@@ -1460,7 +1466,7 @@ function ringBell() {
 }
 
 // 사진과 지도 버튼은 화면에 보일 때만 숨 쉰다
-document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard').forEach(el =>
+document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard, .emblem-gold').forEach(el =>
   new IntersectionObserver(([e]) => el.classList.toggle('live', e.isIntersecting), { threshold: .15 })
     .observe(el));
 
