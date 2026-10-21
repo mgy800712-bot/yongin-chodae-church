@@ -1469,11 +1469,14 @@ const chrome = () => {
   clearTimeout(tipTimer);
   tipTimer = setTimeout(() => { lb.classList.add('bare'); lbTip.style.opacity = '0'; }, 2600);
 };
+// 사진을 열 때 방문 기록을 한 칸 쌓아 둔다 — 휴대폰 뒤로가기가 초대장을 벗어나지 않고 사진만 닫도록
+let pushed = false;
 const open = i => {
   show(i);
   lb.classList.add('on');
   document.body.style.overflow = 'hidden';
   chrome();
+  if (!pushed) { history.pushState({ lb: 1 }, '', location.href); pushed = true; }
 };
 // 사진을 누르면 가렸다 보였다
 lbi.addEventListener('click', e => {
@@ -1481,7 +1484,10 @@ lbi.addEventListener('click', e => {
   if (lb.classList.contains('bare')) chrome();
   else { lb.classList.add('bare'); lbTip.style.opacity = '0'; clearTimeout(tipTimer); }
 });
-const close = () => { lb.classList.remove('on'); document.body.style.overflow = ''; };
+const shut = () => { lb.classList.remove('on'); document.body.style.overflow = ''; };
+// 닫기 버튼·아래로 쓸기·Esc 도 뒤로가기와 같은 길로 — 쌓아 둔 기록을 되돌려 사진첩으로 돌아온다
+const close = () => { if (pushed) history.back(); else shut(); };
+addEventListener('popstate', () => { pushed = false; if (lb.classList.contains('on')) shut(); });
 
 document.getElementById('grid').addEventListener('click', e => {
   const i = shots.indexOf(e.target);
