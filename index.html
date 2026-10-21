@@ -499,18 +499,19 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 /* 배지는 위에서부터 차례로 금빛 고리를 한 번씩 낸다 */
 @keyframes badge{0%,30%,100%{box-shadow:inset 0 1px 2px rgba(80,55,25,.12),0 0 0 0 rgba(212,162,83,0)}
   12%{box-shadow:inset 0 1px 2px rgba(80,55,25,.12),0 0 0 5px rgba(212,162,83,.3)}}
-.js .rv.on .svc .ic{animation:svcpop 5.6s ease-in-out infinite}
-@keyframes svcpop{0%,84%,100%{transform:scale(1)}90%{transform:scale(1.16)}}
-.js .rv.on .svc li:nth-child(1) .ic{animation-delay:1.6s}
-.js .rv.on .svc li:nth-child(2) .ic{animation-delay:2.1s}
-.js .rv.on .svc li:nth-child(3) .ic{animation-delay:2.6s}
-.js .rv.on .svc li:nth-child(4) .ic{animation-delay:3.1s}
-.js .rv.on .svc li:nth-child(5) .ic{animation-delay:3.6s}
-.js .rv.on .svc li:nth-child(6) .ic{animation-delay:4.1s}
-.js .rv.on .svc li:nth-child(7) .ic{animation-delay:4.6s}
+/* 예배가 위에서부터 차례로 한 번씩 커졌다 작아진다 */
+.js .rv.on .svc li{animation:svcwave 5.6s ease-in-out infinite}
+@keyframes svcwave{0%,22%,100%{transform:scale(1)}9%{transform:scale(1.065)}}
+.js .rv.on .svc li:nth-child(1){animation-delay:1.40s}
+.js .rv.on .svc li:nth-child(2){animation-delay:1.72s}
+.js .rv.on .svc li:nth-child(3){animation-delay:2.04s}
+.js .rv.on .svc li:nth-child(4){animation-delay:2.36s}
+.js .rv.on .svc li:nth-child(5){animation-delay:2.68s}
+.js .rv.on .svc li:nth-child(6){animation-delay:3.00s}
+.js .rv.on .svc li:nth-child(7){animation-delay:3.32s}
 /* 화면에 보일 때만 움직인다 */
-.svc .ic,.svc .ic svg *{animation-play-state:paused}
-.svc.live .ic,.svc.live .ic svg *{animation-play-state:running}
+.svc li{animation-play-state:paused}
+.svc.live li{animation-play-state:running}
 .note{margin-top:24px;font-size:14.5px;color:var(--ink-soft);text-align:center;line-height:1.9}
 
 /* ── 오늘의 말씀 ── 뒤집으면 성경 구절이 나오는 카드 */
@@ -719,8 +720,10 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .grid > *:active{transform:rotate(var(--r)) scale(.96)!important}
 /* 찾아오는 길 — 한 줄에 한 가지씩, 가운데로 가지런히 */
 .way{margin-top:30px;text-align:center;border-top:1px solid var(--line);padding-top:24px}
-.way dt{display:inline-block;font-family:var(--sans);font-size:13px;font-weight:700;color:#9a7430;
-  letter-spacing:.08em;margin-bottom:10px;padding:0 12px 5px;border-bottom:1px solid rgba(196,154,82,.45)}
+.way dt{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13px;font-weight:700;
+  color:#9a7430;letter-spacing:.08em;margin-bottom:10px;padding:0 12px 5px;
+  border-bottom:1px solid rgba(196,154,82,.45)}
+.way .wi{width:21px;height:21px;flex:none}
 .way dd{margin:0 0 22px;color:#443d34}
 .way dd span{display:block;font-size:15px;line-height:1.75;word-break:keep-all}
 .way dd span + span{margin-top:5px}
@@ -1070,7 +1073,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
   </div>
 
   <dl class="way">
-    <dt>자가용</dt>
+    <dt><svg class="wi" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.4 10.3 9 6.9h6l1.6 3.4" fill="#f6ecd6" stroke="#8a5f2a" stroke-width="1.1" stroke-linejoin="round"/><path d="M3.6 15.6v-1.9c0-1.9 1.4-3.4 3.2-3.4h10.4c1.8 0 3.2 1.5 3.2 3.4v1.9a.9.9 0 0 1-.9.9h-1.3a.9.9 0 0 1-.9-.9v-.5H6.7v.5a.9.9 0 0 1-.9.9H4.5a.9.9 0 0 1-.9-.9z" fill="#f0dfbb" stroke="#8a5f2a" stroke-width="1.1" stroke-linejoin="round"/><circle cx="7.6" cy="15.1" r="1.6" fill="#fffaf0" stroke="#6d4a1e" stroke-width="1"/><circle cx="16.4" cy="15.1" r="1.6" fill="#fffaf0" stroke="#6d4a1e" stroke-width="1"/><path d="M4.8 12.6h2M17.2 12.6h2" stroke="#d6a85a" stroke-width="1.2" stroke-linecap="round"/></svg>자가용</dt>
     <dd>
       <span>내비게이션 검색어 <b>‘경기동로 679’</b></span>
       <span>이름으로 찾을 땐 <b>‘용인초대교회’</b></span>
@@ -1078,7 +1081,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
       <span>주소가 <b>이동읍 경기동로 679</b>인지 확인해 주세요</span>
       <span>건물 앞 주차 가능</span>
     </dd>
-    <dt>대중교통</dt>
+    <dt><svg class="wi" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.6" y="3.8" width="14.8" height="13.4" rx="2.6" fill="#f0dfbb" stroke="#8a5f2a" stroke-width="1.1"/><path d="M6.4 7.2h11.2v3.6H6.4z" fill="#fffaf0" stroke="#8a5f2a" stroke-width=".9"/><path d="M12 7.2v3.6" stroke="#8a5f2a" stroke-width=".9"/><path d="M4.6 13.2h14.8" stroke="#8a5f2a" stroke-width=".9"/><circle cx="8.2" cy="18" r="1.7" fill="#fffaf0" stroke="#6d4a1e" stroke-width="1"/><circle cx="15.8" cy="18" r="1.7" fill="#fffaf0" stroke="#6d4a1e" stroke-width="1"/><path d="M7 15.3h1.6M15.4 15.3H17" stroke="#d6a85a" stroke-width="1.2" stroke-linecap="round"/></svg>대중교통</dt>
     <dd>
       <span>송전 정류장 하차 후 도보 이동</span>
       <span>자세한 길은 아래로 편하게 문의해 주세요</span>
