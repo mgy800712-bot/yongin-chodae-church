@@ -418,7 +418,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   font-variant-numeric:tabular-nums;letter-spacing:0;white-space:nowrap}
 /* 예배의 은혜 — 금가루가 종이 위로 천천히 떠오른다 */
 .dust{position:absolute;inset:0;overflow:hidden;pointer-events:none;border-radius:16px}
-.dust i{position:absolute;bottom:-10px;border-radius:50%;opacity:0;will-change:transform,opacity;
+.dust i{position:absolute;top:-12px;border-radius:50%;opacity:0;will-change:transform,opacity;
   background:radial-gradient(circle,#fffdf2 0%,#f8dfa2 28%,rgba(238,198,112,.5) 52%,rgba(226,180,92,.16) 72%,rgba(226,180,92,0) 85%);
   animation-name:motes;animation-timing-function:linear;animation-iteration-count:infinite;
   animation-play-state:paused}
@@ -435,21 +435,28 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .cd-label{font-family:var(--serif);font-size:14.5px;font-weight:600;color:#7a5a2c;letter-spacing:.04em}
 .cd-row{display:flex;justify-content:center;gap:9px;margin:13px 0 11px}
 /* 숫자마다 금테를 두른 낱장 패 */
+/* 금테 액자에 끼운 숫자패 */
 .cd{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-width:62px;padding:13px 7px 10px;border-radius:9px;background:linear-gradient(#fffdf6,#f6edd9);
-  box-shadow:inset 0 0 0 1.6px #c9a158,inset 0 0 0 3.2px #fffdf6,inset 0 0 0 4.4px rgba(201,161,88,.5),
-    0 2px 3px rgba(90,60,20,.18),0 7px 10px -8px rgba(90,60,20,.45)}
+  min-width:56px;padding:12px 6px 9px;border-radius:10px;
+  background:linear-gradient(145deg,#f7e3ad 0%,#cda45b 30%,#a87d2d 52%,#e8cb8c 74%,#b08c3f 100%);
+  box-shadow:0 2px 3px rgba(90,60,20,.3),0 9px 13px -9px rgba(90,60,20,.65),
+    inset 0 1px 0 rgba(255,250,230,.85),inset 0 -1px 0 rgba(90,60,20,.4)}
+/* 안쪽 상아빛 판 */
+.cd::after{content:'';position:absolute;inset:4px;z-index:0;border-radius:6px;pointer-events:none;
+  background:linear-gradient(#fffdf7,#f4e9d0);
+  box-shadow:inset 0 0 0 1px rgba(150,112,62,.55),inset 0 1px 3px rgba(120,88,48,.22)}
 /* 네 귀퉁이 금빛 꺾쇠 */
-.cd::before{content:'';position:absolute;inset:8px;pointer-events:none;background-repeat:no-repeat;
+.cd::before{content:'';position:absolute;inset:9px;z-index:1;pointer-events:none;background-repeat:no-repeat;
   background-image:linear-gradient(#c9a158,#c9a158),linear-gradient(#c9a158,#c9a158),
     linear-gradient(#c9a158,#c9a158),linear-gradient(#c9a158,#c9a158),
     linear-gradient(#c9a158,#c9a158),linear-gradient(#c9a158,#c9a158),
     linear-gradient(#c9a158,#c9a158),linear-gradient(#c9a158,#c9a158);
   background-size:9px 1px,1px 9px,9px 1px,1px 9px,9px 1px,1px 9px,9px 1px,1px 9px;
   background-position:0 0,0 0,100% 0,100% 0,0 100%,0 100%,100% 100%,100% 100%}
-.cd b{font-family:var(--serif);font-size:32px;font-weight:700;line-height:1.05;color:#5c421f;
-  font-variant-numeric:tabular-nums;display:inline-block}
-.cd i{font-style:normal;font-size:11.5px;color:#6b5a42;margin-top:4px}
+.cd b{position:relative;z-index:2;font-family:var(--serif);font-size:29px;font-weight:700;line-height:1.1;
+  color:#5a3f1c;font-variant-numeric:tabular-nums;display:inline-block;
+  text-shadow:0 1px 0 rgba(255,253,243,.9)}
+.cd i{position:relative;z-index:2;font-style:normal;font-size:11px;color:#6b5a42;margin-top:3px}
 .cd-when{font-size:13px;color:#6c5a45}
 .countdown.live-now .cd-row{display:none}
 /* 예배마다 작은 그림 — 동그란 금테 배지 안에서 저마다의 몸짓을 한다 */
@@ -1511,7 +1518,7 @@ for (let i = 0; i < 5; i++) setTimeout(drop, 900 + i * 700);
     const sz = near ? 5.5 + Math.random() * 3 : 2.8 + Math.random() * 2;
     d.style.cssText =
       `left:${(2 + Math.random() * 96).toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;` +
-      `--rise:${-(h + 50)}px;--sway:${(Math.random() * 34 - 17).toFixed(0)}px;` +
+      `--rise:${h + 60}px;--sway:${(Math.random() * 34 - 17).toFixed(0)}px;` +
       `animation-duration:${(near ? 8 + Math.random() * 5 : 12 + Math.random() * 9).toFixed(1)}s;` +
       `animation-delay:${(-Math.random() * 18).toFixed(1)}s` +
       (near ? ';filter:blur(.6px)' : '');
