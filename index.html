@@ -150,6 +150,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   .vcard > .vface{transition:none}.js .sig:not(.lit){clip-path:none}.js .sig:not(.lit) path{stroke-dashoffset:0}
   .js .rv .vc{opacity:1;transform:none;transition:none}
   .greet mark{transition:none}.js .greet mark:not(.lit){background-size:100% 100%}
+  .js .greet mark.lit,.js .sig.lit{animation:none!important}
   .js .stage{display:none}
   .hero-txt > *,.hero-side,.bell,.foil{animation:none!important;opacity:1!important;transform:none!important}
   .js .loc .leaf{transform:none!important;transition:none}
@@ -371,6 +372,14 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   background:linear-gradient(transparent 56%,rgba(236,196,110,.55) 56%,rgba(236,196,110,.55) 92%,transparent 92%) no-repeat 0 0/100% 100%;
   transition:background-size 1.1s var(--ease)}
 .js .greet mark:not(.lit){background-size:0% 100%}
+/* 사람이 형광펜을 긋듯 — 속도가 고르지 않고 중간에 살짝 멈칫한다 */
+.js .greet mark.lit{animation:hiline 1.5s linear forwards}
+@keyframes hiline{
+  0%{background-size:0% 100%}   10%{background-size:13% 100%}
+ 24%{background-size:29% 100%}  31%{background-size:33% 100%}
+ 52%{background-size:58% 100%}  66%{background-size:74% 100%}
+ 73%{background-size:77% 100%}  90%{background-size:95% 100%}
+100%{background-size:100% 100%}}
 .greet .verse{margin-top:32px;padding-top:28px;border-top:1px solid var(--line);
   font-family:var(--serif);font-size:15px;font-weight:500;color:#4e463c;line-height:1.85}
 .greet .verse b{display:block;font-family:var(--sans);font-size:12.5px;letter-spacing:.1em;
