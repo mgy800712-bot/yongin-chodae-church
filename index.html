@@ -170,7 +170,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .js:not(.opened) .hero-photo img{animation-play-state:paused}
 @keyframes slowzoom{to{transform:scale(1)}}
 .tod,.stars{position:absolute;inset:0;pointer-events:none}
-.tod{opacity:var(--dim,1)}
+.tod{opacity:var(--dim,1);transition:opacity .55s ease}
 /* 아침: 오른쪽 위에서 맑은 햇살 / 저녁: 노을빛 / 밤: 푸른 어둠과 별 */
 .t-morning .tod{background:radial-gradient(120% 85% at 88% -5%,rgba(255,228,165,.55),rgba(255,228,165,0) 62%);mix-blend-mode:screen}
 .t-evening .tod{background:linear-gradient(180deg,rgba(255,128,64,.42),rgba(214,92,96,.2) 48%,rgba(0,0,0,0) 78%);mix-blend-mode:soft-light}
@@ -180,9 +180,10 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 /* 아래쪽은 종이색으로 번지는 층 (항상 유지) */
 .hero-wash{position:absolute;inset:0;background:
   linear-gradient(180deg,rgba(250,245,236,0) 62%,rgba(250,245,236,.62) 85%,var(--paper) 100%)}
-/* 위쪽 어둠 — 처음엔 짙게, 스크롤하면 완전히 사라진다 */
+/* 위쪽 어둠 — 처음엔 짙게, 손가락이 닿는 순간 걷힌다 */
 .hero-photo::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;opacity:var(--dim,1);
-  background:linear-gradient(180deg,rgba(26,20,14,.34) 0%,rgba(26,20,14,.12) 28%,rgba(26,20,14,0) 56%)}
+  background:linear-gradient(180deg,rgba(26,20,14,.34) 0%,rgba(26,20,14,.12) 28%,rgba(26,20,14,0) 56%);
+  transition:opacity .55s ease}
 /* 떨어지는 꽃잎 */
 .fall{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
 .fall i{position:absolute;top:-16px;border-radius:50% 0 50% 0;
@@ -1208,11 +1209,10 @@ function startReveal() {
   const easeOut = t => 1 - Math.pow(1 - t, 2.4);
   let sk = false;
   const hero = document.querySelector('.hero');
+  let lit = false;
   const scrub = () => {
     sk = false;
     const vh = innerHeight;
-    // 첫 화면의 어둠은 조금만 내려도 깨끗이 걷힌다
-    hero.style.setProperty('--dim', Math.max(0, 1 - scrollY / (vh * .5)).toFixed(3));
     for (const el of sheets) {
       const top = el.getBoundingClientRect().top;
       const p = easeOut(Math.max(0, Math.min(1, (vh - top) / (vh * .8))));
@@ -1221,7 +1221,11 @@ function startReveal() {
     }
   };
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    addEventListener('scroll', () => { if (!sk) { sk = true; requestAnimationFrame(scrub); } }, { passive: true });
+    addEventListener('scroll', () => {
+      // 첫 화면의 어둠은 스크롤이 시작되는 순간 걷힌다 (한 번 걷히면 그대로)
+      if (!lit && scrollY > 4) { lit = true; hero.style.setProperty('--dim', '0'); }
+      if (!sk) { sk = true; requestAnimationFrame(scrub); }
+    }, { passive: true });
     addEventListener('resize', scrub);
     scrub();
   } else sheets.forEach(el => { el.style.setProperty('--p', 1); el.classList.add('on'); });
