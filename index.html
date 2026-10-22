@@ -171,6 +171,10 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 @keyframes slowzoom{to{transform:scale(1)}}
 .tod,.stars{position:absolute;inset:0;pointer-events:none}
 .tod{opacity:var(--dim,1);transition:opacity .55s ease}
+/* 처음 열었을 때 첫 화면 전체에 내려앉는 어둠 — 스크롤하면 걷힌다 */
+.dimmer{display:none}
+.js .dimmer{display:block;position:fixed;inset:0;z-index:60;pointer-events:none;
+  background:rgba(18,13,8,.46);opacity:var(--dim,1);transition:opacity .6s ease}
 /* 아침: 오른쪽 위에서 맑은 햇살 / 저녁: 노을빛 / 밤: 푸른 어둠과 별 */
 .t-morning .tod{background:radial-gradient(120% 85% at 88% -5%,rgba(255,228,165,.55),rgba(255,228,165,0) 62%);mix-blend-mode:screen}
 .t-evening .tod{background:linear-gradient(180deg,rgba(255,128,64,.42),rgba(214,92,96,.2) 48%,rgba(0,0,0,0) 78%);mix-blend-mode:soft-light}
@@ -920,6 +924,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
   </div>
   <p class="env-hint"><span class="tap" aria-hidden="true"></span>봉투를 눌러 열어 보세요</p>
 </div>
+<div class="dimmer" aria-hidden="true"></div>
 
 <div class="wrap">
 
@@ -1208,7 +1213,6 @@ function startReveal() {
   const sheets = [...document.querySelectorAll('.sheet')];
   const easeOut = t => 1 - Math.pow(1 - t, 2.4);
   let sk = false;
-  const hero = document.querySelector('.hero');
   let lit = false;
   const scrub = () => {
     sk = false;
@@ -1223,7 +1227,7 @@ function startReveal() {
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     addEventListener('scroll', () => {
       // 첫 화면의 어둠은 스크롤이 시작되는 순간 걷힌다 (한 번 걷히면 그대로)
-      if (!lit && scrollY > 4) { lit = true; hero.style.setProperty('--dim', '0'); }
+      if (!lit && scrollY > 4) { lit = true; root.style.setProperty('--dim', '0'); }
       if (!sk) { sk = true; requestAnimationFrame(scrub); }
     }, { passive: true });
     addEventListener('resize', scrub);
