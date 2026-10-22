@@ -127,25 +127,25 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .js .rv.on .svc li:nth-child(8){transition-delay:1.47s}
 
 /* 갤러리 — 인화한 사진이 테이블 위로 떨어져 비뚤게 자리를 잡는다 */
-.js .rv .grid > *{opacity:0;transform:translateY(-36px) rotate(calc(var(--r) * 4)) scale(1.07);
+.js .rv .grid .gset > *{opacity:0;transform:translateY(-36px) rotate(calc(var(--r) * 4)) scale(1.07);
   box-shadow:0 34px 40px -14px rgba(60,40,20,.32);
   transition:opacity .7s ease,transform 1.6s var(--ease),box-shadow 1.6s var(--ease)}
-.js .rv.on .grid > *{opacity:1;transform:rotate(var(--r));
+.js .rv.on .grid .gset > *{opacity:1;transform:rotate(var(--r));
   box-shadow:0 1px 2px rgba(60,40,20,.14),0 10px 18px -10px rgba(60,40,20,.5)}
-.js .rv.on .grid > *:nth-child(1){transition-delay:0.15s}
-.js .rv.on .grid > *:nth-child(2){transition-delay:0.35s}
-.js .rv.on .grid > *:nth-child(3){transition-delay:0.55s}
-.js .rv.on .grid > *:nth-child(4){transition-delay:0.75s}
-.js .rv.on .grid > *:nth-child(5){transition-delay:0.95s}
-.js .rv.on .grid > *:nth-child(6){transition-delay:1.15s}
-.js .rv.on .grid > *:nth-child(7){transition-delay:1.35s}
-.js .rv.on .grid > *:nth-child(8){transition-delay:1.55s}
+.js .rv.on .grid .gset > *:nth-child(1){transition-delay:0.15s}
+.js .rv.on .grid .gset > *:nth-child(2){transition-delay:0.35s}
+.js .rv.on .grid .gset > *:nth-child(3){transition-delay:0.55s}
+.js .rv.on .grid .gset > *:nth-child(4){transition-delay:0.75s}
+.js .rv.on .grid .gset > *:nth-child(5){transition-delay:0.95s}
+.js .rv.on .grid .gset > *:nth-child(6){transition-delay:1.15s}
+.js .rv.on .grid .gset > *:nth-child(7){transition-delay:1.35s}
+.js .rv.on .grid .gset > *:nth-child(8){transition-delay:1.55s}
 
 @media(prefers-reduced-motion:reduce){
-  .js .rv > *,.js .rv .svc li,.js .rv .grid > *,.js .sheet{opacity:1;transition:none}
+  .js .rv > *,.js .rv .svc li,.js .rv .grid .gset > *,.js .sheet{opacity:1;transition:none}
   .js .sheet{--p:1!important;transform:none!important;opacity:1}.js .sheet::after{display:none}
-  .js .rv .grid > *{transform:rotate(var(--r))}
-  .js .rv.on .grid > *,.js .loc.on .maps .coin,.js .loc.on .maps .coin svg,
+  .js .rv .grid .gset > *{transform:rotate(var(--r))}
+  .js .rv.on .grid .gset > *,.js .loc.on .maps .coin,.js .loc.on .maps .coin svg,
   .js .rv.on .cta > *,.js .rv.on .cta > * svg,.svc .ic,.svc .ic svg *,
   .vision .ic,.vc .ic svg *,.swipe *,.vcard,.vtap,.stars i,.bell,.emblem-gold{animation:none!important}
   .emblem-wrap::before{animation:none!important;opacity:0}
@@ -565,24 +565,58 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .vcard.live{animation-play-state:running}
 @keyframes vfloat{0%,100%{transform:translateY(0) rotate(-.6deg)}50%{transform:translateY(-6px) rotate(.6deg)}}
 
+/* ── 이번 주 말씀 ── 누를 때 비로소 유튜브를 불러온다 */
+.serm{padding:10px 12px 34px}
+.tube{position:relative;aspect-ratio:1/1;border-radius:18px;overflow:hidden;
+  box-shadow:0 2px 4px rgba(70,48,22,.2),0 18px 26px -16px rgba(70,48,22,.65)}
+.tube iframe{display:block;width:100%;height:100%;border:0}
+.tube-play{display:block;width:100%;height:100%;padding:34px 28px;border:0;cursor:pointer;
+  font:inherit;text-align:left;color:#fff;-webkit-tap-highlight-color:transparent;
+  background:linear-gradient(190deg,rgba(28,20,12,.52) 0%,rgba(28,20,12,.3) 38%,rgba(24,17,10,.72) 100%),
+    url(assets/img/sermon.jpg) center/cover no-repeat}
+.tp-h{display:block;font-family:var(--serif);font-size:34px;font-weight:700;letter-spacing:-.01em;
+  text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.tp-en{display:block;margin-top:6px;padding-bottom:12px;font-size:12px;font-weight:500;letter-spacing:.34em;
+  color:rgba(255,255,255,.88);text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.tp-en::after{content:'';display:block;width:42px;height:1.5px;margin-top:12px;background:rgba(255,255,255,.75)}
+.tp-pill{display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:12px 20px 12px 14px;
+  border-radius:999px;background:#fffdf7;color:#2a1f14;font-size:16px;font-weight:700;
+  box-shadow:0 3px 8px rgba(0,0,0,.3)}
+.tp-pill svg{width:26px;height:26px;fill:#2a1f14;flex:none}
+.tp-pill em{font-style:normal;font-weight:400;color:#6d5c45}
+.tp-note{position:absolute;left:28px;bottom:26px;font-family:var(--serif);font-size:17px;font-weight:500;
+  line-height:1.75;color:rgba(255,252,244,.95);text-shadow:0 2px 8px rgba(0,0,0,.55)}
+.serm.live .tp-pill{animation:breathe 2.4s ease-in-out infinite}
+.tube-all{display:block;width:fit-content;margin:16px auto 0;padding-bottom:3px;text-align:center;
+  font-size:13.5px;color:#8a6a3a;text-decoration:none;border-bottom:1px solid rgba(196,154,82,.55)}
 /* ── 갤러리 ── */
 .gal{padding-top:60px;padding-bottom:64px}
+/* 사진첩 분류 단추 */
+.gtabs{display:flex;justify-content:center;flex-wrap:nowrap;gap:5px;margin:0 0 16px}
+.gt{padding:7px 11px;border:0;border-radius:999px;font:inherit;font-size:12px;font-weight:700;letter-spacing:-.02em;
+  color:#7a5a2c;background:linear-gradient(#fffdf6,#f4e9d2);cursor:pointer;
+  box-shadow:inset 0 0 0 1px rgba(196,154,82,.5),0 1px 1px rgba(90,60,20,.12);
+  -webkit-tap-highlight-color:transparent;transition:color .2s ease,box-shadow .2s ease,background .2s ease}
+.gt.on{color:#fff8e6;background:linear-gradient(#8a6424,#5e4113);
+  box-shadow:inset 0 1px 0 rgba(255,240,205,.3),0 2px 3px rgba(90,60,20,.3)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 10px;padding:6px 2px}
-.grid > *{--r:0deg;padding:5px;border-radius:2px;transform:rotate(var(--r));
+.gset{display:none}
+.gset.on{display:contents}
+.grid .gset > *{--r:0deg;padding:5px;border-radius:2px;transform:rotate(var(--r));
   background:linear-gradient(135deg,#f7dfcf 0%,#c48a6e 20%,#f9e6d8 42%,#a9674d 64%,#e9bea6 82%,#b9785c 100%);
   box-shadow:0 1px 2px rgba(60,40,20,.14),0 10px 18px -10px rgba(60,40,20,.5)}
-.grid > *:nth-child(1){--r:-.7deg}.grid > *:nth-child(2){--r:-2.2deg}.grid > *:nth-child(3){--r:1.7deg}
-.grid > *:nth-child(4){--r:-1.3deg}.grid > *:nth-child(5){--r:2.3deg}.grid > *:nth-child(6){--r:-1.8deg}
-.grid > *:nth-child(7){--r:1.2deg}.grid > *:nth-child(8){--r:-2deg}.grid > *:nth-child(9){--r:1.5deg}
-.grid > *:nth-child(10){--r:-1.1deg}.grid > *:nth-child(11){--r:2.1deg}.grid > *:nth-child(12){--r:-1.6deg}
-.grid > *:nth-child(13){--r:.9deg}.grid > *:nth-child(14){--r:-2.3deg}.grid > *:nth-child(15){--r:1.4deg}
-.grid > *:nth-child(16){--r:-.9deg}.grid > *:nth-child(17){--r:1.8deg}
+.grid .gset > *:nth-child(1){--r:-.7deg}.grid .gset > *:nth-child(2){--r:-2.2deg}.grid .gset > *:nth-child(3){--r:1.7deg}
+.grid .gset > *:nth-child(4){--r:-1.3deg}.grid .gset > *:nth-child(5){--r:2.3deg}.grid .gset > *:nth-child(6){--r:-1.8deg}
+.grid .gset > *:nth-child(7){--r:1.2deg}.grid .gset > *:nth-child(8){--r:-2deg}.grid .gset > *:nth-child(9){--r:1.5deg}
+.grid .gset > *:nth-child(10){--r:-1.1deg}.grid .gset > *:nth-child(11){--r:2.1deg}.grid .gset > *:nth-child(12){--r:-1.6deg}
+.grid .gset > *:nth-child(13){--r:.9deg}.grid .gset > *:nth-child(14){--r:-2.3deg}.grid .gset > *:nth-child(15){--r:1.4deg}
+.grid .gset > *:nth-child(16){--r:-.9deg}.grid .gset > *:nth-child(17){--r:1.8deg}
 .grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;cursor:pointer;filter:saturate(.94);
   box-shadow:0 0 0 1px rgba(90,42,26,.4)}
 .grid .wide{grid-column:span 3}
 .grid .wide img{aspect-ratio:16/10}
 /* 사진이 하나씩 차례로 숨 쉬듯 살짝 커졌다 제자리로 돌아온다 (화면에 있을 때만) */
-.grid > *{position:relative;--s:1.08}
+.grid .gset > *{position:relative;--s:1.08}
 .grid .wide{--s:1.035}
 @keyframes alive{
   0%,26%,100%{transform:rotate(var(--r)) scale(1);z-index:0;
@@ -590,15 +624,15 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
   10%{transform:rotate(calc(var(--r) * .3)) scale(var(--s));z-index:2;
     box-shadow:0 2px 4px rgba(60,40,20,.12),0 24px 32px -12px rgba(60,40,20,.58)}
 }
-.js .rv.on .grid > *{animation:alive 6.3s cubic-bezier(.45,0,.25,1) infinite;animation-play-state:paused}
-.js .rv.on .grid.live > *{animation-play-state:running}
-.js .rv.on .grid > *:nth-child(1){animation-delay:2.2s}
-.js .rv.on .grid > *:nth-child(2){animation-delay:3.1s}
-.js .rv.on .grid > *:nth-child(3){animation-delay:4.0s}
-.js .rv.on .grid > *:nth-child(4){animation-delay:4.9s}
-.js .rv.on .grid > *:nth-child(5){animation-delay:5.8s}
-.js .rv.on .grid > *:nth-child(6){animation-delay:6.7s}
-.js .rv.on .grid > *:nth-child(7){animation-delay:7.6s}
+.js .rv.on .grid .gset > *{animation:alive 6.3s cubic-bezier(.45,0,.25,1) infinite;animation-play-state:paused}
+.js .rv.on .grid.live .gset > *{animation-play-state:running}
+.js .rv.on .grid .gset > *:nth-child(1){animation-delay:2.2s}
+.js .rv.on .grid .gset > *:nth-child(2){animation-delay:3.1s}
+.js .rv.on .grid .gset > *:nth-child(3){animation-delay:4.0s}
+.js .rv.on .grid .gset > *:nth-child(4){animation-delay:4.9s}
+.js .rv.on .grid .gset > *:nth-child(5){animation-delay:5.8s}
+.js .rv.on .grid .gset > *:nth-child(6){animation-delay:6.7s}
+.js .rv.on .grid .gset > *:nth-child(7){animation-delay:7.6s}
 .hint{text-align:center;font-size:13.5px;color:var(--ink-soft);margin-bottom:18px}
 /* 사진 아래 '눌러서 넘겨 보세요' 손짓 */
 .swipe{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:24px;color:#b4785b}
@@ -740,7 +774,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .js .loc.on .maps a:nth-child(4) .coin,.js .loc.on .maps a:nth-child(4) .coin svg{animation-delay:3.75s}
 /* 누르는 순간 손끝에 눌리는 감각 */
 .maps a:active{transform:scale(.93)!important;transition:transform .08s}
-.grid > *:active{transform:rotate(var(--r)) scale(.96)!important}
+.grid .gset > *:active{transform:rotate(var(--r)) scale(.96)!important}
 /* 찾아오는 길 — 한 줄에 한 가지씩, 가운데로 가지런히 */
 .way{margin-top:30px;text-align:center;border-top:1px solid var(--line);padding-top:24px}
 .way dt{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13px;font-weight:700;
@@ -1020,28 +1054,58 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
   <div class="dust" id="dust" aria-hidden="true"></div>
 </section>
 
+<!-- ═══ 이번 주 말씀 ═══ -->
+<section class="serm rv" id="serm">
+  <div class="tube" id="tube">
+    <button class="tube-play" id="tubePlay" type="button">
+      <span class="tp-h">이번 주 말씀</span>
+      <span class="tp-en">WEEKLY SERMON</span>
+      <span class="tp-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#fffdf7"/></svg>설교 영상 보기 <em>›</em></span>
+      <span class="tp-note">말씀이 오늘도<br>우리를 새롭게 합니다.</span>
+    </button>
+  </div>
+  <a class="tube-all" href="https://www.youtube.com/channel/UCRYw9Ca3ssSym_KycnLJRMw/videos" target="_blank" rel="noopener">유튜브에서 지난 설교 모두 보기</a>
+</section>
+
 <!-- ═══ 갤러리 ═══ -->
 <section class="gal rv">
   <h2>우리 교회의 하루</h2>
   <p class="hint">사진을 누르면 크게 볼 수 있고,<br>좌우로 넘기면 모든 사진을 보실 수 있습니다</p>
+  <div class="gtabs" role="tablist">
+    <button class="gt on" data-g="all" type="button">전교인</button>
+    <button class="gt" data-g="kid" type="button">주일학교</button>
+    <button class="gt" data-g="teen" type="button">학생부</button>
+    <button class="gt" data-g="young" type="button">청년부</button>
+    <button class="gt" data-g="adult" type="button">장년부</button>
+  </div>
   <div class="grid" id="grid">
-    <div class="wide"><img src="assets/img/t/outdoor-worship.jpg" data-full="assets/img/outdoor-worship.jpg" alt="전교인 야외예배" loading="lazy" decoding="async" fetchpriority="low"></div>
-    <img src="assets/img/t/praise.jpg" data-full="assets/img/praise.jpg" alt="찬양팀" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/kids-dance.jpg" data-full="assets/img/kids-dance.jpg" alt="어린이 율동" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/children.jpg" data-full="assets/img/children.jpg" alt="주일학교" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/youth-cafe.jpg" data-full="assets/img/youth-cafe.jpg" alt="청소년부 모임" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/youth-outdoor.jpg" data-full="assets/img/youth-outdoor.jpg" alt="청년부 야외모임" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/women.jpg" data-full="assets/img/women.jpg" alt="여신도회" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/heart-group.jpg" data-full="assets/img/heart-group.jpg" alt="학생·청년부 모임" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/mission-itb.jpg" data-full="assets/img/mission-itb.jpg" alt="인도네시아 반둥 단기선교" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/choir-hanbok.jpg" data-full="assets/img/choir-hanbok.jpg" alt="성가대 특별찬양" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/graduation.jpg" data-full="assets/img/graduation.jpg" alt="졸업 축하" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/family-outing.jpg" data-full="assets/img/family-outing.jpg" alt="여름 나들이" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/outdoor-gift.jpg" data-full="assets/img/outdoor-gift.jpg" alt="야외 행사 선물 나눔" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/youth-pizza.jpg" data-full="assets/img/youth-pizza.jpg" alt="청소년부 간식 나눔" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/mens-choir.jpg" data-full="assets/img/mens-choir.jpg" alt="남성 중창 특별찬양" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/pastor-sea.jpg" data-full="assets/img/pastor-sea.jpg" alt="담임목사님" loading="lazy" decoding="async" fetchpriority="low">
-    <img src="assets/img/t/mission-letter.jpg" data-full="assets/img/mission-letter.jpg" alt="해외 단기선교 기도편지" loading="lazy" decoding="async" fetchpriority="low">
+    <div class="gset on" data-g="all">
+      <div class="wide"><img src="assets/img/t/outdoor-worship.jpg" data-full="assets/img/outdoor-worship.jpg" alt="전교인 야외예배" loading="lazy" decoding="async" fetchpriority="low"></div>
+      <img src="assets/img/t/family-outing.jpg" data-full="assets/img/family-outing.jpg" alt="여름 나들이" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/outdoor-gift.jpg" data-full="assets/img/outdoor-gift.jpg" alt="야외 행사 선물 나눔" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/pastor-sea.jpg" data-full="assets/img/pastor-sea.jpg" alt="담임목사님" loading="lazy" decoding="async" fetchpriority="low">
+    </div>
+    <div class="gset" data-g="kid">
+      <img src="assets/img/t/children.jpg" data-full="assets/img/children.jpg" alt="주일학교" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/kids-dance.jpg" data-full="assets/img/kids-dance.jpg" alt="어린이 율동" loading="lazy" decoding="async" fetchpriority="low">
+    </div>
+    <div class="gset" data-g="teen">
+      <img src="assets/img/t/youth-cafe.jpg" data-full="assets/img/youth-cafe.jpg" alt="청소년부 모임" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/youth-pizza.jpg" data-full="assets/img/youth-pizza.jpg" alt="청소년부 간식 나눔" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/graduation.jpg" data-full="assets/img/graduation.jpg" alt="졸업 축하" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/heart-group.jpg" data-full="assets/img/heart-group.jpg" alt="학생·청년부 모임" loading="lazy" decoding="async" fetchpriority="low">
+    </div>
+    <div class="gset" data-g="young">
+      <img src="assets/img/t/youth-outdoor.jpg" data-full="assets/img/youth-outdoor.jpg" alt="청년부 야외모임" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/praise.jpg" data-full="assets/img/praise.jpg" alt="찬양팀" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/mission-itb.jpg" data-full="assets/img/mission-itb.jpg" alt="인도네시아 반둥 단기선교" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/mission-letter.jpg" data-full="assets/img/mission-letter.jpg" alt="해외 단기선교 기도편지" loading="lazy" decoding="async" fetchpriority="low">
+    </div>
+    <div class="gset" data-g="adult">
+      <img src="assets/img/t/women.jpg" data-full="assets/img/women.jpg" alt="여신도회" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/choir-hanbok.jpg" data-full="assets/img/choir-hanbok.jpg" alt="성가대 특별찬양" loading="lazy" decoding="async" fetchpriority="low">
+      <img src="assets/img/t/mens-choir.jpg" data-full="assets/img/mens-choir.jpg" alt="남성 중창 특별찬양" loading="lazy" decoding="async" fetchpriority="low">
+    </div>
   </div>
   <div class="swipe" aria-hidden="true">
     <svg class="sw-hand" viewBox="0 0 32 34"><path d="M12.5 3.6c0-1.4 1.1-2.6 2.5-2.6s2.5 1.2 2.5 2.6V14c.4-.9 1.3-1.5 2.4-1.5 1.4 0 2.6 1.1 2.6 2.5v.7c.4-.6 1.1-1 1.9-1 1.3 0 2.4 1.1 2.4 2.4v.9c.4-.4.9-.6 1.5-.6 1.3 0 2.2 1 2.2 2.3v5.2c0 4.4-3.6 8-8 8h-3.3c-2.6 0-5-1.2-6.5-3.3l-5.1-6.9c-.8-1.1-.6-2.6.5-3.4 1.1-.8 2.6-.6 3.4.5l1.5 2z" fill="#fffaf0" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M17.5 14.4v4M22.5 15.9v3.2M26.8 17.8v2.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
@@ -1688,15 +1752,26 @@ function ringBell() {
 }
 
 // 사진과 지도 버튼은 화면에 보일 때만 숨 쉰다
-document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard, .emblem-wrap, .dust, .loc, .mapbox, .greet').forEach(el =>
+document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard, .emblem-wrap, .dust, .loc, .mapbox, .greet, .serm').forEach(el =>
   new IntersectionObserver(([e]) => el.classList.toggle('live', e.isIntersecting), { threshold: .15 })
     .observe(el));
 
+// 이번 주 말씀 — 누를 때 유튜브를 불러온다 (최신 업로드부터 재생)
+document.getElementById('tubePlay')?.addEventListener('click', () => {
+  const f = document.createElement('iframe');
+  f.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=UURYw9Ca3ssSym_KycnLJRMw&autoplay=1&rel=0';
+  f.title = '용인초대교회 주일 설교';
+  f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  f.allowFullscreen = true;
+  document.getElementById('tube').replaceChildren(f);
+});
+
 // 갤러리 — 한 장 누르면 전체를 좌우로 넘겨 본다
 const lb = document.getElementById('lb'), lbi = document.getElementById('lbi'),
-      lbNum = document.getElementById('lbNum'), lbTip = document.getElementById('lbTip'),
-      shots = [...document.querySelectorAll('#grid img')];
-let at = 0, tipTimer;
+      lbNum = document.getElementById('lbNum'), lbTip = document.getElementById('lbTip');
+// 크게 보기는 지금 보고 있는 분류의 사진만 좌우로 넘긴다
+const inSet = () => [...document.querySelectorAll('#grid .gset.on img')];
+let shots = inSet(), at = 0, tipTimer;
 
 const show = (i, dir = 0) => {
   at = (i + shots.length) % shots.length;
@@ -1717,6 +1792,7 @@ const chrome = () => {
 let pushed = false;
 const lbDust = document.getElementById('lbDust');
 const open = i => {
+  shots = inSet();
   show(i);
   lb.classList.add('on');
   seedDust(lbDust, 44);
@@ -1736,8 +1812,14 @@ const shut = () => { lb.classList.remove('on'); lbDust.classList.remove('live');
 const close = () => { if (pushed) history.back(); else shut(); };
 addEventListener('popstate', () => { pushed = false; if (lb.classList.contains('on')) shut(); });
 
+// 분류 단추
+document.querySelectorAll('.gt').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.gt').forEach(x => x.classList.toggle('on', x === b));
+  document.querySelectorAll('.gset').forEach(x => x.classList.toggle('on', x.dataset.g === b.dataset.g));
+}));
+
 document.getElementById('grid').addEventListener('click', e => {
-  const i = shots.indexOf(e.target);
+  const i = inSet().indexOf(e.target);
   if (i > -1) open(i);
 });
 document.getElementById('lbPrev').onclick = e => { e.stopPropagation(); show(at - 1, -1); chrome(); };
