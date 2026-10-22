@@ -850,6 +850,10 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 /* 사진 크게 보기 — 흰 바탕, 얇은 선, 사진이 주인공 */
 .lb{position:fixed;inset:0;z-index:99;display:none;place-items:center;background:#fdfbf7;touch-action:pan-y}
 .lb.on{display:grid;animation:lbfade .3s ease}
+/* 사진을 보는 동안에도 금가루가 날린다 (흰 바탕이라 조금 더 짙게) */
+.lbdust{z-index:2}
+.lbdust i::before{background:radial-gradient(circle,#fff6d6 0%,#eec066 44%,rgba(214,166,80,.18) 70%,rgba(214,166,80,0) 84%)}
+.lbdust i.st::before{background:#f6d892;filter:drop-shadow(0 0 3px rgba(226,176,86,.95))}
 @keyframes lbfade{from{opacity:0}to{opacity:1}}
 .lb img{max-width:100vw;max-height:74vh;object-fit:contain;user-select:none;-webkit-user-drag:none}
 .lb-x{position:absolute;top:calc(12px + env(safe-area-inset-top));right:10px;width:48px;height:48px;
@@ -1185,6 +1189,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 </div>
 
 <div class="lb" id="lb" role="dialog" aria-label="사진 크게 보기">
+  <div class="dust lbdust" id="lbDust" aria-hidden="true"></div>
   <button class="lb-x" id="lbx" aria-label="닫기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button>
   <img id="lbi" src="assets/img/t/outdoor-worship.jpg" alt="" loading="lazy">
   <em id="lbTip">좌우로 넘겨 보세요</em>
@@ -1557,12 +1562,11 @@ for (let i = 0; i < 5; i++) setTimeout(drop, 900 + i * 700);
   }).observe(box);
 })();
 
-// ── 예배 안내 위로 떠오르는 금가루 ──
-(() => {
-  const box = document.getElementById('dust');
-  if (!box || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+// ── 금가루 뿌리기 (예배 안내 종이 · 사진 보기 화면) ──
+function seedDust(box, n) {
+  if (!box || box.childElementCount || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const h = Math.max(box.clientHeight, 420);
-  for (let i = 0; i < 68; i++) {
+  for (let i = 0; i < n; i++) {
     const near = Math.random() < .25;                      // 가까이 떠다니는 큰 알갱이
     const star = Math.random() < .4;                       // 네 갈래로 반짝이는 알갱이
     const d = document.createElement('i');
@@ -1577,7 +1581,8 @@ for (let i = 0; i < 5; i++) setTimeout(drop, 900 + i * 700);
       (near && !star ? ';filter:blur(.5px)' : '');
     box.appendChild(d);
   }
-})();
+}
+seedDust(document.getElementById('dust'), 68);
 
 // ── 밤에는 첫 화면 하늘에 별이 반짝인다 ──
 if (document.documentElement.classList.contains('t-night')) {
@@ -1710,9 +1715,12 @@ const chrome = () => {
 };
 // 사진을 열 때 방문 기록을 한 칸 쌓아 둔다 — 휴대폰 뒤로가기가 초대장을 벗어나지 않고 사진만 닫도록
 let pushed = false;
+const lbDust = document.getElementById('lbDust');
 const open = i => {
   show(i);
   lb.classList.add('on');
+  seedDust(lbDust, 44);
+  lbDust.classList.add('live');
   document.body.style.overflow = 'hidden';
   chrome();
   if (!pushed) { history.pushState({ lb: 1 }, '', location.href); pushed = true; }
@@ -1723,7 +1731,7 @@ lbi.addEventListener('click', e => {
   if (lb.classList.contains('bare')) chrome();
   else { lb.classList.add('bare'); lbTip.style.opacity = '0'; clearTimeout(tipTimer); }
 });
-const shut = () => { lb.classList.remove('on'); document.body.style.overflow = ''; };
+const shut = () => { lb.classList.remove('on'); lbDust.classList.remove('live'); document.body.style.overflow = ''; };
 // 닫기 버튼·아래로 쓸기·Esc 도 뒤로가기와 같은 길로 — 쌓아 둔 기록을 되돌려 사진첩으로 돌아온다
 const close = () => { if (pushed) history.back(); else shut(); };
 addEventListener('popstate', () => { pushed = false; if (lb.classList.contains('on')) shut(); });
