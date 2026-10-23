@@ -936,6 +936,15 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
   13%{transform:translateY(-2px) rotate(1.4deg) scale(1.015)}
   19%{transform:translateY(-4px) rotate(-1deg) scale(1.028)}
   25%{transform:translateY(-1px) rotate(.5deg) scale(1.008)}}
+/* 이동읍사무소 길찾기 — 만차일 때 어디로 갈지 바로 열어 준다 */
+.wlink{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:9px 15px;border-radius:999px;
+  border:1px solid #c49a52;background:linear-gradient(#fffbf2,#f3e8d2);color:#5c441f;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 2px 4px rgba(70,48,22,.14);
+  font-family:var(--sans);font-size:13.5px;font-weight:700;text-decoration:none;letter-spacing:-.01em;
+  line-height:1.3}
+.wlink svg{width:15px;height:15px;flex:none;fill:none;stroke:#8d6a3a;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+.wlink:active{transform:scale(.96);transition:transform .08s}
 /* 처음 오시는 분께 — 초대장을 덮어서 보여준다.
    페이지를 떠나면 음악이 끊기고 봉투부터 다시 시작되므로 떠나지 않는다 */
 .wov{position:fixed;inset:0;z-index:98;display:none;overflow-y:auto;overscroll-behavior:contain;
@@ -1267,6 +1276,7 @@ html.wov-open{overflow:hidden}
       <span>주소가 <b>이동읍 경기동로 679</b>인지 확인해 주세요</span>
       <span>건물 앞 주차 가능</span>
       <span>만차 시 <b>이동읍사무소</b> 무료주차 (도보 3분)</span>
+      <a class="wlink" href="https://place.map.kakao.com/8046928" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>이동읍사무소 길찾기</a>
     </dd>
     <dt><svg class="wi" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.6" y="3.8" width="14.8" height="13.4" rx="2.6" fill="#f0dfbb" stroke="#8a5f2a" stroke-width="1.1"/><path d="M6.4 7.2h11.2v3.6H6.4z" fill="#fffaf0" stroke="#8a5f2a" stroke-width=".9"/><path d="M12 7.2v3.6" stroke="#8a5f2a" stroke-width=".9"/><path d="M4.6 13.2h14.8" stroke="#8a5f2a" stroke-width=".9"/><circle cx="8.2" cy="18" r="1.7" fill="#fffaf0" stroke="#6d4a1e" stroke-width="1"/><circle cx="15.8" cy="18" r="1.7" fill="#fffaf0" stroke="#6d4a1e" stroke-width="1"/><path d="M7 15.3h1.6M15.4 15.3H17" stroke="#d6a85a" stroke-width="1.2" stroke-linecap="round"/></svg>대중교통</dt>
     <dd>
