@@ -901,6 +901,27 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 .lb-bar b{font-size:16px;font-weight:400;color:#625b53;letter-spacing:.06em;font-variant-numeric:tabular-nums}
 #lbTip{position:absolute;left:0;right:0;bottom:calc(76px + env(safe-area-inset-bottom));text-align:center;
   font-size:13px;font-style:normal;color:#70675d;transition:opacity .8s}
+
+/* ── 개인 초대 링크 (?from · &tel) ── */
+[hidden]{display:none!important}
+.hero-txt .inv-line{margin-top:22px;font-family:var(--serif);font-size:18px;font-weight:700;color:#7a5a2c;
+  letter-spacing:-.01em;animation-delay:1.2s}
+.hero-txt .inv-go{display:inline-block;margin-top:18px;padding:15px 26px;border-radius:7px;
+  border:1px solid #c49a52;background:linear-gradient(#fffbf2,#f3e8d2);color:#33241a;
+  box-shadow:inset 0 0 0 3px #fffbf2,inset 0 0 0 4px rgba(196,154,82,.38),0 3px 6px rgba(70,48,22,.18);
+  font-family:var(--sans);font-size:16.5px;font-weight:700;text-decoration:none;animation-delay:1.3s}
+.inv-go:active{transform:scale(.97)}
+.hero-txt .cue-bell{animation-delay:1.45s}
+/* 처음 오시는 분께 — 예배 안내 종이 아래 */
+.first-btn{display:block;margin:20px auto 0;max-width:330px;padding:16px;border-radius:7px;
+  border:1px solid #c49a52;background:linear-gradient(#fffbf2,#f3e8d2);color:#33241a;
+  box-shadow:inset 0 0 0 3px #fffbf2,inset 0 0 0 4px rgba(196,154,82,.38),0 2px 4px rgba(70,48,22,.12);
+  font-family:var(--serif);font-size:16.5px;font-weight:700;text-align:center;text-decoration:none;line-height:1.5}
+.first-btn b{display:block;font-family:var(--sans);font-size:13.5px;font-weight:400;color:#6c5a45;margin-top:3px}
+.first-btn:active{transform:scale(.97)}
+/* 성도님용 — 눈에 띄지 않게 */
+.staff{display:inline-block;margin-top:22px;font-size:12.5px;color:#8e8676;text-decoration:none;
+  border-bottom:1px solid rgba(214,174,98,.3);padding-bottom:2px}
 </style>
 </head>
 <body>
@@ -932,7 +953,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
         <path d="M0 100L50 46L100 100" fill="none" stroke="#7a5a30" stroke-opacity=".3" stroke-width="1" vector-effect="non-scaling-stroke"/>
         <path d="M.6 100L50 47.2L99.4 100" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1" vector-effect="non-scaling-stroke"/>
       </svg>
-      <p class="env-to">당신을 초대합니다</p>
+      <p class="env-to inv-to">당신을 초대합니다</p>
       <p class="env-from">대한예수교장로회 용인초대교회</p>
     </div>
     <div class="env-flap" id="envFlap"><div class="flap-face"></div></div>
@@ -982,6 +1003,8 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
   <h1><span class="foil">용인초대교회</span></h1>
   <div class="motto">주를 기뻐하게, 주로 기뻐하라</div>
   <div class="where">대한예수교장로회<br>경기 용인시 처인구 이동읍 송전</div>
+  <p class="inv-line inv-to" hidden></p>
+  <a class="inv-go" hidden>이번 주에 가볼게요</a>
   <span class="cue-bell" aria-hidden="true"><svg class="bell" viewBox="0 0 40 46"><defs><linearGradient id="bellG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3d995"/><stop offset=".5" stop-color="#c4913c"/><stop offset="1" stop-color="#8a5c1d"/></linearGradient></defs><path d="M18.6 1h2.8v4h3.6v2.6h-3.6V11h-2.8V7.6H15V5h3.6z" fill="url(#bellG)"/><path d="M20 11c-6.2 0-10.4 4.8-10.4 11v6.4c0 2.4-1.6 4.4-4 5.6h28.8c-2.4-1.2-4-3.2-4-5.6V22c0-6.2-4.2-11-10.4-11z" fill="none" stroke="url(#bellG)" stroke-width="2" stroke-linejoin="round"/><path d="M4 34h32" stroke="url(#bellG)" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="38.8" r="2.8" fill="none" stroke="url(#bellG)" stroke-width="1.8"/></svg></span>
 </div>
 </header>
@@ -1051,6 +1074,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
     <li><span class="ic"><img src="assets/img/svc/7.webp" alt="" loading="lazy" decoding="async"></span><b>새벽 기도회</b><em>매일 오전 6:00</em></li>
   </ul>
   <p class="note">처음 오신 분은 1층 입구에서 안내해 드립니다.</p>
+  <a class="first-btn" href="welcome.html">처음 오시나요?<b>미리 알아두면 편해요</b></a>
   <div class="dust" id="dust" aria-hidden="true"></div>
 </section>
 
@@ -1182,6 +1206,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
       <span class="sub">(‘초대교회’만 검색하면 다른 교회도 나옵니다)</span>
       <span>주소가 <b>이동읍 경기동로 679</b>인지 확인해 주세요</span>
       <span>건물 앞 주차 가능</span>
+      <span>만차 시 <b>이동읍사무소</b> 무료주차 (도보 3분)</span>
     </dd>
     <dt><svg class="wi" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.6" y="3.8" width="14.8" height="13.4" rx="2.6" fill="#f0dfbb" stroke="#8a5f2a" stroke-width="1.1"/><path d="M6.4 7.2h11.2v3.6H6.4z" fill="#fffaf0" stroke="#8a5f2a" stroke-width=".9"/><path d="M12 7.2v3.6" stroke="#8a5f2a" stroke-width=".9"/><path d="M4.6 13.2h14.8" stroke="#8a5f2a" stroke-width=".9"/><circle cx="8.2" cy="18" r="1.7" fill="#fffaf0" stroke="#6d4a1e" stroke-width="1"/><circle cx="15.8" cy="18" r="1.7" fill="#fffaf0" stroke="#6d4a1e" stroke-width="1"/><path d="M7 15.3h1.6M15.4 15.3H17" stroke="#d6a85a" stroke-width="1.2" stroke-linecap="round"/></svg>대중교통</dt>
     <dd>
@@ -1248,6 +1273,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
     경기도 용인시 처인구 이동읍 경기동로 679 3층<br>
     담임목사 이현무
   </p>
+  <a class="staff" href="invite.html">성도님용: 초대장 만들기</a>
 </footer>
 
 </div>
@@ -1890,5 +1916,6 @@ document.getElementById('share').onclick = async () => {
   } catch (_) {}
 };
 </script>
+<script src="assets/invite.js"></script>
 </body>
 </html>

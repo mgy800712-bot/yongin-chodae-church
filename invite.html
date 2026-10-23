@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>초대장 만들기 · 용인초대교회</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/invite.css">
+</head>
+<body>
+
+<div class="wrap">
+
+<section class="sheet">
+  <h2>초대장 만들기</h2>
+  <p class="note" style="margin-top:0;margin-bottom:30px">
+    내 이름이 들어간 초대장을 만들어<br>지인에게 보내보세요.
+  </p>
+
+  <div class="fld">
+    <label for="nm">내 이름</label>
+    <input id="nm" type="text" inputmode="text" autocomplete="name" maxlength="20" placeholder="김영희 집사">
+  </div>
+
+  <div class="fld">
+    <label for="tl">내 휴대폰 번호 <span style="font-weight:400;color:#7a6a55">(안 쓰셔도 됩니다)</span></label>
+    <input id="tl" type="tel" inputmode="numeric" autocomplete="tel" maxlength="20" placeholder="010-1234-5678">
+    <p class="help">입력하면 지인이 ‘이번 주에 가볼게요’를 누를 때 나에게 문자가 옵니다.
+      번호가 링크에 포함되니 원하실 때만 입력하세요.</p>
+  </div>
+
+  <div class="cta">
+    <button class="call" id="make" type="button">초대장 만들기</button>
+  </div>
+
+  <div class="out" id="out" hidden>
+    <p class="note" style="margin-top:0">아래 초대장이 만들어졌습니다.</p>
+    <p class="linkbox" id="link"></p>
+    <div class="cta" style="margin-top:16px">
+      <button id="send" type="button">카톡으로 보내기</button>
+    </div>
+    <p class="note" id="sent" hidden style="font-weight:700;color:#7a5a2c"></p>
+
+    <div class="msgs">
+      <h3>함께 보낼 문구</h3>
+      <button class="msg" type="button" data-t="내가 다니는 교회야. 시간 날 때 한번 봐줘 :)"><span>내가 다니는 교회야.<br>시간 날 때 한번 봐줘 :)</span><em>복사</em></button>
+      <button class="msg" type="button" data-t="요즘 생각나서 보내요. 우리 교회 소개 페이지예요."><span>요즘 생각나서 보내요.<br>우리 교회 소개 페이지예요.</span><em>복사</em></button>
+      <button class="msg" type="button" data-t="이번 주일에 같이 가볼래요? 교회가 어떤 곳인지 먼저 한번 보세요."><span>이번 주일에 같이 가볼래요?<br>교회가 어떤 곳인지 먼저 한번 보세요.</span><em>복사</em></button>
+      <p class="note" style="margin-top:4px">문구를 누르면 초대장 주소와 함께 복사됩니다.</p>
+    </div>
+  </div>
+
+  <a class="back" href="index.html">초대장 보기로 돌아가기</a>
+</section>
+
+</div>
+
+<footer>
+  <div class="motto">주를 기뻐하게, 주로 기뻐하라</div>
+  <p>
+    대한예수교장로회 용인초대교회<br>
+    경기도 용인시 처인구 이동읍 경기동로 679 3층
+  </p>
+</footer>
+
+<script>
+var $ = function (id) { return document.getElementById(id); };
+var nm = $('nm'), tl = $('tl'), out = $('out'), link = $('link'), sent = $('sent');
+var url = '';
+
+// 지난번에 적은 이름·번호를 다시 꺼내 둔다 (저장이 막힌 브라우저에서도 그냥 동작한다)
+try {
+  nm.value = localStorage.getItem('inv-name') || '';
+  tl.value = localStorage.getItem('inv-tel') || '';
+} catch (_) {}
+
+// 복사 — 클립보드가 막힌 인앱 브라우저를 위해 옛 방식도 준비한다
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (_) {}
+  try {
+    var t = document.createElement('textarea');
+    t.value = text;
+    t.setAttribute('readonly', '');
+    t.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(t);
+    t.select();
+    t.setSelectionRange(0, t.value.length);
+    var ok = document.execCommand('copy');
+    t.remove();
+    return ok;
+  } catch (_) { return false; }
+}
+
+function say(msg) {
+  sent.textContent = msg;
+  sent.hidden = false;
+}
+
+$('make').onclick = function () {
+  var name = nm.value.replace(/\s+/g, ' ').trim().slice(0, 20);
+  var tel = tl.value.replace(/\D/g, '').slice(0, 15);
+  if (!name) { alert('이름을 먼저 적어 주세요.'); nm.focus(); return; }
+
+  try {
+    localStorage.setItem('inv-name', name);
+    localStorage.setItem('inv-tel', tl.value);
+  } catch (_) {}
+
+  // 이 페이지가 놓인 폴더 주소가 곧 초대장 주소다
+  var base = location.href.split(/[?#]/)[0].replace(/invite\.html$/, '');
+  url = base + '?from=' + encodeURIComponent(name) + (tel ? '&tel=' + tel : '');
+  link.textContent = decodeURI(url);   // 보기엔 한글 그대로, 복사·공유는 주소용으로 변환된 url 을 쓴다
+  out.hidden = false;
+  sent.hidden = true;
+  out.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+$('send').onclick = async function () {
+  if (!url) return;
+  var data = { title: '용인초대교회에 초대합니다', text: '주를 기뻐하게, 주로 기뻐하라', url: url };
+  try {
+    if (navigator.share) { await navigator.share(data); return; }
+  } catch (e) {
+    if (e && e.name === 'AbortError') return;   // 사용자가 공유창을 닫았을 뿐이다
+  }
+  // 공유를 못 쓰는 브라우저이거나 실패했을 때 — 주소를 복사해 드린다
+  say(await copy(url) ? '복사되었습니다. 카톡 대화방에 붙여넣기 해주세요.' : url);
+};
+
+var msgs = document.querySelectorAll('.msg');
+for (var i = 0; i < msgs.length; i++) msgs[i].onclick = async function (e) {
+  var b = e.currentTarget, em = b.querySelector('em');
+  var ok = await copy(b.dataset.t + (url ? '\n' + url : ''));
+  em.textContent = ok ? '복사됨' : '실패';
+  setTimeout(function () { em.textContent = '복사'; }, 1600);
+};
+</script>
+</body>
+</html>
