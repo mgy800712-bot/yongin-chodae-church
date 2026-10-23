@@ -49,7 +49,7 @@
       <button class="msg" type="button" data-t="내가 다니는 교회야. 시간 날 때 한번 봐줘 :)"><span>내가 다니는 교회야.<br>시간 날 때 한번 봐줘 :)</span><em>복사</em></button>
       <button class="msg" type="button" data-t="요즘 생각나서 보내요. 우리 교회 소개 페이지예요."><span>요즘 생각나서 보내요.<br>우리 교회 소개 페이지예요.</span><em>복사</em></button>
       <button class="msg" type="button" data-t="이번 주일에 같이 가볼래요? 교회가 어떤 곳인지 먼저 한번 보세요."><span>이번 주일에 같이 가볼래요?<br>교회가 어떤 곳인지 먼저 한번 보세요.</span><em>복사</em></button>
-      <p class="note" style="margin-top:4px">문구를 누르면 초대장 주소와 함께 복사됩니다.</p>
+      <p class="note" style="margin-top:4px">문구를 누르면 글만 복사됩니다.<br>초대장을 보낸 뒤 대화방에 붙여넣어 주세요.</p>
     </div>
   </div>
 
@@ -133,7 +133,7 @@ $('send').onclick = async function () {
 var msgs = document.querySelectorAll('.msg');
 for (var i = 0; i < msgs.length; i++) msgs[i].onclick = async function (e) {
   var b = e.currentTarget, em = b.querySelector('em');
-  var ok = await copy(b.dataset.t + (url ? '\n' + url : ''));
+  var ok = await copy(b.dataset.t);
   em.textContent = ok ? '복사됨' : '실패';
   setTimeout(function () { em.textContent = '복사'; }, 1600);
 };
