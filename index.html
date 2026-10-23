@@ -564,6 +564,16 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 .vtext{font-family:var(--serif);font-size:16px;font-weight:600;line-height:1.8;color:#33241a;word-break:keep-all}
 .vref{margin-top:14px;font-size:13px;font-weight:700;color:#9a7430;letter-spacing:.04em}
 .vagain{margin-top:16px;font-size:11.5px;color:#7a6a55}
+/* 받은 말씀을 복사하거나 나눈다 */
+.vshare{display:flex;justify-content:center;gap:9px;margin-top:18px}
+.vsb{display:inline-flex;align-items:center;gap:7px;padding:10px 15px;border:0;border-radius:999px;
+  font:inherit;font-size:13.5px;font-weight:700;color:#6c4f22;cursor:pointer;
+  background:linear-gradient(#fffdf6,#f4e9d2);
+  box-shadow:inset 0 0 0 1px rgba(196,154,82,.55),0 1px 2px rgba(90,60,20,.14);
+  -webkit-tap-highlight-color:transparent}
+.vsb:active{transform:translateY(1px);box-shadow:inset 0 2px 3px rgba(120,88,48,.22)}
+.vsb svg{width:17px;height:17px;flex:none;fill:none;stroke:#9a7430;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
 /* 가만히 있으면 카드가 숨 쉬듯 살짝 떠 있다 */
 .vcard{animation:vfloat 4s ease-in-out infinite;animation-play-state:paused}
 .vcard.live{animation-play-state:running}
@@ -651,7 +661,7 @@ h2{font-family:var(--serif);font-size:23px;font-weight:700;text-align:center;
 
 /* ── 인사말 사진·서명 ── */
 .greet .face{width:104px;height:104px;border-radius:50%;object-fit:cover;object-position:center 20%;
-  border:1px solid var(--line);margin:4px 0 26px}
+  border:1px solid var(--line);margin:4px 0 26px;cursor:pointer}
 .greet .sign{margin-top:24px;font-size:13.5px;letter-spacing:.04em;color:var(--ink-soft)}
 .sig{position:relative;display:inline-block;margin-left:8px;vertical-align:-8px;
   font-family:'Nanum Brush Script',var(--serif);font-size:40px;line-height:1;color:#2a1d14}
@@ -902,6 +912,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 .lb-nav{width:48px;height:48px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer}
 .lb-nav svg{width:26px;height:26px;fill:none;stroke:#857d74;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
 .lb-nav:active svg{stroke:#5c554e}
+.lb.one .lb-nav,.lb.one #lbTip{visibility:hidden}
 .lb-bar b{font-size:16px;font-weight:400;color:#625b53;letter-spacing:.06em;font-variant-numeric:tabular-nums}
 #lbTip{position:absolute;left:0;right:0;bottom:calc(76px + env(safe-area-inset-bottom));text-align:center;
   font-size:13px;font-style:normal;color:#70675d;transition:opacity .8s}
@@ -1085,7 +1096,7 @@ html.wov-open{overflow:hidden}
 <!-- ═══ 인사말 ═══ -->
 <section class="greet rv sheet" data-fold="down">
   <h2>미래 리더를 키우는<br>기쁨을 주는 용인초대교회</h2>
-  <img class="face" src="assets/img/t/pastor.jpg" alt="담임목사 이현무" loading="lazy" decoding="async" fetchpriority="low">
+  <img class="face" src="assets/img/t/pastor.jpg" data-full="assets/img/pastor.jpg" alt="담임목사 이현무" title="눌러서 크게 보기" loading="lazy" decoding="async" fetchpriority="low">
   <p class="hello"><i class="l" aria-hidden="true"></i>반갑습니다.<br>예수님의 이름으로 축복합니다.<i class="r" aria-hidden="true"></i></p>
   <div class="vision">
     <div class="vc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="shine" cx="11.6" cy="10.4" r="5" fill="#ffe08a"/><path d="M5 3.5h11.5a1.5 1.5 0 0 1 1.5 1.5v15.5H6.5A1.5 1.5 0 0 1 5 19z" fill="#3f5a76" stroke="#4a3524" stroke-width="1" stroke-linejoin="round"/><path d="M6.6 20.5H18v-2H6.6a1 1 0 0 0 0 2z" fill="#fffaf0" stroke="#4a3524" stroke-width=".9"/><path d="M11.6 6.4v8M9.2 9.1h4.8" stroke="#f0c45e" stroke-width="1.7" stroke-linecap="round"/></svg></span><b>주님께 영광</b><span>주님으로 말미암아<br>기뻐하는 교회</span></div>
@@ -1122,6 +1133,10 @@ html.wov-open{overflow:hidden}
       <span class="vagain">한 번 더 누르면 다른 말씀</span>
     </span>
   </button>
+  <div class="vshare" id="vShare" hidden>
+    <button class="vsb" id="vCopy" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3.5" width="12" height="14" rx="2"/><path d="M15.5 20.5H6a2 2 0 0 1-2-2V7"/></svg><span>말씀 복사</span></button>
+    <button class="vsb" id="vSend" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.4M8.3 13.2l7.4 4.4"/></svg><span>말씀 나누기</span></button>
+  </div>
 </section>
 
 <!-- ═══ 예배 안내 ═══ -->
@@ -1823,8 +1838,32 @@ function goldBurst(x, y) {
     let i; do { i = (Math.random() * WORDS.length) | 0; } while (i === last);
     last = i; txt.textContent = WORDS[i][0]; ref.textContent = WORDS[i][1];
   };
+  // 받은 말씀을 복사하거나 카톡 등으로 나눈다
+  const share = document.getElementById('vShare');
+  const copyBtn = document.getElementById('vCopy'), sendBtn = document.getElementById('vSend');
+  const verseText = () =>
+    `“${txt.textContent}”\n— ${ref.textContent}\n\n용인초대교회\nhttps://mgy800712-bot.github.io/yongin-chodae-church/`;
+  const flash = (b, word) => {
+    const t = b.querySelector('span'), keep = t.textContent;
+    t.textContent = word;
+    setTimeout(() => t.textContent = keep, 1600);
+  };
+  copyBtn.onclick = async () => {
+    try { await navigator.clipboard.writeText(verseText()); flash(copyBtn, '복사되었습니다'); }
+    catch (_) { alert(verseText()); }
+  };
+  sendBtn.onclick = async () => {
+    const data = { title: '오늘의 말씀', text: verseText() };
+    try {
+      if (navigator.share) { await navigator.share(data); return; }
+      await navigator.clipboard.writeText(verseText());
+      flash(sendBtn, '복사되었습니다');
+    } catch (_) {}
+  };
+
   card.addEventListener('click', e => {
     if (busy) return;
+    share.hidden = false;
     const r = card.getBoundingClientRect();
     if (!card.classList.contains('flipped')) {
       pick(); card.classList.add('flipped');
@@ -1900,8 +1939,9 @@ const chrome = () => {
 // 사진을 열 때 방문 기록을 한 칸 쌓아 둔다 — 휴대폰 뒤로가기가 초대장을 벗어나지 않고 사진만 닫도록
 let pushed = false;
 const lbDust = document.getElementById('lbDust');
-const open = i => {
-  shots = inSet();
+const openList = (list, i) => {
+  shots = list;
+  lb.classList.toggle('one', list.length === 1);
   show(i);
   lb.classList.add('on');
   seedDust(lbDust, 44);
@@ -1910,6 +1950,9 @@ const open = i => {
   chrome();
   if (!pushed) { history.pushState({ lb: 1 }, '', location.href); pushed = true; }
 };
+const open = i => openList(inSet(), i);
+// 목사님 사진도 눌러서 크게 볼 수 있다
+document.querySelector('.greet .face')?.addEventListener('click', e => openList([e.currentTarget], 0));
 // 사진을 누르면 가렸다 보였다
 lbi.addEventListener('click', e => {
   e.stopPropagation();
