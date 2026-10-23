@@ -71,7 +71,6 @@
     </div>
   </div>
 
-  <a class="back" href="guide.html">처음이신가요? 사진으로 보는 사용법</a>
   <a class="back" href="index.html">초대장 보기로 돌아가기</a>
 </section>
 
@@ -86,12 +85,39 @@
 </footer>
 
 <script>
+/* ─────────────────────────────────────────────────────────────
+   카카오톡 공유 — 아래 따옴표 안에 카카오 JavaScript 키를 넣으면
+   '카톡으로 보내기' 가 진짜 카톡 공유창(친구 고르기)을 엽니다.
+
+   developers.kakao.com → 내 애플리케이션 → 앱 키 → JavaScript 키
+   같은 곳 [앱 설정 > 플랫폼 > Web] 에 아래 주소를 등록해야 합니다.
+     https://mgy800712-bot.github.io
+
+   키가 비어 있으면 지금처럼 복사 방식으로 동작합니다.
+   ───────────────────────────────────────────────────────────── */
+var KAKAO_KEY = '';
+
 var $ = function (id) { return document.getElementById(id); };
 var nm = $('nm'), tl = $('tl'), out = $('out'), link = $('link'), sent = $('sent');
-var guide = $('guide'), url = '';
+var guide = $('guide'), url = '', who = '', kakaoOn = false;
 
-// 카카오톡 인앱 브라우저처럼 공유 기능이 없는 곳에서는 지킬 수 있는 약속만 한다
-if (!navigator.share) $('send').textContent = '초대장 주소 복사하기';
+// 카카오 키가 있으면 SDK 를 불러 둔다. 없거나 실패하면 그냥 전처럼 동작한다.
+if (KAKAO_KEY) {
+  var ks = document.createElement('script');
+  ks.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js';
+  ks.crossOrigin = 'anonymous';
+  ks.onload = function () {
+    try {
+      if (!Kakao.isInitialized()) Kakao.init(KAKAO_KEY);
+      kakaoOn = true;
+      $('send').textContent = '카톡으로 보내기';
+    } catch (_) {}
+  };
+  document.head.appendChild(ks);
+}
+
+// 공유 기능이 없는 곳에서는 지킬 수 있는 약속만 한다
+if (!KAKAO_KEY && !navigator.share) $('send').textContent = '초대장 주소 복사하기';
 
 // 지난번에 적은 이름·번호를 다시 꺼내 둔다 (저장이 막힌 브라우저에서도 그냥 동작한다)
 try {
@@ -134,6 +160,7 @@ $('make').onclick = function () {
   // 이 페이지가 놓인 폴더 주소가 곧 초대장 주소다
   var base = location.href.split(/[?#]/)[0].replace(/invite\.html$/, '');
   url = base + '?from=' + encodeURIComponent(name) + (tel ? '&tel=' + tel : '');
+  who = name;
   link.textContent = decodeURI(url);   // 보기엔 한글 그대로, 복사·공유는 주소용으로 변환된 url 을 쓴다
   out.hidden = false;
   sent.hidden = true;
@@ -143,9 +170,30 @@ $('make').onclick = function () {
 
 $('send').onclick = async function () {
   if (!url) return;
-  var data = { title: '용인초대교회에 초대합니다', text: '주를 기뻐하게, 주로 기뻐하라', url: url };
+
+  // 1) 카카오톡 공유 — 카톡 안에서도 열리고, 카드에 보내는 분 이름이 찍힌다
+  if (kakaoOn) {
+    try {
+      Kakao.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: who + '님이 당신을 초대합니다',
+          description: '용인초대교회 · 주일 낮 예배 오전 11시',
+          imageUrl: location.origin + location.pathname.replace(/invite\.html$/, '') + 'assets/img/og.jpg',
+          link: { mobileWebUrl: url, webUrl: url }
+        },
+        buttons: [{ title: '초대장 열어보기', link: { mobileWebUrl: url, webUrl: url } }]
+      });
+      return;
+    } catch (_) { /* 실패하면 아래 방법으로 내려간다 */ }
+  }
+
+  // 2) 휴대폰 기본 공유창
   try {
-    if (navigator.share) { await navigator.share(data); return; }
+    if (navigator.share) {
+      await navigator.share({ title: '용인초대교회에 초대합니다', text: '주를 기뻐하게, 주로 기뻐하라', url: url });
+      return;
+    }
   } catch (e) {
     if (e && e.name === 'AbortError') return;   // 사용자가 공유창을 닫았을 뿐이다
   }

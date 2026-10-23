@@ -1853,12 +1853,18 @@ function goldBurst(x, y) {
     else alert(verseText());
   };
   sendBtn.onclick = async () => {
+    const text = verseText();
     if (navigator.share) {
-      try { await navigator.share({ title: '오늘의 말씀', text: verseText() }); return; }
-      catch (e) { if (e && e.name === 'AbortError') return; }
+      const t0 = Date.now();
+      try { await navigator.share({ title: '오늘의 말씀', text }); return; }
+      catch (e) {
+        // 공유창이 실제로 떴다가 닫힌 경우만 '사용자가 취소'로 본다.
+        // 카톡 안의 브라우저처럼 창이 아예 안 뜨고 바로 거절되면 복사로 넘어간다.
+        if (e && e.name === 'AbortError' && Date.now() - t0 > 600) return;
+      }
     }
-    if (await copy(verseText())) flash(sendBtn, '복사되었습니다');
-    else alert(verseText());
+    if (await copy(text)) flash(sendBtn, '카톡에 붙여넣기');
+    else alert(text);
   };
 
   card.addEventListener('click', e => {
