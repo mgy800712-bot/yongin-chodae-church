@@ -28,6 +28,9 @@
         tos[i].textContent = from + ('wait' in tos[i].dataset ? '님이 기다리고 있어요' : '님이 당신을 초대합니다');
         tos[i].hidden = false;
       }
+      // 이름이 들어가면 봉투 글이 두 줄이 된다 — 봉인에 가리지 않게 봉투에 표시해 둔다
+      var env = root.querySelector('#env');
+      if (env) env.classList.add('has-from');
     }
 
     // 2) '이번 주에 가볼게요' — 번호가 있을 때만 보인다
