@@ -1849,16 +1849,16 @@ function goldBurst(x, y) {
     setTimeout(() => t.textContent = keep, 1600);
   };
   copyBtn.onclick = async () => {
-    try { await navigator.clipboard.writeText(verseText()); flash(copyBtn, '복사되었습니다'); }
-    catch (_) { alert(verseText()); }
+    if (await copy(verseText())) flash(copyBtn, '복사되었습니다');
+    else alert(verseText());
   };
   sendBtn.onclick = async () => {
-    const data = { title: '오늘의 말씀', text: verseText() };
-    try {
-      if (navigator.share) { await navigator.share(data); return; }
-      await navigator.clipboard.writeText(verseText());
-      flash(sendBtn, '복사되었습니다');
-    } catch (_) {}
+    if (navigator.share) {
+      try { await navigator.share({ title: '오늘의 말씀', text: verseText() }); return; }
+      catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    if (await copy(verseText())) flash(sendBtn, '복사되었습니다');
+    else alert(verseText());
   };
 
   card.addEventListener('click', e => {
@@ -2002,34 +2002,50 @@ addEventListener('keydown', e => {
   if (im.complete && im.naturalWidth === 0) box.classList.add('dead');
 }
 
+// 복사 — 카톡 인앱 브라우저는 클립보드 API 를 막는 일이 있어 옛 방식도 준비한다.
+// 실패를 삼키지 않는다: 안 되면 안 됐다고 알려야 사용자가 다른 길을 찾는다.
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (_) {}
+  try {
+    const t = document.createElement('textarea');
+    t.value = text;
+    t.setAttribute('readonly', '');
+    t.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(t);
+    t.select();
+    t.setSelectionRange(0, t.value.length);
+    const ok = document.execCommand('copy');
+    t.remove();
+    return ok;
+  } catch (_) { return false; }
+}
+
 // 주소 복사
 document.getElementById('copyAddr').onclick = async e => {
   const btn = e.currentTarget, txt = btn.querySelector('span'), keep = txt.innerHTML;
-  try {
-    await navigator.clipboard.writeText('경기도 용인시 처인구 이동읍 경기동로 679 3층');
+  const addr = '경기도 용인시 처인구 이동읍 경기동로 679 3층';
+  if (await copy(addr)) {
     txt.textContent = '주소가 복사되었습니다';
     setTimeout(() => txt.innerHTML = keep, 1600);
-  } catch (_) {}
+  } else alert(addr);
 };
 
 // 전화번호 복사 (앱 안에서는 전화 연결이 막힐 수 있어 대비)
 document.getElementById('copyTel').onclick = async e => {
-  try {
-    await navigator.clipboard.writeText('010-8003-4832');
-    const t = e.currentTarget.querySelector('span');
+  const t = e.currentTarget.querySelector('span');
+  if (await copy('010-8003-4832')) {
     t.textContent = '복사되었습니다';
     setTimeout(() => t.textContent = '전화번호 복사', 1600);
-  } catch (_) { alert('010-8003-4832'); }
+  } else alert('010-8003-4832');
 };
 
 // 헌금 계좌 복사
 document.querySelectorAll('.acct').forEach(b => b.onclick = async () => {
   const num = b.dataset.acct, n = b.querySelector('.acct-n'), keep = n.textContent;
-  try {
-    await navigator.clipboard.writeText(num);
+  if (await copy(num)) {
     n.textContent = '복사되었습니다';
     setTimeout(() => n.textContent = keep, 1600);
-  } catch (_) { alert(num); }
+  } else alert(num);
 });
 
 // ── 처음 오시는 분께 — 초대장을 떠나지 않고 덮어서 연다 ──
@@ -2087,14 +2103,21 @@ document.querySelectorAll('.acct').forEach(b => b.onclick = async () => {
   addEventListener('popstate', close);
 })();
 
-// 공유
-document.getElementById('share').onclick = async () => {
-  const data = { title: '용인초대교회에 초대합니다', text: '주를 기뻐하게, 주로 기뻐하라', url: location.href };
-  try {
-    if (navigator.share) { await navigator.share(data); return; }
-    await navigator.clipboard.writeText(location.href);
-    alert('초대장 주소가 복사되었습니다.');
-  } catch (_) {}
+// 공유 — 받은 분이 다시 전하는 길.
+// 카톡 인앱 브라우저에는 공유창이 없으니 단추 이름부터 지킬 수 있는 약속으로 바꾼다.
+const shareBtn = document.getElementById('share');
+if (!navigator.share) shareBtn.querySelector('span').textContent = '초대장 주소 복사하기';
+shareBtn.onclick = async () => {
+  const url = location.href;
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: '용인초대교회에 초대합니다', text: '주를 기뻐하게, 주로 기뻐하라', url });
+      return;
+    } catch (e) { if (e && e.name === 'AbortError') return; }   // 사용자가 닫았을 뿐이다
+  }
+  alert(await copy(url)
+    ? '초대장 주소가 복사되었습니다.\n\n① 왼쪽 위 ✕ 를 눌러 카톡으로 돌아가세요\n② 보낼 대화방을 여세요\n③ 글 쓰는 칸을 길게 눌러 ‘붙여넣기’를 누르세요'
+    : '아래 주소를 길게 눌러 복사해 주세요.\n\n' + decodeURI(url));
 };
 </script>
 <script src="assets/invite.js"></script>
