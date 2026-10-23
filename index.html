@@ -1460,9 +1460,11 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
 //  경로 2. Web Audio (오디오 요소 자동재생이 막힌 환경에서도 소리가 나는 경우가 있다)
 // 둘 다 즉시 시도하고, 먼저 소리가 난 쪽만 남긴다.
 const SRC = 'assets/audio/bgm-full.mp4';
+// 배경음악 크기 — 두 재생 경로가 같은 소리로 들리게 한 곳에서 정한다. 0 ~ 1
+const VOL = 0.65;
 const au = document.getElementById('au'), bgm = document.getElementById('bgm'),
       cue = document.getElementById('cue');
-au.volume = 1;
+au.volume = VOL;
 au.muted = false;
 
 let userOff = false, wa = null, waBuf = null, waBusy = false;
@@ -1510,7 +1512,7 @@ async function viaWA() {
     }
     if (userOff || wa || !au.paused) throw 0;          // 요소가 먼저 울렸으면 물러난다
     const gain = ctx.createGain();
-    gain.gain.value = 1;
+    gain.gain.value = VOL;
     gain.connect(ctx.destination);
     const src = ctx.createBufferSource();
     src.buffer = waBuf;
