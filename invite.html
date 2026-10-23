@@ -56,6 +56,11 @@
       <button id="send" type="button">카톡으로 보내기</button>
     </div>
     <p class="note" id="sent" hidden style="font-weight:700;color:#7a5a2c"></p>
+    <ol class="guide" id="guide" hidden>
+      <li>왼쪽 위 <b>✕</b> 를 눌러 카톡으로 돌아가세요.</li>
+      <li>초대장을 보낼 <b>대화방</b>을 여세요.</li>
+      <li>글 쓰는 칸을 <b>길게 눌러</b> ‘붙여넣기’를 누르세요.</li>
+    </ol>
 
     <div class="msgs">
       <h3>함께 보낼 문구</h3>
@@ -82,7 +87,10 @@
 <script>
 var $ = function (id) { return document.getElementById(id); };
 var nm = $('nm'), tl = $('tl'), out = $('out'), link = $('link'), sent = $('sent');
-var url = '';
+var guide = $('guide'), url = '';
+
+// 카카오톡 인앱 브라우저처럼 공유 기능이 없는 곳에서는 지킬 수 있는 약속만 한다
+if (!navigator.share) $('send').textContent = '초대장 주소 복사하기';
 
 // 지난번에 적은 이름·번호를 다시 꺼내 둔다 (저장이 막힌 브라우저에서도 그냥 동작한다)
 try {
@@ -128,6 +136,7 @@ $('make').onclick = function () {
   link.textContent = decodeURI(url);   // 보기엔 한글 그대로, 복사·공유는 주소용으로 변환된 url 을 쓴다
   out.hidden = false;
   sent.hidden = true;
+  guide.hidden = true;
   out.scrollIntoView({ behavior: 'smooth', block: 'center' });
 };
 
@@ -139,8 +148,14 @@ $('send').onclick = async function () {
   } catch (e) {
     if (e && e.name === 'AbortError') return;   // 사용자가 공유창을 닫았을 뿐이다
   }
-  // 공유를 못 쓰는 브라우저이거나 실패했을 때 — 주소를 복사해 드린다
-  say(await copy(url) ? '복사되었습니다. 카톡 대화방에 붙여넣기 해주세요.' : url);
+  // 공유를 못 쓰는 브라우저이거나 실패했을 때 — 주소를 복사하고 다음 할 일을 알려 드린다
+  if (await copy(url)) {
+    say('초대장 주소가 복사되었습니다.');
+    guide.hidden = false;
+  } else {
+    say('아래 주소를 손가락으로 길게 눌러 복사해 주세요.');
+    guide.hidden = true;
+  }
 };
 
 var msgs = document.querySelectorAll('.msg');
