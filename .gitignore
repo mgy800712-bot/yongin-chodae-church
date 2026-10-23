@@ -1,2 +1,5 @@
 자료/
 *.mp4.orig
+
+# 미리보기 임시 파일
+_preview.html
