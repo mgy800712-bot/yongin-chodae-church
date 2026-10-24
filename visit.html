@@ -6,6 +6,7 @@
 <title>오늘 와 주셔서 감사합니다 · 용인초대교회</title>
 <meta name="description" content="오늘 처음 오신 분을 위한 안내 — 환영 인사, 오늘의 말씀, 다음 주 예고">
 <meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;600;700&display=swap" rel="stylesheet">
@@ -16,9 +17,11 @@
 <section class="sheet">
 
   <!-- 1. 환영 -->
-  <h1 class="hello">오늘 초대교회에<br>와 주셔서 감사합니다
+  <p class="brand">용인초대교회</p>
+  <h1 class="hello">오늘 와 주셔서<br>감사합니다
     <small>처음 오신 분을 위해 몇 가지만 적어 두었어요</small>
   </h1>
+  <p class="daytop" id="dayTop" hidden></p>
 
   <!-- 2. 목사님 환영 인사 -->
   <div class="pastor">
@@ -28,12 +31,12 @@
     <iframe id="pastorVid" class="vid" hidden title="목사님 환영 인사"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
       allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    <cite>담임목사 이현무</cite>
+    <cite>이현무 목사 드림</cite>
   </div>
 
   <!-- 3. 오늘의 말씀 -->
   <div class="card2" id="today" hidden>
-    <span class="lb" id="todayDate">오늘의 말씀</span>
+    <span class="lb">오늘 나눈 말씀</span>
     <h3 id="todayTitle"></h3>
     <p class="ref" id="todayRef" hidden></p>
     <p id="todaySum" hidden></p>
@@ -48,8 +51,9 @@
 
   <!-- 5. 새신자 카드 — this-week.js 의 form 에 설문지 주소를 넣으면 나옵니다 -->
   <div id="cardBox" hidden>
-    <div class="cta" style="margin-top:26px">
-      <a id="cardLink" href="#" target="_blank" rel="noopener">원하시면 인사 카드를 남겨 주세요</a>
+    <p class="note" style="margin-top:26px;margin-bottom:12px">원하시면 짧은 인사 카드를 남겨 주세요.<br>다음에 오실 때 이름을 불러 드릴게요.</p>
+    <div class="cta">
+      <a id="cardLink" href="#" target="_blank" rel="noopener">인사 카드 남기기</a>
     </div>
     <p class="note" style="margin-top:10px">남기지 않으셔도 괜찮아요.<br>적고 싶은 만큼만 적으시면 됩니다.</p>
   </div>
@@ -112,10 +116,11 @@
     f.src = vid; f.hidden = false;
   }
 
+  // 맨 위 예배 날짜
+  put('dayTop', v(w.date) && v(w.date) + ' 주일 예배');
+
   // 오늘의 말씀 — 제목이 있을 때만 상자를 띄운다
   if (put('todayTitle', v(w.title), 'today')) {
-    var d = v(w.date);
-    if (d) document.getElementById('todayDate').textContent = d + ' 오늘의 말씀';
     put('todayRef', v(w.verse));
     put('todaySum', v(w.summary));
   }
