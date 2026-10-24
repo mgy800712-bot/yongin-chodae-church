@@ -111,3 +111,34 @@ footer::before{content:'';position:absolute;left:18px;right:18px;top:16px;bottom
   border:1px solid rgba(214,174,98,.35);border-radius:10px}
 footer .motto{font-family:var(--serif);font-size:19px;font-weight:700;color:#f7efdd;margin-bottom:14px}
 footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2.05;color:#cfc6b5}
+
+/* ── 첫 방문 환영 페이지(visit.html) ── */
+.hello{font-family:var(--serif);font-size:26px;font-weight:700;text-align:center;line-height:1.55;
+  letter-spacing:-.01em;margin-bottom:8px}
+.hello small{display:block;margin-top:10px;font-family:var(--sans);font-size:15.5px;font-weight:400;
+  color:var(--ink-soft);letter-spacing:0}
+
+/* 목사님 인사 */
+.pastor{margin-top:28px;padding-top:24px;border-top:1px solid var(--line);text-align:center}
+.pastor img{width:92px;height:92px;border-radius:50%;object-fit:cover;object-position:50% 22%;
+  border:1px solid #c49a52;box-shadow:0 2px 6px rgba(70,48,22,.18)}
+.pastor p{margin-top:14px;font-size:16.5px;line-height:1.95;color:#443d34;text-align:left}
+.pastor cite{display:block;margin-top:12px;font-style:normal;font-family:var(--serif);font-size:15px;
+  font-weight:700;color:#7a5a2c}
+.pastor .vid{margin-top:16px;aspect-ratio:16/9;width:100%;border:0;border-radius:7px}
+
+/* 오늘의 말씀 · 다음 주 예고 */
+.card2{margin-top:26px;padding:20px 18px;border:1px solid #c49a52;border-radius:7px;background:#fffdf7;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
+.card2 .lb{font-size:13.5px;font-weight:700;color:#9a7430;letter-spacing:.06em}
+.card2 h3{margin-top:7px;font-family:var(--serif);font-size:21px;font-weight:700;line-height:1.5;color:#33241a}
+.card2 .ref{margin-top:6px;font-size:15px;color:#6a5b47}
+.card2 p{margin-top:11px;font-size:16.5px;line-height:1.9;color:#443d34}
+.card2.next{background:linear-gradient(#fffbf2,#f6eedd)}
+
+/* 예배 시간 */
+.times{list-style:none;margin-top:14px}
+.times li{display:flex;align-items:baseline;gap:10px;padding:10px 2px;font-size:16.5px;color:#443d34}
+.times li + li{border-top:1px solid rgba(196,154,82,.28)}
+.times b{flex:1;min-width:0;font-family:var(--serif);font-size:16.5px;font-weight:700;color:#33241a}
+.times em{flex:none;font-style:normal;font-size:15.5px;font-weight:500;color:#6a5b47}

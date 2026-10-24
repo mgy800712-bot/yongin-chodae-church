@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>오늘 와 주셔서 감사합니다 · 용인초대교회</title>
+<meta name="description" content="오늘 처음 오신 분을 위한 안내 — 환영 인사, 오늘의 말씀, 다음 주 예고">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/invite.css">
+</head>
+<body>
+<div class="wrap">
+<section class="sheet">
+
+  <!-- 1. 환영 -->
+  <h1 class="hello">오늘 초대교회에<br>와 주셔서 감사합니다
+    <small>처음 오신 분을 위해 몇 가지만 적어 두었어요</small>
+  </h1>
+
+  <!-- 2. 목사님 환영 인사 -->
+  <div class="pastor">
+    <img src="assets/img/pastor.jpg" alt="담임목사 이현무" loading="lazy" decoding="async">
+    <p id="pastorWord">오늘 이 자리에 와 주신 것만으로 참 반갑고 감사합니다.</p>
+    <!-- 30초 환영 영상은 this-week.js 의 video 에 주소를 넣으면 여기 나옵니다 -->
+    <iframe id="pastorVid" class="vid" hidden title="목사님 환영 인사"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <cite>담임목사 이현무</cite>
+  </div>
+
+  <!-- 3. 오늘의 말씀 -->
+  <div class="card2" id="today" hidden>
+    <span class="lb" id="todayDate">오늘의 말씀</span>
+    <h3 id="todayTitle"></h3>
+    <p class="ref" id="todayRef" hidden></p>
+    <p id="todaySum" hidden></p>
+  </div>
+
+  <!-- 4. 다음 주 예고 -->
+  <div class="card2 next" id="next" hidden>
+    <span class="lb">다음 주에는 이런 이야기를 나눠요</span>
+    <h3 id="nextTitle"></h3>
+    <p id="nextSum" hidden></p>
+  </div>
+
+  <!-- 5. 새신자 카드 — this-week.js 의 form 에 설문지 주소를 넣으면 나옵니다 -->
+  <div id="cardBox" hidden>
+    <div class="cta" style="margin-top:26px">
+      <a id="cardLink" href="#" target="_blank" rel="noopener">원하시면 인사 카드를 남겨 주세요</a>
+    </div>
+    <p class="note" style="margin-top:10px">남기지 않으셔도 괜찮아요.<br>적고 싶은 만큼만 적으시면 됩니다.</p>
+  </div>
+
+  <!-- 6. 예배 시간 -->
+  <h2 style="margin-top:34px;margin-bottom:0">다음 주에 또 만나요</h2>
+  <p class="note" style="margin-top:10px">주일 낮 예배는 <mark>오전 11시</mark>입니다.<br>같은 자리에서 기다리고 있을게요.</p>
+  <ul class="times">
+    <li><b>주일 낮 예배</b><em>주일 오전 11:00</em></li>
+    <li><b>주일학교 예배</b><em>주일 오전 10:00</em></li>
+    <li><b>중고등부 예배</b><em>주일 오전 11:00</em></li>
+    <li><b>수요 예배</b><em>수요일 오후 8:00</em></li>
+    <li><b>금요 기도회</b><em>금요일 오후 9:00</em></li>
+    <li><b>새벽 기도회</b><em>매일 오전 6:00</em></li>
+  </ul>
+  <p class="note">예배 후에는 매주 함께 점심을 나눠요.<br>부담 없이 같이 드시고 가셔도 좋습니다.</p>
+
+  <!-- 7. 더 보기 -->
+  <div class="cta" style="margin-top:22px">
+    <a href="welcome.html">처음 오시나요?<b style="display:block;font-size:15px;font-weight:400;margin-top:3px;color:#6a5b47">주차·옷차림·아이 예배 안내</b></a>
+    <a class="call" href="tel:01080034832">궁금한 것 전화로 물어보기<b style="display:block;font-size:19px;font-weight:400;letter-spacing:.1em;margin-top:4px;color:#fff">010-8003-4832</b></a>
+  </div>
+
+  <a class="back" href="index.html">교회 이야기 둘러보기</a>
+</section>
+</div>
+
+<footer>
+  <div class="motto">주를 기뻐하게, 주로 기뻐하라</div>
+  <p>
+    대한예수교장로회 용인초대교회<br>
+    경기도 용인시 처인구 이동읍 경기동로 679 3층<br>
+    담임목사 이현무
+  </p>
+</footer>
+
+<script src="data/this-week.js"></script>
+<script>
+/* this-week.js 를 잘못 고쳐 글자가 깨지면 window.THIS_WEEK 가 없어진다.
+   그때는 설교 부분만 숨고 나머지 페이지는 그대로 보인다. */
+(function () {
+  var w = window.THIS_WEEK || {};
+  // 대괄호가 그대로 남은 항목은 '아직 안 적음' 으로 보고 비운다
+  function v(s) { s = (s || '').trim(); return s.charAt(0) === '[' ? '' : s; }
+  function put(id, text, box) {
+    var el = document.getElementById(id);
+    if (!el) return false;
+    if (!text) { el.hidden = true; return false; }
+    el.textContent = text; el.hidden = false;
+    if (box) document.getElementById(box).hidden = false;
+    return true;
+  }
+
+  // 목사님 인사
+  var word = v(w.pastor);
+  if (word) document.getElementById('pastorWord').textContent = word;
+  var vid = v(w.video);
+  if (/^https:\/\/www\.youtube\.com\/embed\//.test(vid)) {
+    var f = document.getElementById('pastorVid');
+    f.src = vid; f.hidden = false;
+  }
+
+  // 오늘의 말씀 — 제목이 있을 때만 상자를 띄운다
+  if (put('todayTitle', v(w.title), 'today')) {
+    var d = v(w.date);
+    if (d) document.getElementById('todayDate').textContent = d + ' 오늘의 말씀';
+    put('todayRef', v(w.verse));
+    put('todaySum', v(w.summary));
+  }
+
+  // 다음 주 예고
+  if (put('nextTitle', v(w.nextTitle), 'next')) put('nextSum', v(w.nextSummary));
+
+  // 새신자 카드 — 설문지 주소가 들어오면 버튼이 보인다
+  var form = v(w.form);
+  if (/^https:\/\//.test(form)) {
+    document.getElementById('cardLink').href = form;
+    document.getElementById('cardBox').hidden = false;
+  }
+})();
+</script>
+</body>
+</html>
