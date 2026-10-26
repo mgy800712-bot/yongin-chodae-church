@@ -1906,13 +1906,21 @@ document.querySelectorAll('#grid, .maps, .cta, .svc, .vision, .swipe, .vcard, .e
     .observe(el));
 
 // 이번 주 말씀 — 누를 때 유튜브를 불러온다 (최신 업로드부터 재생)
-document.getElementById('tubePlay')?.addEventListener('click', () => {
+const tube = document.getElementById('tube'), tubeBtn = document.getElementById('tubePlay');
+let tubeOn = false;
+tubeBtn?.addEventListener('click', () => {
   const f = document.createElement('iframe');
   f.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=UURYw9Ca3ssSym_KycnLJRMw&autoplay=1&rel=0';
   f.title = '용인초대교회 주일 설교';
   f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
   f.allowFullscreen = true;
-  document.getElementById('tube').replaceChildren(f);
+  tube.replaceChildren(f);
+  // 뒤로가기는 초대장을 떠나는 대신 영상만 닫는다
+  tubeOn = true;
+  history.pushState({ tube: 1 }, '');
+});
+addEventListener('popstate', () => {
+  if (tubeOn && !(history.state && history.state.tube)) { tube.replaceChildren(tubeBtn); tubeOn = false; }
 });
 
 // 갤러리 — 한 장 누르면 전체를 좌우로 넘겨 본다
