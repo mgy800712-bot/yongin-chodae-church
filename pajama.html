@@ -175,8 +175,6 @@
     <rect class="bar" x="17" y="7" width="3" height="10" rx="1.5"/>
   </svg>
 </button>
-<audio id="au" src="assets/audio/bgm-full.mp4" loop playsinline preload="auto"></audio>
-
 <div class="wrap">
 
   <header class="hero">
@@ -273,21 +271,93 @@ box.addEventListener('click', close_);
 addEventListener('popstate', function(){ if(!box.hidden) hide(); });
 addEventListener('keydown', function(e){ if(e.key === 'Escape' && !box.hidden) close_(); });
 
-// 배경음악 — 자동재생이 막히면 화면을 처음 누를 때 시작한다
-var au = document.getElementById('au'), bgm = document.getElementById('bgm'), userOff = false;
-au.volume = 0.3;
-function paint(){ bgm.classList.toggle('off', au.paused); bgm.classList.toggle('waiting', au.paused && !userOff); }
-function play(){ return au.play().then(paint, paint); }
-play();
+// 배경음악 — 음원 파일 없이 그 자리에서 연주하는 통통 튀는 루프
+var AC = window.AudioContext || window.webkitAudioContext;
+var bgm = document.getElementById('bgm');
+var ac = null, master, timer = null, userOff = false;
+
+var B = 60 / 112;                            // 한 박(112 BPM)
+var ROOT  = [0, 7, 9, 5];                    // C · G · Am · F
+var THIRD = [4, 4, 3, 4];                    // Am 만 단3도
+var MEL   = [12, 16, 19, 16, 14, 12, 14, 16];
+
+function tone(t, semi, dur, type, vol){
+  var o = ac.createOscillator(), g = ac.createGain();
+  o.type = type;
+  o.frequency.value = 261.63 * Math.pow(2, semi / 12);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol, t + 0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.03);
+}
+function kick(t){
+  var o = ac.createOscillator(), g = ac.createGain();
+  o.frequency.setValueAtTime(150, t);
+  o.frequency.exponentialRampToValueAtTime(45, t + 0.11);
+  g.gain.setValueAtTime(0.9, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+  o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.2);
+}
+function hat(t){
+  var b = ac.createBuffer(1, 1100, ac.sampleRate), d = b.getChannelData(0);
+  for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  var s = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+  s.buffer = b; f.type = 'highpass'; f.frequency.value = 7000;
+  g.gain.setValueAtTime(0.14, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+  s.connect(f); f.connect(g); g.connect(master); s.start(t);
+}
+// 네 마디를 한꺼번에 예약하고, 끝날 즈음 다시 예약한다
+function cycle(){
+  var t0 = ac.currentTime + 0.12;
+  for (var bar = 0; bar < 4; bar++){
+    var r = ROOT[bar], t = t0 + bar * 4 * B;
+    kick(t); kick(t + 2 * B);
+    for (var e = 0; e < 8; e++){
+      var te = t + e * B / 2;
+      hat(te);
+      if (e % 2 === 0) tone(te, r - 24, B * 0.45, 'triangle', 0.55);   // 베이스
+      if (e === 7)     tone(te, r - 12, B * 0.40, 'triangle', 0.45);   // 다음 마디로 넘기는 맛
+      tone(te, r + MEL[e], B * 0.42, 'square', 0.13);                  // 멜로디
+      if (e % 2 === 1){                                                // 엇박 코드
+        tone(te, r,              B * 0.3, 'sawtooth', 0.05);
+        tone(te, r + THIRD[bar], B * 0.3, 'sawtooth', 0.05);
+        tone(te, r + 7,          B * 0.3, 'sawtooth', 0.05);
+      }
+    }
+  }
+  timer = setTimeout(cycle, 16 * B * 1000 - 140);
+}
+
+function paint(){
+  bgm.classList.toggle('off', !timer);
+  bgm.classList.toggle('waiting', !timer && !userOff);
+}
+function start(){
+  if (timer) return;
+  if (!ac){
+    ac = new AC();
+    master = ac.createGain(); master.gain.value = 0.18; master.connect(ac.destination);
+  }
+  (ac.resume() || Promise.resolve()).then(function(){
+    if (ac.state === 'running' && !timer) cycle();
+    paint();
+  }, paint);
+}
+function stop(){
+  clearTimeout(timer); timer = null;
+  if (ac){ ac.close(); ac = null; }
+  paint();
+}
+start();                                       // 자동재생 시도
 bgm.addEventListener('click', function(){
-  if(au.paused){ userOff = false; play(); } else { userOff = true; au.pause(); paint(); }
+  if (timer){ userOff = true; stop(); } else { userOff = false; start(); }
 });
-addEventListener('pointerdown', function once(e){
-  if(e.target.closest('#bgm')) return;            // 단추는 자기 동작대로
-  if(au.paused && !userOff) play();
+addEventListener('pointerdown', function once(e){   // 막히면 화면 첫 터치에 시작
+  if (e.target.closest('#bgm')) return;
+  if (!timer && !userOff) start();
   removeEventListener('pointerdown', once);
 });
-au.addEventListener('play', paint); au.addEventListener('pause', paint);
 </script>
 
 <footer>
