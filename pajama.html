@@ -47,7 +47,27 @@
   .when p{margin:0;font-size:15px;line-height:1.6}
   .when p b{color:var(--lime)}
   .photo{display:block;width:100%;margin-top:22px;border-radius:10px;
-    border:3px solid var(--lime)}
+    border:3px solid var(--lime);opacity:0;transform:translateY(16px)}
+
+  /* 갤러리 */
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .gallery figure{margin:0;overflow:hidden;border-radius:10px;background:#dedbd2;
+    aspect-ratio:1/1;cursor:zoom-in}
+  .gallery figure:first-child{grid-column:1/-1;aspect-ratio:16/9}
+  .gallery img{width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .5s ease}
+  .gallery figure:active img{transform:scale(1.06)}
+  .ghint{margin:10px 0 0;font-size:13px;color:#8d8a7e;text-align:center}
+
+  /* 사진 크게 보기 */
+  #box{position:fixed;inset:0;z-index:50;background:rgba(10,10,12,.94);
+    display:flex;align-items:center;justify-content:center;padding:16px;
+    opacity:0;pointer-events:none;transition:opacity .22s ease;cursor:zoom-out}
+  #box.on{opacity:1;pointer-events:auto}
+  #box[hidden]{display:none}
+  #box img{max-width:100%;max-height:100%;border-radius:8px;
+    transform:scale(.94);transition:transform .22s ease}
+  #box.on img{transform:scale(1)}
 
   /* 본문 */
   section{padding:30px 22px}
@@ -84,6 +104,50 @@
 
   footer{background:var(--ink);color:#8c8e96;text-align:center;
     padding:22px;font-size:12.5px;line-height:1.7}
+
+  /* ── 움직임 ── */
+  /* 첫 화면: 위에서부터 차례로 올라오기 */
+  .rise{opacity:0;transform:translateY(16px);
+    animation:rise .62s cubic-bezier(.2,.7,.3,1) forwards}
+  .hero .tag{animation-delay:.05s}
+  .hero h1{animation-delay:.14s}
+  .hero .when{animation-delay:.26s}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  /* 스크롤하면 나타나기 */
+  .in{opacity:0;transform:translateY(20px);
+    transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
+  .in.show{opacity:1;transform:none}
+  .cards .card:nth-child(2){transition-delay:.09s}
+  .cards .card:nth-child(3){transition-delay:.18s}
+
+  /* 히어로 사진 천천히 확대 */
+  .photo{animation:rise .62s cubic-bezier(.2,.7,.3,1) .38s forwards,
+                   pan 24s ease-in-out 1.2s infinite alternate}
+  @keyframes pan{to{transform:scale(1.05)}}
+
+  /* 누르는 느낌 */
+  .btn,.card,.map{transition:transform .14s ease,box-shadow .2s ease}
+  .btn:active,.map:active{transform:scale(.97)}
+  .card:active{transform:translateY(-3px)}
+
+  /* 신청 버튼 위로 지나가는 빛 */
+  .btn:not(.ghost){position:relative;overflow:hidden}
+  .btn:not(.ghost)::after{content:"";position:absolute;top:0;left:-60%;
+    width:45%;height:100%;transform:skewX(-20deg);
+    background:linear-gradient(90deg,transparent,rgba(215,242,74,.45),transparent);
+    animation:sweep 3.4s ease-in-out infinite}
+  @keyframes sweep{0%,55%{left:-60%}100%{left:130%}}
+
+  /* 마감 문구 숨쉬기 */
+  .dday{animation:beat 2.4s ease-in-out infinite}
+  @keyframes beat{50%{transform:scale(1.04)}}
+
+  @media (prefers-reduced-motion:reduce){
+    .rise,.photo,.dday,.btn::after{animation:none!important}
+    .rise,.in{opacity:1!important;transform:none!important}
+    .in{transition:none}
+  }
 </style>
 </head>
 <body>
@@ -93,10 +157,10 @@
   <header class="hero">
     <div class="brand">송전초대교회 청소년부 <span>2026 YOUTH NIGHT</span></div>
 
-    <p class="tag">1박 2일 · 10.31 — 11.01</p>
-    <h1>청소년<b>파자마<br>파티</b></h1>
+    <p class="tag rise">1박 2일 · 10.31 — 11.01</p>
+    <h1 class="rise">청소년<b>파자마<br>파티</b></h1>
 
-    <div class="when">
+    <div class="when rise">
       <small>토요일부터 일요일까지, 1박 2일</small>
       <strong>10.31 <i>→</i> 11.01</strong>
       <p><b>2026. 10. 31. 토 오후 4시</b><br>→ 11. 1. 일 오후 2시</p>
@@ -106,17 +170,27 @@
   </header>
 
   <section>
-    <h2><em>01</em> 이런 밤이 기다리고 있어!</h2>
+    <h2 class="in"><em>01</em> 이런 밤이 기다리고 있어!</h2>
     <div class="cards">
-      <div class="card"><b>🎮 함께 놀기</b><p>모바일 팀게임, 보드게임, 협동 미션</p></div>
-      <div class="card"><b>🍗 함께 먹기</b><p>맛있는 저녁과 야식, 따뜻한 핫초코</p></div>
-      <div class="card"><b>🌙 함께 쉬기</b><p>미니 시네마, 넉넉한 자유시간</p></div>
+      <div class="card in"><b>🎮 함께 놀기</b><p>모바일 팀게임, 보드게임, 협동 미션</p></div>
+      <div class="card in"><b>🍗 함께 먹기</b><p>맛있는 저녁과 야식, 따뜻한 핫초코</p></div>
+      <div class="card in"><b>🌙 함께 쉬기</b><p>미니 시네마, 넉넉한 자유시간</p></div>
     </div>
   </section>
 
   <section style="padding-top:0">
-    <h2><em>02</em> 참가 안내</h2>
-    <dl>
+    <h2 class="in"><em>02</em> 우리 이렇게 지내!</h2>
+    <div class="gallery in">
+      <figure><img src="assets/img/t/youth-cafe.jpg" data-full="assets/img/youth-cafe.jpg" alt="교회 카페에 모여 보드게임 하는 모습" loading="lazy" decoding="async"></figure>
+      <figure><img src="assets/img/t/youth-pizza.jpg" data-full="assets/img/youth-pizza.jpg" alt="다 같이 피자 먹는 모습" loading="lazy" decoding="async"></figure>
+      <figure><img src="assets/img/t/youth-outdoor.jpg" data-full="assets/img/youth-outdoor.jpg" alt="야외 모임에서 함께한 모습" loading="lazy" decoding="async"></figure>
+    </div>
+    <p class="ghint in">사진을 누르면 크게 볼 수 있어요</p>
+  </section>
+
+  <section style="padding-top:0">
+    <h2 class="in"><em>03</em> 참가 안내</h2>
+    <dl class="in">
       <dt>장 소</dt>
       <dd>송전초대교회<small>경기 용인시 처인구 경기동로 679 · 이동읍사무소 옆</small></dd>
 
@@ -132,7 +206,7 @@
   </section>
 
   <section class="parents">
-    <h2 style="color:#2f2a4d"><em style="color:#6f68a0">03</em> 학부모님께 드리는 안내</h2>
+    <h2 class="in" style="color:#2f2a4d"><em style="color:#6f68a0">04</em> 학부모님께 드리는 안내</h2>
     <p>이번 모임은 예배·기도회 없이 놀이와 교제 중심으로 진행됩니다.</p>
     <p>교사 상주 · 남녀 분리 취침 · 정해진 취침 시간 운영 · 도착/귀가 안내.</p>
     <p>보호자 동의 후 참가하며, 활동 사진은 촬영·공유에 동의한 경우에만 전달합니다.</p>
@@ -149,6 +223,28 @@
   </section>
 
 </div>
+
+<div id="box" hidden><img alt=""></div>
+
+<script>
+// 스크롤하면 나타나기
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } });
+}, {rootMargin:'0px 0px -12% 0px'});
+document.querySelectorAll('.in').forEach(function(el){ io.observe(el); });
+
+// 사진 크게 보기
+var box = document.getElementById('box'), boxImg = box.querySelector('img');
+document.querySelectorAll('.gallery img').forEach(function(img){
+  img.addEventListener('click', function(){
+    boxImg.src = img.dataset.full; boxImg.alt = img.alt;
+    box.hidden = false; void box.offsetHeight; box.classList.add('on');
+  });
+});
+function close_(){ box.classList.remove('on'); setTimeout(function(){ box.hidden = true; }, 240); }
+box.addEventListener('click', close_);
+addEventListener('keydown', function(e){ if(e.key === 'Escape' && !box.hidden) close_(); });
+</script>
 
 <footer>
   대한예수교장로회 송전초대교회 청소년부<br>
