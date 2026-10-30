@@ -147,3 +147,20 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
   letter-spacing:.12em;margin-bottom:12px}
 .daytop{margin-top:-2px;font-size:15px;text-align:center;color:#8d8172;letter-spacing:.02em}
 .card2.next{border-left:4px solid #b4883c}
+
+/* ── 성탄 초청(christmas.html) ── */
+.xmas-when{margin-top:20px;padding:16px 14px;border-radius:9px;text-align:center;
+  background:linear-gradient(#34496a,#22324b);color:#f3ead8;
+  box-shadow:inset 0 0 0 3px rgba(196,154,82,.35),0 2px 6px rgba(70,48,22,.18)}
+.xmas-when b{display:block;font-family:var(--serif);font-size:19.5px;font-weight:700;letter-spacing:-.01em}
+.xmas-when span{display:inline-block;margin-top:9px;padding:4px 13px;border-radius:999px;
+  background:rgba(236,210,154,.18);color:#f0dcae;font-size:14.5px;font-weight:700;letter-spacing:.02em}
+
+/* ── 초대장 종류 고르기(invite.html) ── */
+.pick{display:flex;gap:9px}
+.pick button{flex:1;padding:14px 8px;border:1px solid #c49a52;border-radius:7px;
+  background:#fffdf7;color:#5c4a33;font-family:var(--sans);font-size:16px;font-weight:500;
+  line-height:1.4;cursor:pointer}
+.pick button.on{background:linear-gradient(#fffbf2,#f3e8d2);color:#33241a;font-weight:700;
+  box-shadow:inset 0 0 0 3px #fffbf2,inset 0 0 0 4px rgba(196,154,82,.38)}
+.pick button:active{transform:scale(.97);transition:transform .08s}

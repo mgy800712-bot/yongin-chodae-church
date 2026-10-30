@@ -34,6 +34,14 @@
   </p>
 
   <div class="fld">
+    <label>어떤 초대장인가요</label>
+    <div class="pick">
+      <button type="button" class="on" data-p="" id="pBasic">교회 초대장</button>
+      <button type="button" data-p="christmas.html" id="pXmas">성탄 예배 초청<b style="display:block;font-size:13px;font-weight:400;color:#7a6a55">12월 20일</b></button>
+    </div>
+  </div>
+
+  <div class="fld">
     <label for="nm">내 이름</label>
     <input id="nm" type="text" inputmode="text" autocomplete="name" maxlength="20" placeholder="김영희 집사">
   </div>
@@ -62,11 +70,19 @@
       <li>글 쓰는 칸을 <b>길게 눌러</b> ‘붙여넣기’를 누르세요.</li>
     </ol>
 
-    <div class="msgs">
+    <div class="msgs" id="msgsBasic">
       <h3>함께 보낼 문구</h3>
       <button class="msg" type="button" data-t="내가 다니는 교회야. 시간 날 때 한번 봐줘 :)"><span>내가 다니는 교회야.<br>시간 날 때 한번 봐줘 :)</span><em>복사</em></button>
       <button class="msg" type="button" data-t="요즘 생각나서 보내요. 우리 교회 소개 페이지예요."><span>요즘 생각나서 보내요.<br>우리 교회 소개 페이지예요.</span><em>복사</em></button>
       <button class="msg" type="button" data-t="이번 주일에 같이 가볼래요? 교회가 어떤 곳인지 먼저 한번 보세요."><span>이번 주일에 같이 가볼래요?<br>교회가 어떤 곳인지 먼저 한번 보세요.</span><em>복사</em></button>
+      <p class="note" style="margin-top:4px">문구를 누르면 글만 복사됩니다.<br>초대장을 보낸 뒤 대화방에 붙여넣어 주세요.</p>
+    </div>
+
+    <div class="msgs" id="msgsXmas" hidden>
+      <h3>함께 보낼 문구</h3>
+      <button class="msg" type="button" data-t="올해 성탄은 우리 교회에서 같이 보낼래? 12월 20일이야."><span>올해 성탄은 우리 교회에서<br>같이 보낼래? 12월 20일이야.</span><em>복사</em></button>
+      <button class="msg" type="button" data-t="성탄 예배에 초대하고 싶어서 보내요. 편하게 한번 와 보세요."><span>성탄 예배에 초대하고 싶어서 보내요.<br>편하게 한번 와 보세요.</span><em>복사</em></button>
+      <button class="msg" type="button" data-t="그날 아이들 공연도 있고 점심도 같이 먹어요. 같이 가요 :)"><span>그날 아이들 공연도 있고<br>점심도 같이 먹어요. 같이 가요 :)</span><em>복사</em></button>
       <p class="note" style="margin-top:4px">문구를 누르면 글만 복사됩니다.<br>초대장을 보낸 뒤 대화방에 붙여넣어 주세요.</p>
     </div>
   </div>
@@ -100,6 +116,18 @@ var KAKAO_KEY = '3b69adad3846c8371c0781e723a9e45a';   // '용인초대교회 웹
 var $ = function (id) { return document.getElementById(id); };
 var nm = $('nm'), tl = $('tl'), out = $('out'), link = $('link'), sent = $('sent');
 var guide = $('guide'), url = '', who = '', kakaoOn = false;
+var page = '';   // '' 는 교회 초대장, 'christmas.html' 은 성탄 초청
+
+// 초대장 종류 — 고르면 주소와 함께 보낼 문구가 같이 바뀐다
+var picks = document.querySelectorAll('.pick button');
+for (var pi = 0; pi < picks.length; pi++) picks[pi].onclick = function (e) {
+  for (var i = 0; i < picks.length; i++) picks[i].classList.remove('on');
+  e.currentTarget.classList.add('on');
+  page = e.currentTarget.dataset.p;
+  $('msgsBasic').hidden = !!page;
+  $('msgsXmas').hidden = !page;
+  if (url) $('make').click();   // 이미 만든 링크가 있으면 새 주소로 다시 만든다
+};
 
 // 카카오 키가 있으면 SDK 를 불러 둔다. 없거나 실패하면 그냥 전처럼 동작한다.
 if (KAKAO_KEY) {
@@ -159,7 +187,7 @@ $('make').onclick = function () {
 
   // 이 페이지가 놓인 폴더 주소가 곧 초대장 주소다
   var base = location.href.split(/[?#]/)[0].replace(/invite\.html$/, '');
-  url = base + '?from=' + encodeURIComponent(name) + (tel ? '&tel=' + tel : '');
+  url = base + page + '?from=' + encodeURIComponent(name) + (tel ? '&tel=' + tel : '');
   who = name;
   link.textContent = decodeURI(url);   // 보기엔 한글 그대로, 복사·공유는 주소용으로 변환된 url 을 쓴다
   out.hidden = false;
@@ -177,8 +205,9 @@ $('send').onclick = async function () {
       Kakao.Share.sendDefault({
         objectType: 'feed',
         content: {
-          title: who + '님이 당신을 초대합니다',
-          description: '용인초대교회 · 주일 낮 예배 오전 11시',
+          title: who + (page ? '님이 성탄 예배에 초대합니다' : '님이 당신을 초대합니다'),
+          description: page ? '12월 20일 주일 오전 11시 · 처음 오셔도 괜찮습니다'
+            : '용인초대교회 · 주일 낮 예배 오전 11시',
           imageUrl: location.origin + location.pathname.replace(/invite\.html$/, '') + 'assets/img/og.jpg',
           link: { mobileWebUrl: url, webUrl: url }
         },

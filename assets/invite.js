@@ -1,5 +1,5 @@
 /* 개인 초대 링크 — ?from=이름 · &tel=번호
-   index.html · welcome.html 이 함께 쓴다. 값이 없으면 아무것도 바꾸지 않는다.
+   index.html · welcome.html · christmas.html 이 함께 쓴다. 값이 없으면 아무것도 바꾸지 않는다.
    index.html 이 '처음 오시는 분께' 를 덮개로 불러온 뒤 그 조각에도 다시 적용하므로
    INV.apply(root) 로 꺼내 둔다. */
 (function () {
@@ -44,7 +44,7 @@
       var as = root.querySelectorAll('a[href]');
       for (var k = 0; k < as.length; k++) {
         var h = as[k].getAttribute('href');
-        if (!/^(\.\/)?(index|welcome|invite)\.html/.test(h) && h !== './' && h !== '.') continue;
+        if (!/^(\.\/)?(index|welcome|invite|christmas)\.html/.test(h) && h !== './' && h !== '.') continue;
         as[k].setAttribute('href', h.split(/[?#]/)[0] + '?' + keep);
       }
     }
