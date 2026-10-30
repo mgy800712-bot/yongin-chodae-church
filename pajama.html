@@ -164,9 +164,108 @@
     .rise,.in{opacity:1!important;transform:none!important}
     .in{transition:none}
   }
+
+  /* ── 봉투 ── 봉인을 떼면 음악이 풀린다 (배틀 게임풍 두꺼운 외곽선) */
+  .stage{display:none}
+  .js .stage{position:fixed;inset:0;z-index:80;display:grid;place-items:center;align-content:center;gap:28px;
+    background:radial-gradient(120% 82% at 50% 38%,#4531a8 0%,#241a66 52%,#0e0a2e 100%);
+    cursor:pointer;-webkit-user-select:none;user-select:none;overflow:hidden;
+    transition:opacity .9s cubic-bezier(.4,0,.2,1),visibility 0s linear .9s}
+  .js:not(.opened) body{overflow:hidden}
+  .js:not(.opened) .bgm{display:none}
+  .js:not(.opened) .rise,.js:not(.opened) .photo{animation-play-state:paused}
+  .opened .stage{opacity:0;visibility:hidden;pointer-events:none}
+
+  /* 뒤에서 도는 빛살 */
+  .rays{position:absolute;width:150vmax;height:150vmax;z-index:0;opacity:.3;pointer-events:none;
+    background:repeating-conic-gradient(from 0deg,#ffd84a 0deg 7deg,transparent 7deg 18deg);
+    -webkit-mask-image:radial-gradient(closest-side,#000 18%,transparent 72%);
+            mask-image:radial-gradient(closest-side,#000 18%,transparent 72%);
+    animation:spin 34s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .opened .rays{animation:none;opacity:0;transition:opacity .5s}
+
+  .env{position:relative;z-index:1;width:min(86vw,352px);aspect-ratio:1.45;perspective:1000px;
+    animation:bob 3.2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-.6deg)}50%{transform:translateY(-9px) rotate(.6deg)}}
+
+  /* 자른 면(clip-path)은 테두리가 잘리므로, 바깥 상자에 그림자를 줘서 V 선을 그린다 */
+  .env-back,.env-front,.env-flap,.env-text{position:absolute}
+  .env-back{inset:0;border:4px solid #140f2e;border-radius:16px;
+    background:linear-gradient(#ffcf3a,#f59a1b);
+    box-shadow:inset 0 -12px 0 rgba(120,56,0,.3), 0 14px 0 #140f2e, 0 20px 30px rgba(0,0,0,.45)}
+  .env-front{inset:0;z-index:3;filter:drop-shadow(0 -3px 0 #140f2e)}
+  .env-front > i{position:absolute;inset:0;border:4px solid #140f2e;border-radius:16px;
+    background:linear-gradient(#ffdd6a,#ffb43a);
+    clip-path:polygon(0 0,50% 46%,100% 0,100% 100%,0 100%)}
+  .env-text{inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;
+    justify-content:flex-end;padding:0 16px 8%;text-align:center;gap:3px}
+  .env-title{margin:0;font-size:clamp(34px,10vw,46px);font-weight:900;line-height:1;color:#fff;
+    letter-spacing:-.02em;-webkit-text-stroke:5px #140f2e;paint-order:stroke fill;
+    text-shadow:0 5px 0 #140f2e}
+  .env-sub{margin:2px 0 0;font-size:14px;font-weight:900;color:#140f2e}
+  .env-kicker{margin:0;font-size:12px;font-weight:700;color:#7b3f06;letter-spacing:.06em}
+
+  /* 윗덮개 */
+  .env-flap{left:0;right:0;top:0;height:50%;z-index:5;
+    filter:drop-shadow(0 3px 0 #140f2e);
+    transform-origin:top;transform-style:preserve-3d;
+    transition:transform .72s cubic-bezier(.55,0,.25,1)}
+  .env-flap > i{position:absolute;inset:0;border:4px solid #140f2e;border-radius:16px 16px 0 0;
+    background:linear-gradient(#ffe485,#ffc63f);
+    clip-path:polygon(0 0,100% 0,50% 92%)}
+  .env.open .env-flap{transform:rotateX(178deg)}
+
+  /* 봉인 — 별 배지 */
+  .seal{position:absolute;z-index:6;left:50%;top:40%;width:74px;height:74px;margin:-37px 0 0 -37px;
+    animation:sealbeat 1.5s ease-in-out .6s infinite}
+  .seal svg{width:100%;height:100%;display:block;filter:drop-shadow(0 5px 0 rgba(10,6,30,.55))}
+  .seal::before{content:'';position:absolute;inset:-4px;border-radius:50%;
+    border:3px solid rgba(255,230,120,.95);opacity:0;animation:sealring 1.5s ease-out .6s infinite}
+  @keyframes sealring{0%{transform:scale(.9);opacity:.95}100%{transform:scale(1.85);opacity:0}}
+  @keyframes sealbeat{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.09) rotate(4deg)}}
+  .env.open .seal{animation:sealpop .5s cubic-bezier(.3,-.6,.6,1) forwards}
+  .env.open .seal::before{animation:none;opacity:0}
+  @keyframes sealpop{40%{transform:translateY(-34px) scale(1.25) rotate(-18deg);opacity:1}
+    100%{transform:translateY(34px) scale(.5) rotate(-50deg);opacity:0}}
+
+  .env-hint{position:relative;z-index:1;margin:0;padding:12px 24px;border-radius:999px;
+    background:#140f2e;border:3px solid #ffd84a;color:#ffd84a;
+    font-size:15px;font-weight:700;letter-spacing:.01em;
+    animation:hintbob 2.2s ease-in-out infinite}
+  @keyframes hintbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .opened .env-hint{animation:none;opacity:0;transition:opacity .3s}
+
+  @media (prefers-reduced-motion:reduce){
+    .rays,.env,.seal,.seal::before,.env-hint{animation:none!important}
+  }
 </style>
+<script>document.documentElement.className='js';</script>
 </head>
 <body>
+
+<div class="stage" id="stage" role="button" tabindex="0" aria-label="초대장 열기">
+  <div class="rays" aria-hidden="true"></div>
+  <div class="env" id="env">
+    <div class="env-back"></div>
+    <div class="env-front"><i></i></div>
+    <div class="env-text">
+      <p class="env-title">초대장</p>
+      <p class="env-sub">1박 2일 · 파자마 파티</p>
+      <p class="env-kicker">송전초대교회 청소년부</p>
+    </div>
+    <div class="env-flap" id="envFlap"><i></i></div>
+    <span class="seal" aria-hidden="true">
+      <svg viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="29" fill="#ff8a1e" stroke="#140f2e" stroke-width="4"/>
+        <circle cx="32" cy="32" r="23" fill="#ffd33f" stroke="#140f2e" stroke-width="2.5"/>
+        <polygon points="32,10 37.6,24.3 52.9,25.2 41,34.9 44.9,49.8 32,41.5 19.1,49.8 23,34.9 11.1,25.2 26.4,24.3"
+                 fill="#fff8d6" stroke="#140f2e" stroke-width="3" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </div>
+  <p class="env-hint">봉인을 눌러 열어 보세요</p>
+</div>
 
 <button class="bgm off" id="bgm" aria-label="배경음악 켜기/끄기">
   <svg viewBox="0 0 24 24" fill="currentColor">
@@ -283,19 +382,41 @@ function play(){ au.play().then(paint, paint); }
 au.addEventListener('play', paint);
 au.addEventListener('pause', paint);
 
-play();                                              // 자동재생부터 시도
+if (!document.getElementById('stage')) play();        // 봉투가 없으면 바로 시도
 bgm.addEventListener('click', function(){
   if (au.paused){ userOff = false; play(); } else { userOff = true; au.pause(); }
 });
 // 자동재생이 막힌 폰 — 화면 아무 데나 닿는 순간 바로 재생
 // (이미 울리고 있으면 아무 일도 하지 않으므로 리스너를 그냥 달아 둔다)
 function wake(e){
+  if (stage && !opened) return;                               // 봉인부터 떼야 한다
   if (e.target.closest && e.target.closest('#bgm')) return;   // 단추는 자기 동작대로
   if (au.paused && !userOff) play();
 }
 addEventListener('pointerdown', wake, {passive:true});
 addEventListener('touchstart', wake, {passive:true});
 addEventListener('click', wake);
+
+// 봉투 — 봉인을 떼는 그 터치로 음악이 풀린다
+var stage = document.getElementById('stage'), env = document.getElementById('env'),
+    envFlap = document.getElementById('envFlap'), opened = false;
+function openEnv(){
+  if (opened) return;
+  opened = true;
+  play();                                            // 봉인이 풀리는 순간 음악이 시작된다
+  env.style.animation = 'none';
+  env.classList.add('open');
+  setTimeout(function(){ envFlap.style.zIndex = 1; }, 400);   // 덮개가 수직을 지나면 봉투 뒤로 넘어간다
+  env.animate([{transform:'none',opacity:1},{transform:'translateY(42%) rotate(4deg)',opacity:0}],
+    {duration:620,delay:430,easing:'cubic-bezier(.5,0,.75,0)',fill:'forwards'});
+  setTimeout(function(){ document.documentElement.classList.add('opened'); }, 580);
+}
+if (stage){
+  stage.addEventListener('pointerdown', openEnv);
+  stage.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openEnv(); }
+  });
+}
 </script>
 
 <footer>
