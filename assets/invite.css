@@ -164,3 +164,13 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 .pick button.on{background:linear-gradient(#fffbf2,#f3e8d2);color:#33241a;font-weight:700;
   box-shadow:inset 0 0 0 3px #fffbf2,inset 0 0 0 4px rgba(196,154,82,.38)}
 .pick button:active{transform:scale(.97);transition:transform .08s}
+
+/* ─── 성탄 홍보 영상 ─── */
+.vid{margin:26px 0 0;border-radius:16px;overflow:hidden;background:#18140f;aspect-ratio:16/9;box-shadow:0 6px 20px rgba(60,42,16,.18)}
+.vid iframe,.vid>button{display:block;width:100%;height:100%;border:0}
+.vid>button{position:relative;padding:0;cursor:pointer;background:#18140f center/cover no-repeat}
+.vid>button::after{content:'';position:absolute;inset:0;background:rgba(26,18,8,.26)}
+.vid .pl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1;width:66px;height:66px;border-radius:50%;background:rgba(255,253,247,.94);display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.vid .pl svg{width:26px;height:26px;margin-left:5px;fill:#b23a2e}
+.vid>button:active .pl{transform:translate(-50%,-50%) scale(.94)}
+.vid-note{margin:12px 0 0;text-align:center;font-size:15px}

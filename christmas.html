@@ -46,7 +46,13 @@ var EVENT = {
   ],
 
   // 오시는 분께 드리는 것 — 없으면 빈 따옴표로 두세요
-  gift: '오신 분께 작은 성탄 선물을 드려요.'
+  gift: '오신 분께 작은 성탄 선물을 드려요.',
+
+  // 홍보 영상 — 유튜브 주소를 그대로 붙여 넣으세요. 없으면 빈 따옴표
+  video: 'https://www.youtube.com/watch?v=gg6DcsT6YFA',
+
+  // 영상 밑에 붙일 한 줄 — 없으면 빈 따옴표
+  videoNote: '지난 성탄, 아이들과 청년들이 준비한 무대예요'
 
 };
 </script>
@@ -71,6 +77,13 @@ var EVENT = {
     <ul class="times" id="prog"></ul>
     <p id="gift" hidden></p>
   </div>
+
+  <div class="vid" id="vidBox" hidden>
+    <button type="button" id="vidPlay" aria-label="성탄 영상 보기">
+      <span class="pl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l12 7-12 7z"/></svg></span>
+    </button>
+  </div>
+  <p class="note vid-note" id="vidNote" hidden></p>
 
   <h2 style="margin-top:34px;margin-bottom:0">처음 오셔도 괜찮습니다</h2>
   <dl class="qa" style="margin-top:18px">
@@ -173,6 +186,27 @@ var EVENT = {
     ul.appendChild(li);
   }
   if (!list.length) ul.hidden = true;
+
+  // 홍보 영상 — 누르기 전에는 사진 한 장만 받는다
+  var m = /(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/.exec(e.video || '');
+  if (m) {
+    var id = m[1], vb = document.getElementById('vidBox'), btn = document.getElementById('vidPlay');
+    btn.style.backgroundImage = 'url(https://i.ytimg.com/vi/' + id + '/hqdefault.jpg)';
+    vb.hidden = false;
+    if (e.videoNote) {
+      var vn = document.getElementById('vidNote');
+      vn.textContent = e.videoNote;
+      vn.hidden = false;
+    }
+    btn.onclick = function () {
+      var f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+      f.title = '용인초대교회 성탄 영상';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      f.allowFullscreen = true;
+      vb.replaceChildren(f);
+    };
+  }
 
   if (e.gift) {
     var g = document.getElementById('gift');
