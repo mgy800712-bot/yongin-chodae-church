@@ -208,7 +208,8 @@ $('send').onclick = async function () {
           title: who + (page ? '님이 성탄 예배에 초대합니다' : '님이 당신을 초대합니다'),
           description: page ? '12월 25일 금요일 오전 11시 · 처음 오셔도 괜찮습니다'
             : '용인초대교회 · 주일 낮 예배 오전 11시',
-          imageUrl: location.origin + location.pathname.replace(/invite\.html$/, '') + 'assets/img/og.jpg',
+          imageUrl: location.origin + location.pathname.replace(/invite\.html$/, '') +
+            (page ? 'assets/img/og-christmas.jpg' : 'assets/img/og.jpg'),
           link: { mobileWebUrl: url, webUrl: url }
         },
         buttons: [{ title: '초대장 열어보기', link: { mobileWebUrl: url, webUrl: url } }]
