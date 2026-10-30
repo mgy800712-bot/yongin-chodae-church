@@ -37,7 +37,7 @@
     <label>어떤 초대장인가요</label>
     <div class="pick">
       <button type="button" class="on" data-p="" id="pBasic">교회 초대장</button>
-      <button type="button" data-p="christmas.html" id="pXmas">성탄 예배 초청<b style="display:block;font-size:13px;font-weight:400;color:#7a6a55">12월 20일</b></button>
+      <button type="button" data-p="christmas.html" id="pXmas">성탄 예배 초청<b style="display:block;font-size:13px;font-weight:400;color:#7a6a55">12월 25일</b></button>
     </div>
   </div>
 
@@ -80,7 +80,7 @@
 
     <div class="msgs" id="msgsXmas" hidden>
       <h3>함께 보낼 문구</h3>
-      <button class="msg" type="button" data-t="올해 성탄은 우리 교회에서 같이 보낼래? 12월 20일이야."><span>올해 성탄은 우리 교회에서<br>같이 보낼래? 12월 20일이야.</span><em>복사</em></button>
+      <button class="msg" type="button" data-t="올해 성탄은 우리 교회에서 같이 보낼래? 12월 25일이야."><span>올해 성탄은 우리 교회에서<br>같이 보낼래? 12월 25일이야.</span><em>복사</em></button>
       <button class="msg" type="button" data-t="성탄 예배에 초대하고 싶어서 보내요. 편하게 한번 와 보세요."><span>성탄 예배에 초대하고 싶어서 보내요.<br>편하게 한번 와 보세요.</span><em>복사</em></button>
       <button class="msg" type="button" data-t="그날 아이들 공연도 있고 점심도 같이 먹어요. 같이 가요 :)"><span>그날 아이들 공연도 있고<br>점심도 같이 먹어요. 같이 가요 :)</span><em>복사</em></button>
       <p class="note" style="margin-top:4px">문구를 누르면 글만 복사됩니다.<br>초대장을 보낸 뒤 대화방에 붙여넣어 주세요.</p>
@@ -206,7 +206,7 @@ $('send').onclick = async function () {
         objectType: 'feed',
         content: {
           title: who + (page ? '님이 성탄 예배에 초대합니다' : '님이 당신을 초대합니다'),
-          description: page ? '12월 20일 주일 오전 11시 · 처음 오셔도 괜찮습니다'
+          description: page ? '12월 25일 금요일 오전 11시 · 처음 오셔도 괜찮습니다'
             : '용인초대교회 · 주일 낮 예배 오전 11시',
           imageUrl: location.origin + location.pathname.replace(/invite\.html$/, '') + 'assets/img/og.jpg',
           link: { mobileWebUrl: url, webUrl: url }
