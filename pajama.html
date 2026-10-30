@@ -34,7 +34,7 @@
   .hero{background:var(--ink);color:#fff;padding:26px 22px 28px}
   .brand{display:flex;justify-content:space-between;align-items:center;
     font-size:12px;letter-spacing:.04em;font-weight:700;
-    border-bottom:1px solid #35363c;padding-bottom:14px}
+    border-bottom:1px solid #35363c;padding-bottom:14px;padding-right:46px}
   .brand span{color:var(--lime);letter-spacing:.14em}
   .tag{display:inline-block;margin:22px 0 14px;background:var(--lime);color:#15161a;
     font-weight:700;font-size:13px;padding:6px 12px;border-radius:4px}
@@ -105,6 +105,22 @@
   footer{background:var(--ink);color:#8c8e96;text-align:center;
     padding:22px;font-size:12.5px;line-height:1.7}
 
+  /* 배경음악 단추 */
+  .bgm{position:fixed;top:12px;left:50%;transform:translateX(calc(-50% + 192px));z-index:40;
+    width:38px;height:38px;border-radius:50%;border:1px solid #3a3b42;
+    background:rgba(21,22,26,.8);backdrop-filter:blur(6px);
+    color:var(--lime);cursor:pointer;display:grid;place-items:center;padding:0}
+  @media(max-width:500px){.bgm{left:auto;right:12px;transform:none}}
+  .bgm svg{width:17px;height:17px}
+  .bgm .bar{animation:eq .9s ease-in-out infinite;transform-origin:center bottom}
+  .bgm .bar:nth-child(2){animation-delay:.15s}
+  .bgm .bar:nth-child(3){animation-delay:.3s}
+  .bgm.off .bar{animation:none;opacity:.4}
+  @keyframes eq{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+  .bgm.waiting{animation:ring 1.8s ease-out infinite}
+  @keyframes ring{0%{box-shadow:0 0 0 0 rgba(215,242,74,.5)}
+    70%{box-shadow:0 0 0 12px rgba(215,242,74,0)}100%{box-shadow:0 0 0 0 rgba(215,242,74,0)}}
+
   /* ── 움직임 ── */
   /* 첫 화면: 위에서부터 차례로 올라오기 */
   .rise{opacity:0;transform:translateY(16px);
@@ -144,13 +160,22 @@
   @keyframes beat{50%{transform:scale(1.04)}}
 
   @media (prefers-reduced-motion:reduce){
-    .rise,.photo,.dday,.btn::after{animation:none!important}
+    .rise,.photo,.dday,.btn::after,.bgm,.bgm .bar{animation:none!important}
     .rise,.in{opacity:1!important;transform:none!important}
     .in{transition:none}
   }
 </style>
 </head>
 <body>
+
+<button class="bgm off" id="bgm" aria-label="배경음악 켜기/끄기">
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <rect class="bar" x="4" y="7" width="3" height="10" rx="1.5"/>
+    <rect class="bar" x="10.5" y="4" width="3" height="16" rx="1.5"/>
+    <rect class="bar" x="17" y="7" width="3" height="10" rx="1.5"/>
+  </svg>
+</button>
+<audio id="au" src="assets/audio/bgm-full.mp4" loop playsinline preload="auto"></audio>
 
 <div class="wrap">
 
@@ -239,11 +264,30 @@ document.querySelectorAll('.gallery img').forEach(function(img){
   img.addEventListener('click', function(){
     boxImg.src = img.dataset.full; boxImg.alt = img.alt;
     box.hidden = false; void box.offsetHeight; box.classList.add('on');
+    history.pushState({box:1}, '');   // 뒤로가기로 사진만 닫히게
   });
 });
-function close_(){ box.classList.remove('on'); setTimeout(function(){ box.hidden = true; }, 240); }
+function hide(){ box.classList.remove('on'); setTimeout(function(){ box.hidden = true; }, 240); }
+function close_(){ if(history.state && history.state.box) history.back(); else hide(); }
 box.addEventListener('click', close_);
+addEventListener('popstate', function(){ if(!box.hidden) hide(); });
 addEventListener('keydown', function(e){ if(e.key === 'Escape' && !box.hidden) close_(); });
+
+// 배경음악 — 자동재생이 막히면 화면을 처음 누를 때 시작한다
+var au = document.getElementById('au'), bgm = document.getElementById('bgm'), userOff = false;
+au.volume = 0.3;
+function paint(){ bgm.classList.toggle('off', au.paused); bgm.classList.toggle('waiting', au.paused && !userOff); }
+function play(){ return au.play().then(paint, paint); }
+play();
+bgm.addEventListener('click', function(){
+  if(au.paused){ userOff = false; play(); } else { userOff = true; au.pause(); paint(); }
+});
+addEventListener('pointerdown', function once(e){
+  if(e.target.closest('#bgm')) return;            // 단추는 자기 동작대로
+  if(au.paused && !userOff) play();
+  removeEventListener('pointerdown', once);
+});
+au.addEventListener('play', paint); au.addEventListener('pause', paint);
 </script>
 
 <footer>
