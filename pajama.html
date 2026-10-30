@@ -9,10 +9,17 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="송전초대교회 청소년부">
 <meta property="og:title" content="청소년 파자마 파티 · 1박 2일">
-<meta property="og:description" content="10.31(토) 오후 4시 → 11.1(일) 오후 2시 · 놀고, 먹고, 쉬는 하룻밤 · 신청 10.28(수)까지">
-<meta property="og:image" content="https://mgy800712-bot.github.io/yongin-chodae-church/assets/img/youth-cafe.jpg">
+<meta property="og:description" content="10.31(토) 오후 4시 → 11.1(일) 오후 2시 · 송전초대교회 · 중·고등학생과 초청 친구">
+<meta property="og:image" content="https://mgy800712-bot.github.io/yongin-chodae-church/assets/img/og-pajama.jpg?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="청소년 파자마 파티 · 1박 2일 10.31~11.01">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="청소년 파자마 파티 · 1박 2일">
+<meta name="twitter:description" content="10.31(토) 오후 4시 → 11.1(일) 오후 2시 · 송전초대교회">
+<meta name="twitter:image" content="https://mgy800712-bot.github.io/yongin-chodae-church/assets/img/og-pajama.jpg?v=1">
+<link rel="canonical" href="https://mgy800712-bot.github.io/yongin-chodae-church/pajama.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -100,6 +107,7 @@
     border-radius:10px;padding:15px;font-size:17px;font-weight:700;margin-bottom:10px}
   .btn b{display:block;font-size:20px;font-weight:900;letter-spacing:.04em;margin-top:3px}
   .btn.ghost{background:transparent;color:#15161a;border:2px solid #15161a;margin-bottom:0}
+  #share{margin-top:10px;cursor:pointer}
   .map{display:block;margin-top:14px;font-size:13.5px;color:#3c3f1f}
 
   footer{background:var(--ink);color:#8c8e96;text-align:center;
@@ -342,6 +350,8 @@
     <a class="btn" href="sms:01087555844?body=%ED%8C%8C%EC%9E%90%EB%A7%88%20%ED%8C%8C%ED%8B%B0%20%EC%8B%A0%EC%B2%AD%ED%95%A9%EB%8B%88%EB%8B%A4.%0A%ED%95%99%EC%83%9D%20%EC%9D%B4%EB%A6%84%3A%0A%ED%95%99%EA%B5%90%2F%ED%95%99%EB%85%84%3A%0A%EB%B3%B4%ED%98%B8%EC%9E%90%20%EC%97%B0%EB%9D%BD%EC%B2%98%3A%0A%EC%8B%9D%ED%92%88%20%EC%95%8C%EB%A0%88%EB%A5%B4%EA%B8%B0%3A%0A%EA%B7%80%EA%B0%80%20%EB%B0%A9%EB%B2%95%3A">문자로 신청하기<b>맹기영 전도사</b></a>
     <a class="btn ghost" href="tel:01087555844">전화로 물어보기 · 010-8755-5844</a>
 
+    <a class="btn ghost" id="share" role="button" tabindex="0">친구에게 초대장 보내기</a>
+
     <a class="map" href="https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%9A%A9%EC%9D%B8%EC%8B%9C%20%EC%B2%98%EC%9D%B8%EA%B5%AC%20%EC%9D%B4%EB%8F%99%EC%9D%8D%20%EA%B2%BD%EA%B8%B0%EB%8F%99%EB%A1%9C%20679" target="_blank" rel="noopener">📍 지도에서 교회 위치 보기</a>
   </section>
 
@@ -396,6 +406,16 @@ function wake(e){
 addEventListener('pointerdown', wake, {passive:true});
 addEventListener('touchstart', wake, {passive:true});
 addEventListener('click', wake);
+
+// 친구에게 보내기 — 기기 공유창(카톡·인스타 DM 등), 없으면 링크 복사
+var share = document.getElementById('share');
+share.addEventListener('click', function(){
+  var url = location.href.split(/[?#]/)[0];
+  var data = {title:'청소년 파자마 파티', text:'10.31(토)~11.1(일) 1박 2일 파자마 파티! 같이 가자', url:url};
+  if (navigator.share) { navigator.share(data).catch(function(){}); return; }
+  var done = function(){ share.textContent = '링크를 복사했어요'; setTimeout(function(){ share.textContent = '친구에게 초대장 보내기'; }, 2200); };
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, done); else done();
+});
 
 // 봉투 — 봉인을 떼는 그 터치로 음악이 풀린다
 var stage = document.getElementById('stage'), env = document.getElementById('env'),
