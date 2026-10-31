@@ -43,7 +43,7 @@ https://github.com/mgy800712-bot/yongin-chodae-church/edit/main/data/this-week.j
   title: '사랑하기에 기다리신다',
 ```
 
-바꿀 곳은 여섯 군데입니다.
+바꿀 곳은 일곱 군데입니다.
 
 | 항목 | 무엇을 적나요 | 예시 |
 |---|---|---|
@@ -51,10 +51,14 @@ https://github.com/mgy800712-bot/yongin-chodae-church/edit/main/data/this-week.j
 | `title` | 오늘 설교 제목 | `사랑하기에 기다리신다` |
 | `verse` | 오늘 설교 본문 | `누가복음 15장 11~24절` |
 | `summary` | 오늘 설교 한 줄 요약 | `돌아오기만 하면 아버지는 묻지 않고 안아 주십니다.` |
+| `cardVerse` | 말씀 카드에 크게 넣을 성경 구절 | `아버지는 그를 보고 측은히 여겨 달려가 목을 안고 입을 맞추니` |
 | `nextTitle` | 다음 주 설교 제목 | `혼자 짊어지지 마세요` |
 | `nextSummary` | 다음 주 한 줄 소개 | `무거운 짐을 나눠 지는 법을 나눕니다.` |
 
 **요약은 처음 온 분도 알아듣는 쉬운 말로** 한 문장이면 충분합니다.
+
+`cardVerse` 는 성도님들이 지인에게 보내는 **말씀 카드**(`card.html`)에 크게 들어가는 구절입니다.
+비워 두면 위의 `summary` 가 대신 크게 들어가니, 바쁘면 건너뛰셔도 됩니다.
 
 ### 4. 저장하기
 

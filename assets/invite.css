@@ -174,3 +174,10 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 .vid .pl svg{width:26px;height:26px;margin-left:5px;fill:#b23a2e}
 .vid>button:active .pl{transform:translate(-50%,-50%) scale(.94)}
 .vid-note{margin:12px 0 0;text-align:center;font-size:15px}
+
+/* ─── 말씀 카드 ─── */
+.cardbox{margin-top:26px;border-radius:10px;overflow:hidden;background:#fffcf6;
+  box-shadow:0 2px 5px rgba(70,48,22,.14),0 18px 32px -18px rgba(70,48,22,.4)}
+.cardbox canvas{display:block;width:100%;height:auto}
+.cta > *:disabled{opacity:.45;cursor:default;box-shadow:none}
+.cta > *:disabled:active{transform:none}
