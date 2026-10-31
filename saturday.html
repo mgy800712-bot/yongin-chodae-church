@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>토요 카페 · 송전초대교회 청소년부</title>
+<meta name="description" content="매주 토요일 오후 3시~6시, 교회 3층 카페를 엽니다. 예배 없이 그냥 놀다 가는 곳.">
+<meta property="og:url" content="https://mgy800712-bot.github.io/yongin-chodae-church/saturday.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="송전초대교회 청소년부">
+<meta property="og:title" content="토요 카페 · 매주 토요일 오후 3시">
+<meta property="og:description" content="보드게임, 카드게임, 라면. 예배 없음. 친구 데려와도 됨. 그냥 오면 돼요.">
+<meta property="og:image" content="https://mgy800712-bot.github.io/yongin-chodae-church/assets/img/og-saturday.jpg?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="토요 카페 · 매주 토요일 오후 3시 · 송전초대교회 3층">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="토요 카페 · 매주 토요일 오후 3시">
+<meta name="twitter:description" content="보드게임, 카드게임, 라면. 예배 없음. 그냥 오면 돼요.">
+<meta name="twitter:image" content="https://mgy800712-bot.github.io/yongin-chodae-church/assets/img/og-saturday.jpg?v=1">
+<link rel="canonical" href="https://mgy800712-bot.github.io/yongin-chodae-church/saturday.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2a1d16; --cream:#fff7ec; --card:#fffdf8;
+    --red:#e2452f; --orange:#ff8a3d; --line:#ecdcc6; --mute:#8a7664;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:#f0e3d0;color:var(--ink);
+    font-family:"Noto Sans KR",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+  .wrap{max-width:480px;margin:0 auto;background:var(--cream);
+    box-shadow:0 0 40px rgba(90,60,30,.12)}
+
+  /* 머리 */
+  .hero{position:relative;padding:26px 22px 24px;color:#fff;
+    background:linear-gradient(170deg,#e2452f,#b82a1c)}
+  .brand{font-size:12.5px;font-weight:700;letter-spacing:.06em;opacity:.9}
+  h1{margin:12px 0 0;font-size:clamp(42px,13vw,56px);font-weight:900;line-height:1;letter-spacing:-.03em}
+  .when{margin:14px 0 0;display:inline-block;background:#fff;color:var(--red);
+    font-size:clamp(17px,5vw,21px);font-weight:900;padding:8px 16px;border-radius:999px}
+  .where{margin:12px 0 0;font-size:14.5px;font-weight:500;line-height:1.6;opacity:.95}
+
+  /* 이번 주 — 매주 이 한 줄만 바꿔서 다시 보내면 된다 */
+  .week{margin:0;padding:16px 22px;background:#2a1d16;color:#ffd9a6;
+    font-size:15px;font-weight:700;text-align:center;line-height:1.55}
+  .week b{color:#ffb01f}
+
+  section{padding:28px 22px}
+  h2{margin:0 0 14px;font-size:19px;font-weight:900}
+
+  /* 큰 글씨 한 줄 */
+  .shout{margin:0;padding:22px;background:var(--card);border:2px dashed var(--line);
+    border-radius:16px;text-align:center;font-size:clamp(20px,6vw,25px);font-weight:900;line-height:1.45}
+  .shout small{display:block;margin-top:8px;font-size:14.5px;font-weight:500;color:var(--mute)}
+
+  .things{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .thing{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:14px 14px 15px;text-align:center}
+  .thing b{display:block;font-size:26px;line-height:1.2}
+  .thing span{display:block;margin-top:5px;font-size:14.5px;font-weight:700}
+  .thing small{display:block;margin-top:2px;font-size:12.5px;color:var(--mute)}
+
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+  .shots img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block}
+  .shots img:first-child{grid-column:1/-1;aspect-ratio:16/9}
+
+  dl{margin:0;display:grid;grid-template-columns:54px 1fr;gap:11px 10px}
+  dt{font-size:14px;font-weight:700;color:var(--mute);letter-spacing:.05em}
+  dd{margin:0;font-size:15.5px;line-height:1.6;font-weight:500}
+  dd small{display:block;font-size:13px;font-weight:400;color:var(--mute);margin-top:2px}
+
+  .parents{background:#f6ecdd;padding:24px 22px}
+  .parents p{margin:0 0 8px;font-size:14px;line-height:1.65;color:#5e4a39}
+  .parents p:last-child{margin-bottom:0}
+
+  .cta{padding:28px 22px 32px;background:var(--red);text-align:center}
+  .cta p{margin:0 0 16px;color:#ffe3d8;font-size:14.5px;line-height:1.6;font-weight:500}
+  .cta p b{color:#fff;font-size:17px;font-weight:900;display:block;margin-bottom:4px}
+  .btn{display:block;background:#2a1d16;color:#fff;text-decoration:none;border-radius:12px;
+    padding:15px;font-size:16.5px;font-weight:700;margin-bottom:10px;
+    transition:transform .14s ease}
+  .btn:active{transform:scale(.97)}
+  .btn b{display:block;font-size:19px;font-weight:900;letter-spacing:.04em;margin-top:3px}
+  .btn.ghost{background:transparent;color:#fff;border:2px solid #fff;margin-bottom:0;cursor:pointer}
+  #share{margin-top:10px}
+  .map{display:inline-block;margin-top:16px;font-size:13.5px;color:#ffe3d8}
+
+  footer{background:#2a1d16;color:#a08d7b;text-align:center;padding:22px;font-size:12.5px;line-height:1.7}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="brand">송전초대교회 청소년부</p>
+    <h1>토요 카페</h1>
+    <p class="when">매주 토요일 오후 3시 — 6시</p>
+    <p class="where">교회 3층 카페 · 경기 용인시 처인구 경기동로 679<br>이동읍사무소 옆, 1층 치킨집 왼쪽 계단</p>
+  </header>
+
+  <!-- 이번 주 한 줄: 매주 여기만 고쳐서 다시 보내면 된다 -->
+  <p class="week">이번 주는 <b>치킨 걸고 퀴즈 대회</b> 🍗<br>1등 한 사람 말고 1등 한 팀이 다 먹습니다</p>
+
+  <section>
+    <p class="shout">예배 없어요.<br>그냥 놀다 가면 돼요.
+      <small>신청도 없고 회비도 없어요. 문 열려 있으니 그냥 오세요.</small></p>
+
+    <div class="things">
+      <div class="thing"><b>🎲</b><span>보드게임</span><small>종류 많아요</small></div>
+      <div class="thing"><b>🃏</b><span>카드게임</span><small>덱 가져와도 돼요</small></div>
+      <div class="thing"><b>🍜</b><span>라면 · 떡볶이</span><small>공짜</small></div>
+      <div class="thing"><b>📺</b><span>큰 화면</span><small>게임 · 영상</small></div>
+    </div>
+
+    <div class="shots">
+      <img src="assets/img/t/youth-cafe.jpg" alt="교회 카페에 모여 있는 모습" loading="lazy" decoding="async">
+      <img src="assets/img/t/youth-pizza.jpg" alt="다 같이 먹는 모습" loading="lazy" decoding="async">
+      <img src="assets/img/t/youth-outdoor.jpg" alt="야외 모임" loading="lazy" decoding="async">
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <h2>몇 가지만</h2>
+    <dl>
+      <dt>누구나</dt>
+      <dd>중·고등학생이면 누구나<small>교회 안 다녀도 괜찮아요. 처음 오는 친구가 제일 반가워요</small></dd>
+
+      <dt>친구</dt>
+      <dd>데려와도 돼요<small>오히려 그래 주면 좋아요. 미리 말 안 해도 됩니다</small></dd>
+
+      <dt>옷</dt>
+      <dd>그냥 입던 옷<small>교복이어도 되고 체육복이어도 돼요</small></dd>
+
+      <dt>언제든</dt>
+      <dd>늦게 와도, 일찍 가도 돼요<small>3시에 딱 맞춰 올 필요 없어요</small></dd>
+    </dl>
+  </section>
+
+  <section class="parents">
+    <h2 style="font-size:17px">학부모님께</h2>
+    <p>예배나 기도회 없이 놀이와 교제 중심으로 진행되는 열린 모임입니다.</p>
+    <p>교사가 상주하며 오후 6시에 정리합니다. 참가비는 없습니다.</p>
+    <p>궁금한 점은 아래 번호로 편하게 연락 주세요.</p>
+  </section>
+
+  <section class="cta">
+    <p><b>그냥 오시면 돼요</b>혹시 길을 못 찾거나 궁금한 게 있으면<br>언제든 전화 주세요.</p>
+
+    <a class="btn" href="tel:01087555844">전화하기<b>맹기영 전도사 010-8755-5844</b></a>
+    <a class="btn ghost" id="share" role="button" tabindex="0">친구에게 보내기</a>
+
+    <a class="map" href="https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%9A%A9%EC%9D%B8%EC%8B%9C%20%EC%B2%98%EC%9D%B8%EA%B5%AC%20%EC%9D%B4%EB%8F%99%EC%9D%8D%20%EA%B2%BD%EA%B8%B0%EB%8F%99%EB%A1%9C%20679" target="_blank" rel="noopener">📍 지도에서 위치 보기</a>
+  </section>
+
+</div>
+
+<footer>
+  대한예수교장로회 송전초대교회 청소년부<br>
+  경기 용인시 처인구 이동읍 경기동로 679 3층
+</footer>
+
+<script>
+var share = document.getElementById('share');
+share.addEventListener('click', function(){
+  var url = location.href.split(/[?#]/)[0];
+  var data = {title:'토요 카페', text:'토요일에 뭐 해? 교회 3층 카페 여는데 올래? 보드게임 있고 라면 있음', url:url};
+  if (navigator.share) { navigator.share(data).catch(function(){}); return; }
+  var done = function(){
+    share.textContent = '링크를 복사했어요';
+    setTimeout(function(){ share.textContent = '친구에게 보내기'; }, 2200);
+  };
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, done); else done();
+});
+</script>
+</body>
+</html>
