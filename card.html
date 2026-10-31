@@ -87,10 +87,12 @@
   // 대괄호가 그대로면 '아직 안 적음'으로 본다
   function v(s) { s = (s || '').trim(); return s.charAt(0) === '[' ? '' : s; }
 
-  var hero = v(w.cardVerse) || v(w.summary);
+  var title = v(w.title);
+  // 구절도 요약도 없으면 설교 제목이라도 크게 올린다
+  var hero = v(w.cardVerse) || v(w.summary) || title;
   var ref = v(w.verse);
   var sub = v(w.cardVerse) ? v(w.summary) : '';
-  var title = v(w.title);
+  if (hero === title) title = '';   // 위에 크게 올라갔으면 아래에 또 적지 않는다
 
   function tell(msg) {
     var el = document.getElementById('status');
