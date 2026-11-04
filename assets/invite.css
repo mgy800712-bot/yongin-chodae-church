@@ -184,7 +184,7 @@ footer p{font-family:var(--serif);font-size:14.5px;font-weight:500;line-height:2
 
 /* ─── 설교 영상 (오늘 나눈 말씀 안) ─── */
 .card2 .vid{margin-top:20px;border-radius:10px}
-.vid.tall{aspect-ratio:9/16;max-width:270px;margin-left:auto;margin-right:auto}
+.vid.tall{aspect-ratio:9/16;max-width:300px;margin-left:auto;margin-right:auto}
 .vid>button.plain{background:linear-gradient(#3b4a5a,#26323f)}
 .vid>button.plain::after{background:rgba(26,18,8,.08)}
 .vid .pt{position:absolute;left:0;right:0;bottom:16px;z-index:1;padding:0 14px;
