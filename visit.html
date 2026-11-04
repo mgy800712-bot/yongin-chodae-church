@@ -143,7 +143,9 @@
   put('todaySum', v(w.summary));
 
   // 설교 영상 — 주소를 적지 않으면 채널에 올라온 가장 최근 영상이 나온다
-  var CHANNEL_UPLOADS = 'UURYw9Ca3ssSym_KycnLJRMw';   // 이 채널이 올린 영상 전체, 최신 것부터
+  // 유튜브가 채널마다 자동으로 관리하는 '쇼츠만 모인 재생목록'이다. (채널ID 의 UC 를 UUSH 로 바꾼 것)
+  // 쇼츠를 새로 올리면 저절로 맨 앞에 들어온다 — 손댈 것이 없다.
+  var CHANNEL_SHORTS = 'UUSHRYw9Ca3ssSym_KycnLJRMw';
   (function () {
     var box = document.getElementById('sermonBox');
     var btn = document.getElementById('sermonPlay');
@@ -165,9 +167,9 @@
       big.src = 'https://i.ytimg.com/vi/' + hit[1] + '/maxresdefault.jpg';
       document.getElementById('sermonLabel').textContent = '설교 영상 보기';
     } else {
-      src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + CHANNEL_UPLOADS + '&autoplay=1&rel=0';
+      src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + CHANNEL_SHORTS + '&autoplay=1&rel=0';
       btn.classList.add('plain');
-      document.getElementById('sermonLabel').textContent = '가장 최근 설교 영상 보기';
+      document.getElementById('sermonLabel').textContent = '짧은 설교 영상 보기';
     }
 
     box.hidden = false;
