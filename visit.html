@@ -52,6 +52,13 @@
     <h3 id="todayTitle"></h3>
     <p class="ref" id="todayRef" hidden></p>
     <p id="todaySum" hidden></p>
+    <!-- 설교 영상 — this-week.js 의 sermonVideo 를 비워 두면 채널 최신 영상이 나옵니다 -->
+    <div class="vid" id="sermonBox" hidden>
+      <button type="button" id="sermonPlay" aria-label="설교 영상 보기">
+        <span class="pl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l12 7-12 7z"/></svg></span>
+        <span class="pt" id="sermonLabel">설교 영상 보기</span>
+      </button>
+    </div>
   </div>
 
   <!-- 4. 다음 주 예고 -->
@@ -136,6 +143,46 @@
     put('todayRef', v(w.verse));
     put('todaySum', v(w.summary));
   }
+
+  // 설교 영상 — 주소를 적지 않으면 채널에 올라온 가장 최근 영상이 나온다
+  var CHANNEL_UPLOADS = 'UURYw9Ca3ssSym_KycnLJRMw';   // 이 채널이 올린 영상 전체, 최신 것부터
+  (function () {
+    var box = document.getElementById('sermonBox');
+    var btn = document.getElementById('sermonPlay');
+    var raw = v(w.sermonVideo);
+    var hit = /(?:v=|youtu\.be\/|shorts\/|live\/|embed\/)([A-Za-z0-9_-]{11})/.exec(raw);
+    var src;
+
+    if (hit) {
+      // 주소를 적어 두었으면 그 영상만 나온다. 쇼츠면 세로로 보여 준다
+      src = 'https://www.youtube-nocookie.com/embed/' + hit[1] + '?autoplay=1&rel=0';
+      btn.style.backgroundImage = 'url(https://i.ytimg.com/vi/' + hit[1] + '/hqdefault.jpg)';
+      // 큰 그림이 있으면 그걸로 올려 준다 — 없으면 유튜브가 작은 회색 그림을 주므로 크기로 가린다
+      var big = new Image();
+      big.onload = function () {
+        if (big.naturalWidth > 480) btn.style.backgroundImage = 'url(' + big.src + ')';
+      };
+      big.src = 'https://i.ytimg.com/vi/' + hit[1] + '/maxresdefault.jpg';
+      if (/\/shorts\//.test(raw)) box.classList.add('tall');
+      document.getElementById('sermonLabel').textContent = '설교 영상 보기';
+    } else {
+      src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + CHANNEL_UPLOADS + '&autoplay=1&rel=0';
+      btn.classList.add('plain');
+      document.getElementById('sermonLabel').textContent = '가장 최근 설교 영상 보기';
+    }
+
+    box.hidden = false;
+    document.getElementById('today').hidden = false;   // 영상만 있어도 상자는 보인다
+
+    btn.onclick = function () {
+      var f = document.createElement('iframe');
+      f.src = src;
+      f.title = '용인초대교회 설교';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      f.allowFullscreen = true;
+      box.replaceChildren(f);
+    };
+  })();
 
   // 다음 주 예고
   if (put('nextTitle', v(w.nextTitle), 'next')) put('nextSum', v(w.nextSummary));
