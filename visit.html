@@ -25,6 +25,18 @@
 <link rel="stylesheet" href="assets/invite.css">
 </head>
 <body>
+
+<!-- 배경음악 — 예배당에서 QR 로 여는 페이지라 저절로 울리지 않게 두었습니다.
+     누르면 나오고, 설교 영상을 틀면 알아서 멈춥니다. -->
+<button class="bgm off" id="bgm" aria-label="배경음악 켜기/끄기" hidden>
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <rect class="bar" x="4"  y="7" width="3" height="10" rx="1.5"/>
+    <rect class="bar" x="10.5" y="4" width="3" height="16" rx="1.5"/>
+    <rect class="bar" x="17" y="7" width="3" height="10" rx="1.5"/>
+  </svg>
+</button>
+<audio id="au" src="assets/audio/bgm-hymn.m4a" loop playsinline preload="metadata"></audio>
+
 <div class="wrap">
 <section class="sheet">
 
@@ -125,6 +137,23 @@
     return true;
   }
 
+  // 배경음악 — 저절로 울리지 않는다. 예배당에서 QR 로 여는 페이지이기 때문.
+  // 소리 파일을 못 읽으면 단추 자체가 안 보인다.
+  var au = document.getElementById('au'), bgmBtn = document.getElementById('bgm');
+  au.volume = 0.32;
+  function paintBgm() {
+    bgmBtn.classList.toggle('off', au.paused);
+    bgmBtn.classList.toggle('waiting', au.paused);
+  }
+  function stopBgm() { try { au.pause(); } catch (_) {} }
+  au.addEventListener('loadedmetadata', function () { bgmBtn.hidden = false; paintBgm(); });
+  au.addEventListener('play', paintBgm);
+  au.addEventListener('pause', paintBgm);
+  bgmBtn.onclick = function () {
+    if (au.paused) { var p = au.play(); if (p && p.catch) p.catch(function () {}); }
+    else au.pause();
+  };
+
   // 목사님 인사
   var word = v(w.pastor);
   if (word) document.getElementById('pastorWord').textContent = word;
@@ -182,6 +211,7 @@
       f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
       f.allowFullscreen = true;
       box.replaceChildren(f);
+      stopBgm();          // 설교와 배경음악이 겹쳐 들리지 않게
     };
   })();
 
