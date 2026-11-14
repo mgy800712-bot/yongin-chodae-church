@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>이번 주 말씀 카드 · 용인초대교회</title>
-<meta name="description" content="이번 주 말씀을 카드 한 장으로 만들어 지인에게 보냅니다">
+<title>이번 주 말씀 영상 · 용인초대교회</title>
+<meta name="description" content="교회 유튜브 쇼츠를 지인에게 한 편 보내 보세요">
 <meta name="color-scheme" content="light">
 <!-- 카카오톡 공유 미리보기 -->
 <link rel="canonical" href="https://mgy800712-bot.github.io/yongin-chodae-church/card.html">
 <meta property="og:url" content="https://mgy800712-bot.github.io/yongin-chodae-church/card.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="대한예수교장로회 용인초대교회">
-<meta property="og:title" content="이번 주 말씀, 한 장으로 보내세요">
-<meta property="og:description" content="용인초대교회 성도님께 · 버튼 한 번이면 카드가 만들어집니다">
-<meta property="og:image" content="https://mgy800712-bot.github.io/yongin-chodae-church/assets/img/og-card.jpg?v=1">
+<meta property="og:title" content="이번 주 말씀 영상, 한 편 보내세요">
+<meta property="og:description" content="1분이면 봅니다 · 용인초대교회">
+<meta property="og:image" content="https://mgy800712-bot.github.io/yongin-chodae-church/assets/img/og-card.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="이번 주 말씀 카드 — 버튼 한 번이면 카드가 만들어집니다">
+<meta property="og:image:alt" content="이번 주 말씀 영상 — 1분이면 봅니다">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,30 +30,39 @@
 <section class="sheet">
 
   <p class="brand">용인초대교회</p>
-  <h1 class="hello">이번 주 말씀 카드
-    <small>마음에 떠오르는 분께 한 장 보내 보세요</small>
+  <h1 class="hello">이번 주 말씀 영상
+    <small>마음에 떠오르는 분께 한 편 보내 보세요</small>
   </h1>
 
-  <div class="cardbox">
-    <canvas id="cv" width="1080" height="1350" aria-label="이번 주 말씀 카드"></canvas>
+  <!-- 말씀 한 줄 — data/this-week.js 에 적어 두면 영상 위에 함께 나옵니다 -->
+  <div class="card2" id="wordBox" hidden>
+    <span class="lb">이번 주 말씀</span>
+    <p class="ref" id="wordRef" hidden></p>
+    <p id="wordLine"></p>
   </div>
 
-  <p class="note" id="status" hidden></p>
+  <!-- 교회 유튜브의 쇼츠만 모인 목록 — 새로 올리면 저절로 맨 앞에 들어옵니다 -->
+  <div class="vid tall" id="vidBox">
+    <button type="button" id="vidPlay" class="plain" aria-label="말씀 영상 보기">
+      <span class="pl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l12 7-12 7z"/></svg></span>
+      <span class="pt">가장 최근 말씀 영상</span>
+    </button>
+  </div>
+  <p class="note" style="margin-top:12px;font-size:15px">영상 안에서 옆으로 넘기면 지난 영상도 볼 수 있어요.</p>
 
   <div class="cta" style="margin-top:22px">
-    <button type="button" id="send">카드 보내기<b style="display:block;font-size:15px;font-weight:400;margin-top:3px;color:#6a5b47">카톡·문자 어디로든</b></button>
-    <button type="button" id="save">그림으로 저장하기</button>
+    <button type="button" id="send">카톡으로 보내기<b style="display:block;font-size:15px;font-weight:400;margin-top:3px;color:#6a5b47">받으신 분도 바로 볼 수 있어요</b></button>
   </div>
 
   <p class="note" id="say" hidden style="font-weight:700;color:#7a5a2c"></p>
 
   <div class="msgs">
     <h3>이렇게 보내 보세요</h3>
-    <button type="button" class="msg" data-m="이번 주에 들은 말씀인데, 문득 생각나서 보내요.">
-      <span>이번 주에 들은 말씀인데, 문득 생각나서 보내요.</span>
+    <button type="button" class="msg" data-m="이번 주에 들은 말씀인데, 문득 생각나서 보내요. 1분이면 봐요.">
+      <span>이번 주에 들은 말씀인데, 문득 생각나서 보내요. 1분이면 봐요.</span>
     </button>
-    <button type="button" class="msg" data-m="요즘 어떻게 지내요? 이 말씀이 좋아서 나눠요.">
-      <span>요즘 어떻게 지내요? 이 말씀이 좋아서 나눠요.</span>
+    <button type="button" class="msg" data-m="요즘 어떻게 지내요? 짧은 영상 하나 보내요.">
+      <span>요즘 어떻게 지내요? 짧은 영상 하나 보내요.</span>
     </button>
     <button type="button" class="msg" data-m="오늘 하루도 평안하시길 바라며 보냅니다.">
       <span>오늘 하루도 평안하시길 바라며 보냅니다.</span>
@@ -75,161 +84,96 @@
 
 <script src="data/this-week.js"></script>
 <script>
-/* this-week.js 가 깨져도 페이지는 그대로 보인다 — 카드만 안 나온다 */
+/* this-week.js 가 깨져도 영상과 보내기는 그대로 돌아간다 */
 (function () {
-  var W = 1080, H = 1350;
-  var PAPER = '#fffcf6', INK = '#2a251f', SOFT = '#574e44', GOLD = '#b4883c';
-  var SERIF = '"Noto Serif KR", serif', SANS = '"Noto Sans KR", sans-serif';
-  var SITE = 'mgy800712-bot.github.io/yongin-chodae-church';
+  // 유튜브가 채널마다 자동으로 관리하는 '쇼츠만 모인 재생목록' (채널ID 의 UC 를 UUSH 로)
+  var CHANNEL_SHORTS = 'UUSHRYw9Ca3ssSym_KycnLJRMw';
+  var PAGE = location.href.split(/[?#]/)[0];
+  var BASE = PAGE.replace(/[^/]*$/, '');
 
-  var cv = document.getElementById('cv'), ctx = cv.getContext('2d');
   var w = window.THIS_WEEK || {};
-
-  // 대괄호가 그대로면 '아직 안 적음'으로 본다
   function v(s) { s = (s || '').trim(); return s.charAt(0) === '[' ? '' : s; }
 
-  var title = v(w.title);
-  // 구절도 요약도 없으면 설교 제목이라도 크게 올린다
-  var hero = v(w.cardVerse) || v(w.summary) || title;
-  var ref = v(w.verse);
-  var sub = v(w.cardVerse) ? v(w.summary) : '';
-  if (hero === title) title = '';   // 위에 크게 올라갔으면 아래에 또 적지 않는다
-
-  function tell(msg) {
-    var el = document.getElementById('status');
-    el.textContent = msg; el.hidden = false;
-    document.getElementById('send').disabled = true;
-    document.getElementById('save').disabled = true;
-  }
-
-  if (!hero) {
-    tell('이번 주 말씀이 아직 올라오지 않았어요. 토요일에 다시 와 주세요.');
-    document.querySelector('.cardbox').hidden = true;
-    return;
-  }
-
-  // 글자를 상자 너비에 맞춰 줄로 나눈다 — 띄어쓰기 우선, 안 되면 글자 단위
-  function wrap(text, font, maxW) {
-    ctx.font = font;
-    var out = [], line = '';
-    var parts = text.split(' ');
-    for (var i = 0; i < parts.length; i++) {
-      var word = parts[i];
-      var tryLine = line ? line + ' ' + word : word;
-      if (ctx.measureText(tryLine).width <= maxW) { line = tryLine; continue; }
-      if (line) { out.push(line); line = ''; }
-      // 한 낱말이 그 자체로 넘치면 글자 단위로 쪼갠다
-      for (var j = 0; j < word.length; j++) {
-        var t = line + word[j];
-        if (ctx.measureText(t).width > maxW && line) { out.push(line); line = word[j]; }
-        else line = t;
-      }
+  // 말씀 한 줄 — 적어 두었을 때만 나온다
+  var line = v(w.cardVerse) || v(w.summary), ref = v(w.verse);
+  if (line) {
+    document.getElementById('wordLine').textContent = line;
+    if (ref) {
+      var r = document.getElementById('wordRef');
+      r.textContent = ref; r.hidden = false;
     }
-    if (line) out.push(line);
-    return out;
+    document.getElementById('wordBox').hidden = false;
   }
 
-  function draw() {
-    var PAD = 96, MAXW = W - PAD * 2;
-
-    // 종이
-    ctx.fillStyle = PAPER;
-    ctx.fillRect(0, 0, W, H);
-
-    // 금테 두 줄
-    ctx.strokeStyle = 'rgba(180,136,60,.42)'; ctx.lineWidth = 3;
-    ctx.strokeRect(34, 34, W - 68, H - 68);
-    ctx.strokeStyle = 'rgba(180,136,60,.22)'; ctx.lineWidth = 1.5;
-    ctx.strokeRect(46, 46, W - 92, H - 92);
-
-    // 쌓을 것들을 먼저 재고, 전체를 세로 가운데에 놓는다
-    var heroSize = hero.length > 60 ? 50 : hero.length > 34 ? 58 : 66;
-    var heroFont = '700 ' + heroSize + 'px ' + SERIF;
-    var heroLines = wrap(hero, heroFont, MAXW);
-    var heroLH = heroSize * 1.62;
-    var subLines = sub ? wrap(sub, '400 32px ' + SANS, MAXW - 40) : [];
-    var titleLines = title ? wrap(title, '500 30px ' + SANS, MAXW - 40) : [];
-
-    var blocks = [
-      { lines: ['이번 주 말씀'], font: '500 30px ' + SANS, color: GOLD, lh: 44, gap: 30, track: 10 },
-      { rule: true, gap: 54 },
-      { lines: heroLines, font: heroFont, color: INK, lh: heroLH, gap: ref ? 46 : 36 }
-    ];
-    if (ref) blocks.push({ lines: [ref], font: '700 36px ' + SERIF, color: GOLD, lh: 52, gap: subLines.length ? 34 : 24 });
-    if (subLines.length) blocks.push({ lines: subLines, font: '400 32px ' + SANS, color: SOFT, lh: 54, gap: 24 });
-    if (titleLines.length) blocks.push({ lines: titleLines, font: '500 30px ' + SANS, color: '#8a7c68', lh: 48, gap: 0 });
-
-    var total = 0;
-    blocks.forEach(function (b) { total += (b.rule ? 1 : b.lines.length * b.lh) + b.gap; });
-
-    var y = (H - total) / 2;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-
-    blocks.forEach(function (b) {
-      if (b.rule) {
-        ctx.strokeStyle = 'rgba(180,136,60,.55)'; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(W / 2 - 46, y); ctx.lineTo(W / 2 + 46, y); ctx.stroke();
-        y += 1 + b.gap;
-        return;
-      }
-      ctx.font = b.font;
-      ctx.fillStyle = b.color;
-      ctx.letterSpacing = (b.track || 0) + 'px';
-      b.lines.forEach(function (ln) { ctx.fillText(ln, W / 2, y); y += b.lh; });
-      ctx.letterSpacing = '0px';
-      y += b.gap;
-    });
-
-    // 교회 이름과 주소는 아래에 작게 — 로드맵이 요구한 자리
-    ctx.font = '700 32px ' + SERIF; ctx.fillStyle = GOLD;
-    ctx.letterSpacing = '6px';
-    ctx.fillText('용인초대교회', W / 2, H - 164);
-    ctx.letterSpacing = '0px';
-    ctx.font = '400 24px ' + SANS; ctx.fillStyle = '#9a8c76';
-    ctx.fillText(SITE, W / 2, H - 112);
-  }
-
-  // 웹폰트가 올라온 뒤에 그려야 글씨가 바뀌지 않는다
-  var ready = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
-  ready.then(draw).catch(draw);
-
-  function blob() {
-    return new Promise(function (res) { cv.toBlob(res, 'image/png'); });
-  }
-  function say(m) { var el = document.getElementById('say'); el.textContent = m; el.hidden = false; }
-
-  document.getElementById('save').onclick = async function () {
-    var b = await blob();
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(b);
-    a.download = '말씀카드.png';
-    a.click();
-    setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
-    say('사진첩이나 다운로드 폴더에 저장되었습니다.');
+  // 영상 — 누르기 전에는 불러오지 않는다
+  var box = document.getElementById('vidBox');
+  document.getElementById('vidPlay').onclick = function () {
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + CHANNEL_SHORTS + '&autoplay=1&rel=0';
+    f.title = '용인초대교회 말씀 영상';
+    f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    f.allowFullscreen = true;
+    box.replaceChildren(f);
   };
 
-  document.getElementById('send').onclick = async function () {
-    var b = await blob();
-    var file = new File([b], '말씀카드.png', { type: 'image/png' });
+  function say(m) { var el = document.getElementById('say'); el.textContent = m; el.hidden = false; }
+  async function copyTxt(text) {
+    try { await navigator.clipboard.writeText(text); return true; } catch (_) {}
     try {
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: '이번 주 말씀' });
+      var t = document.createElement('textarea');
+      t.value = text; t.setAttribute('readonly', '');
+      t.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(t); t.select(); t.setSelectionRange(0, t.value.length);
+      var ok = document.execCommand('copy'); t.remove(); return ok;
+    } catch (_) { return false; }
+  }
+
+  // 카카오톡 공유 — 안 되면 휴대폰 공유창, 그것도 안 되면 주소 복사
+  var KAKAO_KEY = '3b69adad3846c8371c0781e723a9e45a';   // '용인초대교회 웹' 키
+  var kakaoOn = false;
+  if (KAKAO_KEY) {
+    var ks = document.createElement('script');
+    ks.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js';
+    ks.crossOrigin = 'anonymous';
+    ks.onload = function () {
+      try { if (!Kakao.isInitialized()) Kakao.init(KAKAO_KEY); kakaoOn = true; } catch (_) {}
+    };
+    document.head.appendChild(ks);
+  }
+
+  document.getElementById('send').onclick = async function () {
+    if (kakaoOn) {
+      try {
+        Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: '이번 주 말씀 영상',
+            description: (line ? line.slice(0, 60) : '1분이면 봅니다') + ' · 용인초대교회',
+            imageUrl: BASE + 'assets/img/og-card.jpg',
+            link: { mobileWebUrl: PAGE, webUrl: PAGE }
+          },
+          buttons: [{ title: '영상 보기', link: { mobileWebUrl: PAGE, webUrl: PAGE } }]
+        });
+        return;
+      } catch (_) { /* 아래로 내려간다 */ }
+    }
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: '이번 주 말씀 영상 · 용인초대교회', url: PAGE });
         return;
       }
     } catch (e) {
       if (e && e.name === 'AbortError') return;   // 공유창을 닫았을 뿐이다
     }
-    document.getElementById('save').click();
-    say('이 기기는 바로 보내기가 안 돼서 그림으로 저장했습니다. 카톡에서 사진으로 보내 주세요.');
+    say(await copyTxt(PAGE) ? '주소가 복사되었습니다. 카톡에 붙여 넣어 주세요.'
+                            : '주소를 손가락으로 길게 눌러 복사해 주세요.');
   };
 
   // 함께 보낼 문구 — 눌러서 복사
   document.querySelectorAll('.msg').forEach(function (btn) {
     btn.onclick = async function () {
-      var t = btn.dataset.m;
-      try { await navigator.clipboard.writeText(t); say('문구가 복사되었습니다.'); }
-      catch (_) { say('아래 문구를 손가락으로 길게 눌러 복사해 주세요.'); }
+      say(await copyTxt(btn.dataset.m) ? '문구가 복사되었습니다.'
+                                       : '아래 문구를 손가락으로 길게 눌러 복사해 주세요.');
     };
   });
 })();
